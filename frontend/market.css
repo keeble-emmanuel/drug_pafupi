@@ -1,0 +1,16 @@
+*{
+    box-sizing: border-box;
+}
+:root{
+    --background-1: rgb(246, 244, 245);
+    --background-2:red;
+    --foreground-1:rgb(249, 248, 248);
+    --foreground-2:rgb(2, 2, 10);
+}
+body{
+    background-color:var(--background-1);
+    background-image: url('photo-1574043948184-144f2ef80fe3.jpeg');
+    background-size: cover;
+    color: rgba(16, 15, 15, 0.612);
+    backdrop-filter: blur(10px);
+}

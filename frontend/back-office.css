@@ -1,0 +1,88 @@
+*{
+    box-sizing: border-box;
+    width: 100%;
+}
+:root{
+    --background-1: rgb(246, 244, 245);
+    --background-2:red;
+    --foreground-1:rgb(249, 248, 248);
+    --foreground-2:rgb(2, 2, 10);
+}
+body{
+    background: rgba(107, 110, 113, 0.553);
+    color: rgba(15, 16, 16, 0.612);
+    
+}
+h2{
+   
+    padding: 30px 0px 40px 0px;
+}
+form{
+    
+    width: 100%;
+    margin-bottom: 30px;
+}
+#credentials{
+    margin: 10px auto;
+    height: 400px;
+    outline: none;
+    border: 1px solid rgba(128, 128, 128, 0.418);
+    width: 70vw;
+    border-radius: 10px;
+    text-align: center;
+    background: url("photo-1574043948184-144f2ef80fe3.jpeg");
+    background-size: cover;
+    backdrop-filter: blur(20px);
+}
+
+form input{
+    border-radius: 10px;
+    margin: 5px 0px;
+    font-size: 25px;
+    padding: 5px 10px;
+    border: 1px solid black;
+    outline: none;
+    width: 60%;
+    backdrop-filter: blur(10px);
+    background: transparent;
+    color: black;
+    
+    
+}
+#credentials #sign-in-btn{
+    margin: 15px 5px 5px 0px;
+    background-color: rgb(241, 119, 190);
+    border-radius: 15px;
+    outline: none;
+    border: 1px solid transparent;
+    width: 250px;
+    margin: 0px auto;
+    font-size: 30px;
+
+}
+#credentials #sign-in-btn:hover{
+    background-color: white;
+    border:1px solid rgb(241, 119, 190)
+}
+
+
+
+
+@media only screen and (max-width: 600px) {
+  form{
+    width: 200px
+  }
+  form input{
+    
+    width: 100%;
+    
+    
+}
+  
+#credentials #sign-in-btn{
+    width: 180px;
+   
+
+}
+   
+  }

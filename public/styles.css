@@ -1,0 +1,126 @@
+*{
+    box-sizing: border-box;
+}
+:root{
+    --background-1: white;
+    --foreground-1: rgb(248, 91, 24);
+}
+body{
+    background-color:var(--background-1);
+    color: rgba(16, 15, 15, 0.612)
+}
+h2{
+    color: var(--foreground-1);
+}
+.jumbotron{
+    background: rgba(255, 0, 0, 0);  
+}
+.jumbotron h1{
+    padding-top: 10px;
+    color: var(--foreground-1);
+}
+.jumbotron #search-input{
+    border-radius: 20px;
+    outline: none;
+    padding:0px 15px;
+    height: 50px;
+    font-size: 30px;
+    border: 2px solid var(--foreground-1);
+   
+
+}
+.jumbotron .input-group{
+    align-items: center;
+    width: 600px;
+    margin: 0px auto;
+   
+
+}
+.jumbotron .input-group #search-btn{
+    background: rgba(0, 255, 17, 0);
+    color: var(--foreground-1);
+    font-size: 30px;
+    outline: none;
+    border: none;
+}
+#search-results{
+    height: 200px;
+    width: 50vw;
+    margin: 0px auto 
+}
+.search-result{
+   background-color: rgba(189, 186, 186, 0.083);
+   border-radius: 10px;
+   overflow: scroll;
+}
+.search-result h2{
+    text-align: center;
+}
+#trending-products{
+    padding: 50px 0px;
+}
+.panel {
+    border: 1px solid var(--foreground-1);
+    border-radius:5px;
+    margin:  0px 30px 20px 30px;
+    transition: box-shadow 0.5s;
+    height: 300px;
+  }
+  
+  .panel:hover {
+    box-shadow: 5px 0px 40px rgba(0,0,0, .2);
+  }
+  .big-panel h2 {
+    padding: 10px 0px 10px 0px;
+  }
+  
+  
+
+  .navbar {
+    margin-bottom: 0;
+    background-color: white;
+    z-index: 9999;
+    border: 0;
+    font-size: 12px !important;
+    line-height: 1.42857143 !important;
+    letter-spacing: 4px;
+    border-radius: 0;
+  }
+  
+  .navbar li a, .navbar .navbar-brand {
+    color: var(--foreground-1) !important;
+  }
+  
+  .navbar-nav li a:hover, .navbar-nav li.active a {
+    color: var(--background-1) !important;
+    background-color: var(--foreground-1) !important;
+  }
+  
+  .navbar-default .navbar-toggle {
+    border-color: transparent;
+    color: var(--foreground-1) !important;
+  }
+
+  footer{
+    padding: 30px 0px 70px 0px;
+    background-color: var(--foreground-1);
+    color: var(--background-1);
+    font-size: large;
+    font-style: italic;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  @media only screen and (max-width: 600px) {
+    .jumbotron #search-input{
+      font-size: 20px;  
+  }
+    .jumbotron .input-group{
+      width: 300px;  
+  }
+  #search-results{
+    width: 300px;
+   
+}
+   
+  }
+
