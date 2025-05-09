@@ -12,6 +12,9 @@ app.post('/', contoller.searchDrug)
 
 //first page display
 app.get('/',)
+app.get('/new_product', (req, res)=>{
+    res.sendFile(__dirname + "/frontend/back-office.html")
+})
 
 //
 app.post('/new-product', contoller.createNewDrug)
