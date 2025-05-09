@@ -90,9 +90,15 @@ const searchDrug = (req, res)=>{
 )
     .then((data)=>{
         console.log(data[0])
-        res.json({
-            info: data
-        })
+        res.send(data)
+        /*res.json({
+            user_id: data[0].user_id,
+            genericName: data[0].genericName,
+            tradeName: data[0].tradeName,
+            drugStrength: data[0].drugStrength,
+            drugCategory: data[0].drugCategory,
+            drugStockstatus: data[0].drugStockstatus
+        })*/
     })
     .catch((err)=>{
         console.error(err)
