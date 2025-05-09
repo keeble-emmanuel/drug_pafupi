@@ -1,7 +1,7 @@
 const searchBtn = document.getElementById('search-btn');
 const displaySearchResults = document.getElementById('search-results')
 const searchKey = document.getElementById('search-input')
-var searchRe = [];
+let resut
 
 const fetchResults = async()=>{
     try{
@@ -18,9 +18,12 @@ const fetchResults = async()=>{
        )
        const info = await start.json()
        //console.log(data)
-       searchRe.unshift(info)
-       console.log(info)
-
+       console.log(info[0])
+       resut = info;
+       console.log(resut)
+       info.forEach(el => {
+        
+       });
     }catch(err){
         console.error(err)
     }
@@ -38,9 +41,11 @@ const fetchResults = async()=>{
 searchBtn.addEventListener('click', ()=>{
     fetchResults()
     displaySearchResults.className = 'search-result'
-    displaySearchResults.innerHTML= `
+    displaySearchResults.innerHTML = `
         <h2>results</h2>
         <p>'${searchKey.value}'</p>
+        <div id='add'></div>
     `
+    
     
 })
