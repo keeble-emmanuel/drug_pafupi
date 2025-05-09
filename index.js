@@ -14,10 +14,7 @@ app.post('/', contoller.searchDrug)
 app.get('/',)
 
 //
-app.post('/new-product', (req, res)=>{
-    const newDrugEntry = req.body
-    console.log(newDrugEntry)
-})
+app.post('/new-product', contoller.createNewDrug)
 
 app.post('/sign-in', contoller.signInfunx)
 
