@@ -29,7 +29,7 @@ const createNewDrug= async(req, res)=>{
         drugStockstatus,
     } = req.body;
     console.log(log_id)
-    /*const addNewDrug = new newDrugModel({
+    const addNewDrug = new newDrugModel({
         user_id: log_id,
         genericName: genericName,
         tradeName: tradeName,
@@ -37,7 +37,7 @@ const createNewDrug= async(req, res)=>{
         drugCategory: drugCategory,
         drugStockstatus: drugStockstatus
     })
-    const save = await addNewDrug.save()*/
+    const save = await addNewDrug.save();
 }
 
 const signInfunx =(req, res)=>{
@@ -73,12 +73,25 @@ const signInfunx =(req, res)=>{
 
 const searchDrug = (req, res)=>{
     const searchResults = []
-    const { searchkey } = req.body;
-    const reg = new RegExp('\\b${searchKey}\\b', 'i')
-    newDrugModel.find({genericName: searchkey , tradeName: searchkey})
+    const { searchWord } = req.body;
+    const reg = new RegExp(`.*${searchWord}.*`, 'i')
+    console.log(searchWord, reg)
+    newDrugModel.find({
+        $or:[
+            {genericName: {
+                $regex: reg
+            }},
+            {tradeName: {
+                $regex: reg
+            }}
+
+        ]}
+        
+)
     .then((data)=>{
+        console.log(data[0])
         res.json({
-            data: data
+            info: data
         })
     })
     .catch((err)=>{
