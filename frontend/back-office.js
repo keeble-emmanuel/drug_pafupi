@@ -16,8 +16,18 @@ const postSignIn = async()=>{
     })
     const response = await post.json()
     console.log(response)
+    const { entry } = response
+    console.log(entry)
+    if(entry== 'ok'){
+        window.location.href = 'back-office-y.html'
+        
+    }else{
+        alert('wrong password')
+    }
 }
 signInBtn.addEventListener('click', ()=>{ 
-    window.location.href = 'back-office-y.html';
-    //postSignIn()
+    //window.location.href = 'back-office-y.html';
+    postSignIn()
+    username.value= ""
+    password.value = ""
 })
