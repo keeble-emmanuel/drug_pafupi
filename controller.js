@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema  = mongoose.Schema;
-
+var log_id = 1;
 
 mongoose.connect('mongodb+srv://keeble:140076812keeble@cluster0.it6ej.mongodb.net/');
 const signIschema = new Schema({
@@ -20,7 +20,7 @@ const newDrugSchema = new Schema({
 const newDrugModel = mongoose.model('newDrugSchema', newDrugSchema)
 
 
-const createNewDrug=(req, res)=>{
+const createNewDrug= async(req, res)=>{
     const { username }= req.query;
     const { genericName, 
         tradeName,
@@ -28,13 +28,16 @@ const createNewDrug=(req, res)=>{
         drugCategory,
         drugStockstatus,
     } = req.body;
-    const addNewDrug = new newDrugModel({
+    console.log(log_id)
+    /*const addNewDrug = new newDrugModel({
+        user_id: log_id,
         genericName: genericName,
         tradeName: tradeName,
         drugStrength: drugStrength,
         drugCategory: drugCategory,
         drugStockstatus: drugStockstatus
     })
+    const save = await addNewDrug.save()*/
 }
 
 const signInfunx =(req, res)=>{
@@ -45,15 +48,16 @@ const signInfunx =(req, res)=>{
             response: 'incomplete'
         })
     }else{
-        SignInModel.find({username: username})
+        SignInModel.find({username: data.username})
         .then((datas)=>{
-            if(datas.password =  data.password){
+            if(datas[0].password == data.password){
+                log_id = data.password
                 res.send({
-                    status:'ok'
+                    entry:'ok'
                 })
             }else{
                 res.send({
-                    status: "denied"
+                    entry: "denied"
                 })
             }
 
