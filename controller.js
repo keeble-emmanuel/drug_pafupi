@@ -76,6 +76,7 @@ const searchDrug = (req, res)=>{
     const { searchWord } = req.body;
     const reg = new RegExp(`.*${searchWord}.*`, 'i')
     console.log(searchWord, reg)
+    const datatosend = []
     newDrugModel.find({
         $or:[
             {genericName: {
@@ -89,8 +90,21 @@ const searchDrug = (req, res)=>{
         
 )
     .then((data)=>{
-        console.log(data[0])
-        res.send(data)
+        data.forEach((el)=>{
+            const news = []
+            news.unshift(el)
+            const boj = { owner: 'l'}
+            SignInModel.find({username: 'keeble'})
+            .then((datax)=>{ 
+            })
+            .catch((err)=>{
+                console.error(err)
+            })
+            news.unshift(boj)
+            datatosend.unshift(news)
+        })
+        console.log(datatosend)
+        
         /*res.json({
             user_id: data[0].user_id,
             genericName: data[0].genericName,
