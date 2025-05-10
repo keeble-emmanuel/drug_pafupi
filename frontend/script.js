@@ -22,7 +22,8 @@ const fetchResults = async()=>{
        resut = info;
        console.log(resut)
        info.forEach(el => {
-        
+        displaySearchResults.innerHTML +=
+        `<p>${el.genericName}</p>`
        });
     }catch(err){
         console.error(err)
@@ -41,11 +42,7 @@ const fetchResults = async()=>{
 searchBtn.addEventListener('click', ()=>{
     fetchResults()
     displaySearchResults.className = 'search-result'
-    displaySearchResults.innerHTML = `
-        <h2>results</h2>
-        <p>'${searchKey.value}'</p>
-        <div id='add'></div>
-    `
+   
     
     
 })
