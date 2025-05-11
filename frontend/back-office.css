@@ -3,14 +3,16 @@
     width: 100%;
 }
 :root{
-    --background-1: rgb(246, 244, 245);
+    --background-1: rgb(248, 250, 250);
     --background-2:red;
-    --foreground-1:rgb(249, 248, 248);
+    --foreground-1:rgb(54, 2, 21);
     --foreground-2:rgb(2, 2, 10);
+    --melon:rgb(54, 2, 33);
+    --yellow: rgba(250, 213, 5, 0.886)
 }
 body{
-    background: rgba(107, 110, 113, 0.553);
-    color: rgba(15, 16, 16, 0.612);
+    background: var(--melon);
+    color: var(--yellow);
     
 }
 h2{
@@ -23,16 +25,15 @@ form{
     margin-bottom: 30px;
 }
 #credentials{
-    margin: 10px auto;
+    margin: 40px auto;
     height: 400px;
     outline: none;
-    border: 1px solid rgba(128, 128, 128, 0.418);
+    border: 1px solid rgba(249, 230, 17, 0.172);
     width: 70vw;
     border-radius: 10px;
     text-align: center;
-    background: url("photo-1574043948184-144f2ef80fe3.jpeg");
-    background-size: cover;
-    backdrop-filter: blur(20px);
+    background: linear-gradient(90deg, rgba(227, 1, 133, 0.289)30%, var(--melon)70%);
+    
 }
 
 form input{
@@ -40,18 +41,21 @@ form input{
     margin: 5px 0px;
     font-size: 25px;
     padding: 5px 10px;
-    border: 1px solid black;
+    border: 1px solid var(--yellow);
     outline: none;
     width: 60%;
     backdrop-filter: blur(10px);
     background: transparent;
-    color: black;
+    color: var(--yellow);
     
     
 }
+form input::placeholder{
+    color: var(--yellow);
+}
 #credentials #sign-in-btn{
     margin: 15px 5px 5px 0px;
-    background-color: rgb(241, 119, 190);
+    background-color: rgba(249, 70, 201, 0.327);
     border-radius: 15px;
     outline: none;
     border: 1px solid transparent;
@@ -61,22 +65,31 @@ form input{
 
 }
 #credentials #sign-in-btn:hover{
-    background-color: white;
-    border:1px solid rgb(241, 119, 190)
+    background-color: rgba(255, 255, 255, 0.041);
+    border:1px solid rgba(249, 70, 201, 0.327)
 }
 
 
 
 
 @media only screen and (max-width: 600px) {
+    body{
+        font-size: 14px;
+    }
   form{
-    width: 200px
+    width: 200px;
+    
   }
   form input{
-    
+    font-size: 16px;
     width: 100%;
     
     
+}
+#credentials #sign-in-btn{
+   
+    font-size: 20px;
+
 }
   
 #credentials #sign-in-btn{
