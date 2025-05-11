@@ -9,11 +9,13 @@
     --background-2:red;
     --foreground-1:rgb(249, 248, 248);
     --foreground-2:rgb(2, 2, 10);
+    --melon:rgb(54, 2, 33);
+    --yellow: rgba(250, 213, 5, 0.886)
 }
 body{
-    background-color: var(--background-1);
-    background-image: url('photo-1574043948184-144f2ef80fe3.jpeg');
-    background-size: cover;
+    background-color: var(--melon);
+    color: rgb(255, 255, 255);
+    
 }
 #new-entry{
     height: 100vh;
@@ -31,8 +33,16 @@ hr{
     
     
 }
+#new-entry input::placeholder{
+    color: rgba(255, 255, 255, 0.594);
+}
 #entry-preview{
     height: 100vh;
     border-left: 2px solid rgb(252, 253, 253);
     backdrop-filter: blur(20px);
+}
+#entry-btn{
+    background-color: rgb(248, 72, 154);
+    border: 1px solid pink;
+    color: black
 }
