@@ -107,7 +107,7 @@ const searchDrug = (req, res)=>{
             datatosend.unshift(news)
         })
         console.log(datatosend)
-        
+        res.send(data)
         /*res.json({
             user_id: data[0].user_id,
             genericName: data[0].genericName,
