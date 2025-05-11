@@ -27,15 +27,17 @@ const createNewDrug= async(req, res)=>{
         drugStrength,
         drugCategory,
         drugStockstatus,
+        user_id
     } = req.body;
     console.log(log_id)
     const addNewDrug = new newDrugModel({
-        user_id: log_id,
+        
         genericName: genericName,
         tradeName: tradeName,
         drugStrength: drugStrength,
         drugCategory: drugCategory,
-        drugStockstatus: drugStockstatus
+        drugStockstatus: drugStockstatus,
+        user_id: user_id
     })
     const save = await addNewDrug.save();
 }
@@ -53,7 +55,8 @@ const signInfunx =(req, res)=>{
             if(datas[0].password == data.password){
                 log_id = data.password
                 res.send({
-                    entry:'ok'
+                    entry:'ok',
+                    user_id: datas[0]._id
                 })
             }else{
                 res.send({
