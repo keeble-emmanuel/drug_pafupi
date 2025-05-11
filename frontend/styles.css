@@ -5,10 +5,12 @@
     max-width: 99vw;
 }
 :root{
-    --background-1: rgb(246, 244, 245);
-    --background-2:red;
-    --foreground-1:rgb(249, 248, 248);
-    --foreground-2:rgb(2, 2, 10);
+  --background-1: rgb(248, 250, 250);
+  --background-2:red;
+  --foreground-1:rgb(54, 2, 21);
+  --foreground-2:rgb(2, 2, 10);
+  --melon:rgb(54, 2, 33);
+  --yellow: rgba(250, 213, 5, 0.886)
 }
 body >div:first-child{
   background-image: url('photo-1607619056574-7b8d3ee536b2.jpeg');
@@ -22,7 +24,7 @@ body{
     max-width: 100vw;
 }
 h2{
-    color: var(--foreground-1);
+    color: black;
 }
 #img-div{
   position: absolute;
@@ -43,7 +45,8 @@ h2{
 }
 .jumbotron h1{
     padding-top: 90px;
-    color: var(--foreground-1);
+    color: rgb(222, 207, 6);
+    text-shadow: 3px 3px rgba(45, 1, 31, 0.886);
 }
 .jumbotron #search-input{
     border-radius: 20px;
@@ -51,13 +54,16 @@ h2{
     padding:0px 15px;
     height: 50px;
     font-size: 30px;
-    border: 2px solid var(--foreground-1);
+    border: 3px solid var(--melon);
     background: transparent;
-    backdrop-filter: blur(30px);
+    backdrop-filter: blur(20px);
     margin-bottom: 50px;
-    color: white;
+    color: rgb(20, 20, 20);
    
 
+}
+.jumbotron #search-input::placeholder{
+  color: rgba(0, 0, 0, 0.461)
 }
 .jumbotron .input-group{
     align-items: center;
@@ -79,7 +85,7 @@ h2{
 }
 .jumbotron .input-group #search-btn span{
   background: none;
-  color: var(--foreground-1);
+  color: var(--melon);
   font-size: 30px;
   outline: none;
   border: none;
@@ -105,7 +111,7 @@ h2{
     padding: 50px 0px;
 }
 .panel {
-    border: 1px solid var(--foreground-2);
+    border: 1px solid var(--melon);
     border-radius:5px;
     margin:  0px 30px 20px 30px;
     transition: box-shadow 0.5s;
@@ -125,7 +131,7 @@ h2{
 
   .navbar {
     margin-bottom: 0;
-    background-color: rgba(124, 134, 136, 0.407);
+    background-color: rgba(79, 1, 50, 0.87);
     z-index: 9999;
     border: 0;
     font-size: 12px !important;
@@ -140,8 +146,8 @@ h2{
   }
   
   .navbar-nav li a:hover, .navbar-nav li.active a {
-    color: rgb(4, 3, 4) !important;
-    background-color: rgb(247, 243, 244) !important;
+    color: var(--melon) !important;
+    background-color: rgb(255, 255, 255) !important;
   }
   
   .navbar-default .navbar-toggle {
@@ -151,8 +157,8 @@ h2{
 
   footer{
     padding: 30px 0px 70px 0px;
-    background-color: gray;
-    color: var(--foreground-2);
+    background: var(--melon);
+    color: rgb(249, 250, 252);
     font-size: large;
     font-style: italic;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -167,6 +173,11 @@ h2{
       padding-left: 30px;
       width: 70px;
     }
+    .jumbotron h1{
+      padding-top: 90px;
+      color: var(--melon);
+      text-shadow: 1px 1px var(--yellow);
+  }
     .jumbotron #search-input{
       font-size: 20px;  
   }
