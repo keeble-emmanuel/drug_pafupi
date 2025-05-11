@@ -21,7 +21,13 @@ const postSignIn = async()=>{
     if(entry== 'ok'){
         window.location.href = 'back-office-y.html';
         const user = { user_id: response.user_id}
-        personData = []
+        if(!personData){
+            personData.unshift(user);
+        }else{
+            personData.pop()
+            personData.unshift(user); 
+        }
+        personData.pop()
         personData.unshift(user);
         localStorage.setItem('person-info', JSON.stringify(personData))
         
