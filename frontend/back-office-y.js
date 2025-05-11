@@ -4,7 +4,7 @@ const drugStrength = document.getElementById('strength');
 const drugCategory = document.getElementById('category');
 const drugStockstatus = document.getElementById('stock-status');
 const enterNewEntry = document.getElementById('entry-btn')
-
+const personData = JSON.parse(localStorage.getItem("person-info")) || [];
 const postNewEntry =async()=>{
     const post = await fetch(`${window.location.origin}/new-product`,{
         method: 'POST',
@@ -16,7 +16,8 @@ const postNewEntry =async()=>{
             tradeName: tradeName.value,
             drugStrength: drugStrength.value,
             drugCategory: drugCategory.value,
-            drugStockstatus: drugStockstatus.value
+            drugStockstatus: drugStockstatus.value, 
+            user_id: personData[0].user_id
         })
     })
     const response =  await post.json()
@@ -26,4 +27,5 @@ const postNewEntry =async()=>{
 enterNewEntry.addEventListener('click', ()=>{
     postNewEntry()
     //alert('ee')
+    
 })
