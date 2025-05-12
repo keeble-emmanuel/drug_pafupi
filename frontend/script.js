@@ -25,7 +25,7 @@ const fetchResults = async()=>{
        info.forEach(el => {
         
         displaySearchResults.innerHTML +=
-        `<p>${el.genericName}</p>`
+        `<li>${el.tradeName}  <b>( ${el.genericName} )</b> sold by </li>`
        });
     }catch(err){
         console.error(err)
@@ -34,7 +34,10 @@ const fetchResults = async()=>{
 }
 
 searchKey.addEventListener('keyup', ()=>{
+    displaySearchResults.style.backdropFilter ='blur(50px) brightness(30%)';
+    displaySearchResults.style.overflow = 'scroll'
     fetchResults()
+    
     
 })
 searchBtn.addEventListener('click', ()=>{
