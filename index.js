@@ -20,6 +20,7 @@ app.get('/new_product', (req, res)=>{
 app.post('/new-product', contoller.createNewDrug)
 
 app.post('/sign-in', contoller.signInfunx)
+app.get('/getproducts/:user_id',  contoller.getUserproducts )
 
 app.listen(PORT, ()=>{
     console.log('app listening')
