@@ -39,7 +39,13 @@ const createNewDrug= async(req, res)=>{
         drugStockstatus: drugStockstatus,
         user_id: user_id
     })
-    const save = await addNewDrug.save();
+    try{
+        const save = await addNewDrug.save();
+    }catch(error){
+        console.log(err)
+    }
+    
+    
 }
 
 const signInfunx =(req, res)=>{
@@ -124,8 +130,23 @@ const searchDrug = (req, res)=>{
 
 }
 
+const getUserproducts =(req, res)=>{
+    const { user_id } = req.params;
+    //console.log(user_id)
+    newDrugModel.find({user_id: user_id})
+    .then((data)=>{
+        res.send(data)
+    })
+    .catch((err)=>{
+        res.json({
+            info:'user-not-found'
+        })
+    })
+}
+
 module.exports = {
     createNewDrug,
     signInfunx,
-    searchDrug
+    searchDrug,
+    getUserproducts
 }
