@@ -46,3 +46,7 @@ hr{
     border: 1px solid pink;
     color: black
 }
+#products-display{
+    padding-left: 20px;
+    overflow: scroll;
+}
