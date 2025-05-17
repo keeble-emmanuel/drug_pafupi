@@ -1,16 +1,32 @@
+const { type } = require('express/lib/response');
 const mongoose = require('mongoose');
 const Schema  = mongoose.Schema;
 var log_id = 1;
 
 mongoose.connect('mongodb+srv://keeble:140076812keeble@cluster0.it6ej.mongodb.net/');
+// user signin credentials
 const signIschema = new Schema({
     username: String,
-    password: String
+    password: String,
+    user_id: {
+        type: mongoose.Schema.Types.ObjectId, ref: 'User'
+    }
 })
 const SignInModel = mongoose.model('signInSchema', signIschema)
 
+//user details schema
+const userDetails =  new Schema({
+    name: String,
+    location:String,
+    phone: String,
+})
+const User = mongoose.model('User', userDetails)
+
+//product schema
 const newDrugSchema = new Schema({
-    user_id: String,
+    user_id: {
+        type: mongoose.Schema.Types.ObjectId, ref: 'User'
+    },
     genericName: String,
     tradeName: String,
     drugStrength: String,
@@ -51,6 +67,7 @@ const createNewDrug= async(req, res)=>{
 const signInfunx =(req, res)=>{
     const data = req.body;
     const { username }= req.query;
+    console.log(data)
     if(!data.username || !data.password){
         res.json({
             response: 'incomplete'
@@ -58,6 +75,7 @@ const signInfunx =(req, res)=>{
     }else{
         SignInModel.find({username: data.username})
         .then((datas)=>{
+            
             if(datas[0].password == data.password){
                 log_id = data.password
                 res.send({
@@ -98,22 +116,12 @@ const searchDrug = (req, res)=>{
         ]}
         
 )
+    .populate('user_id')
     .then((data)=>{
-        data.forEach((el)=>{
-            const news = []
-            news.unshift(el)
-            const boj = { owner: 'l'}
-            SignInModel.find({username: 'keeble'})
-            .then((datax)=>{ 
-            })
-            .catch((err)=>{
-                console.error(err)
-            })
-            news.unshift(boj)
-            datatosend.unshift(news)
-        })
+        
         console.log(datatosend)
-        res.send(data)
+        console.log(data)
+        //res.send(data)
         /*res.json({
             user_id: data[0].user_id,
             genericName: data[0].genericName,
@@ -144,9 +152,21 @@ const getUserproducts =(req, res)=>{
     })
 }
 
+const doPopulate =()=>{
+    newDrugModel.find({
+        genericName: 'aspirin'
+    }).populate('user_id')
+    .then((data)=>{
+        console.log(data)
+    })
+    .catch((err)=>{
+        console.error(err)
+    })
+}
 module.exports = {
     createNewDrug,
     signInfunx,
     searchDrug,
-    getUserproducts
+    getUserproducts,
+    doPopulate
 }
