@@ -25,7 +25,7 @@ const fetchResults = async()=>{
        info.forEach(el => {
         
         displaySearchResults.innerHTML +=
-        `<li>${el.tradeName}  <b>( ${el.genericName} )</b> sold by </li>`
+        `<li>${el.tradeName}  <b>( ${el.genericName} )</b> sold by ${el.user_id.name} </li>`
        });
     }catch(err){
         console.error(err)
