@@ -25,7 +25,18 @@ const fetchResults = async()=>{
        info.forEach(el => {
         
         displaySearchResults.innerHTML +=
-        `<li>${el.tradeName}  <b>( ${el.genericName} )</b> sold by ${el.user_id.name} </li>`
+        `<li>
+            <div class="search-results-div">
+                ${el.tradeName}  <b>( ${el.genericName} )</b> sold by ${el.user_id.name}
+            </div>
+             </li>`
+
+        Array.from(document.getElementsByClassName('search-results-div')).forEach((el)=>{
+            el.addEventListener('click', ()=>{
+                window.location.href = 'search-results.html'
+            })
+        })
+        
        });
     }catch(err){
         console.error(err)
