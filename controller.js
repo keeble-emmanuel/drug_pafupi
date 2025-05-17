@@ -67,7 +67,6 @@ const createNewDrug= async(req, res)=>{
 const signInfunx =(req, res)=>{
     const data = req.body;
     const { username }= req.query;
-    console.log(data)
     if(!data.username || !data.password){
         res.json({
             response: 'incomplete'
@@ -80,7 +79,7 @@ const signInfunx =(req, res)=>{
                 log_id = data.password
                 res.send({
                     entry:'ok',
-                    user_id: datas[0]._id
+                    user_id: datas[0].user_id
                 })
             }else{
                 res.send({
@@ -118,18 +117,8 @@ const searchDrug = (req, res)=>{
 )
     .populate('user_id')
     .then((data)=>{
+        res.send(data)
         
-        console.log(datatosend)
-        console.log(data)
-        //res.send(data)
-        /*res.json({
-            user_id: data[0].user_id,
-            genericName: data[0].genericName,
-            tradeName: data[0].tradeName,
-            drugStrength: data[0].drugStrength,
-            drugCategory: data[0].drugCategory,
-            drugStockstatus: data[0].drugStockstatus
-        })*/
     })
     .catch((err)=>{
         console.error(err)
