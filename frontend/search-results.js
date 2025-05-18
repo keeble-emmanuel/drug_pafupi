@@ -1,7 +1,9 @@
 const productsThumbnailDiv = document.getElementById('products-thumbnail-div')
+const searchFiters = JSON.parse(localStorage.getItem("searchfilter")) || [];
+
 
 const fetchData =async()=>{
-    const fetched = await fetch(`${window.location.origin}/searched-page`)
+    const fetched = await fetch(`${window.location.origin}/searched-page/${searchFiters[0].genericName}/${searchFiters[0].tradeName}`)
     const results = await fetched.json();
     console.log(results)
     results.forEach((el)=>{
