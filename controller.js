@@ -152,10 +152,24 @@ const doPopulate =()=>{
         console.error(err)
     })
 }
+
+const searchedPage =(req, res)=>{
+    newDrugModel.find().
+    populate('user_id')
+    .then((data)=>{
+        res.send(data)
+    })
+    .catch((err)=>{
+        console.error(err)
+    })
+
+}
+
 module.exports = {
     createNewDrug,
     signInfunx,
     searchDrug,
     getUserproducts,
-    doPopulate
+    doPopulate,
+    searchedPage
 }
