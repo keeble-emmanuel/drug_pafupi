@@ -154,6 +154,27 @@ const doPopulate =()=>{
 }
 
 const searchedPage =(req, res)=>{
+    const { genericName, tradeName }  = req.params;
+    console.log(genericName, tradeName)
+    newDrugModel.find({
+        $and:[
+            {genericName: genericName
+                
+            },
+            {tradeName: tradeName}
+
+        ]
+    }).
+    populate('user_id')
+    .then((data)=>{
+        res.send(data)
+    })
+    .catch((err)=>{
+        console.error(err)
+    })
+
+}
+const marketDisplay =(req, res)=>{
     newDrugModel.find().
     populate('user_id')
     .then((data)=>{
@@ -171,5 +192,6 @@ module.exports = {
     searchDrug,
     getUserproducts,
     doPopulate,
-    searchedPage
+    searchedPage,
+    marketDisplay
 }
