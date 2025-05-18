@@ -18,7 +18,9 @@ app.get('/new_product', (req, res)=>{
 
 //
 app.post('/new-product', contoller.createNewDrug)
-
+//searched page
+app.get('/searched-page', contoller.searchedPage)
+//
 app.post('/sign-in', contoller.signInfunx)
 app.get('/getproducts/:user_id',  contoller.getUserproducts )
 
