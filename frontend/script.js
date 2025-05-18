@@ -1,6 +1,8 @@
 const searchBtn = document.getElementById('search-btn');
 const displaySearchResults = document.getElementById('search-results')
-const searchKey = document.getElementById('search-input')
+const searchKey = document.getElementById('search-input');
+
+const searchFiters = JSON.parse(localStorage.getItem("searchfilter")) || [];
 let resut
 
 const fetchResults = async()=>{
@@ -31,9 +33,15 @@ const fetchResults = async()=>{
             </div>
              </li>`
 
-        Array.from(document.getElementsByClassName('search-results-div')).forEach((el)=>{
-            el.addEventListener('click', ()=>{
+        Array.from(document.getElementsByClassName('search-results-div')).forEach((par)=>{
+            par.addEventListener('click', ()=>{
                 window.location.href = 'search-results.html'
+                filterObj={
+                    genericName: el.genericName,
+                    tradeName: el.tradeName
+                }
+                searchFiters.unshift(filterObj)
+                localStorage.setItem('searchfilter', JSON.stringify(searchFiters))
             })
         })
         
