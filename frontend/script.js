@@ -28,23 +28,30 @@ const fetchResults = async()=>{
         
         displaySearchResults.innerHTML +=
         `<li>
-            <div class="search-results-div" id='${el.tradeName} ${el.genericName}'>
-                ${el.tradeName}  <b>( ${el.genericName} )</b> sold by ${el.user_id.name}
+            <div class="search-results-div" id='${el.tradeName}+${el.genericName}+${el.drugStrength}'>
+                ${el.tradeName} <i> ${el.drugStrength}</i> <b>( ${el.genericName} )</b> 
             </div>
              </li>`
 
              Array.from(document.getElementsByClassName('search-results-div')).forEach((par)=>{
                 par.addEventListener('click', ()=>{
                     const elementId = par.id
-                    const nameArray =  elementId.split(" ");
+                    const nameArray =  elementId.split("+");
                     console.log(nameArray[0], nameArray[1])
                     window.location.href = 'search-results.html'
 
                     filterObj={
-                        genericName: el.genericName,
-                        tradeName: elementId
+                        genericName: nameArray[1],
+                        tradeName: nameArray[0],
+                        drugStrength: nameArray[2]
                     }
-                    searchFiters.unshift(filterObj)
+                    if(searchFiters){
+                        searchFiters.pop()
+                        searchFiters.unshift(filterObj)
+                    }else{
+                        searchFiters.unshift(filterObj)
+                    }
+                    
                     localStorage.setItem('searchfilter', JSON.stringify(searchFiters))
                 })
             })
