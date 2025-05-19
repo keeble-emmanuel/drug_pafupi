@@ -40,7 +40,12 @@ const getUserProducts = async()=>{
 }
 getUserProducts()
 enterNewEntry.addEventListener('click', ()=>{
-    postNewEntry()
+    if( genericName.value && tradeName.value && drugStrength && drugCategory && drugStockstatus){
+        postNewEntry()
+    }else{
+        alert('write full details')
+    }
+    
     window.location.reload()
     
     
