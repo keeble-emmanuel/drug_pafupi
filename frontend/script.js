@@ -28,22 +28,26 @@ const fetchResults = async()=>{
         
         displaySearchResults.innerHTML +=
         `<li>
-            <div class="search-results-div">
+            <div class="search-results-div" id='${el.tradeName} ${el.genericName}'>
                 ${el.tradeName}  <b>( ${el.genericName} )</b> sold by ${el.user_id.name}
             </div>
              </li>`
 
-        Array.from(document.getElementsByClassName('search-results-div')).forEach((par)=>{
-            par.addEventListener('click', ()=>{
-                window.location.href = 'search-results.html'
-                filterObj={
-                    genericName: el.genericName,
-                    tradeName: el.tradeName
-                }
-                searchFiters.unshift(filterObj)
-                localStorage.setItem('searchfilter', JSON.stringify(searchFiters))
+             Array.from(document.getElementsByClassName('search-results-div')).forEach((par)=>{
+                par.addEventListener('click', ()=>{
+                    const elementId = par.id
+                    const nameArray =  elementId.split(" ");
+                    console.log(nameArray[0], nameArray[1])
+                    window.location.href = 'search-results.html'
+
+                    filterObj={
+                        genericName: el.genericName,
+                        tradeName: elementId
+                    }
+                    searchFiters.unshift(filterObj)
+                    localStorage.setItem('searchfilter', JSON.stringify(searchFiters))
+                })
             })
-        })
         
        });
     }catch(err){
@@ -66,3 +70,4 @@ searchBtn.addEventListener('click', ()=>{
     
     
 })
+
