@@ -41,14 +41,15 @@ body{
 }
 .search-thumbnail-details{
     text-align: center;
-    padding: 0px 3px 5px 3px;
+    padding: 2px 3px 1px 3px;
     text-overflow:ellipsis;
     overflow: hidden;
 }
 @media only screen and (max-width: 600px) {
     .products-thumbnail{
-        width:70px;
-        height: 70px;
-        font-size: 6px;
+        width:37vw;
+        height: 37vw;
+        font-size: 12px;
+        line-height: normal;
     }
 }
