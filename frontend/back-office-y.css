@@ -35,7 +35,7 @@ h1{
 hr{
     border: 1px solid rgb(237, 204, 204);
 }
-#new-entry input{
+#new-entry input, select{
     width: 60%;
     margin: 5px;
     border-radius: 5px;
@@ -77,6 +77,19 @@ hr{
     color: white;
     font-size: 22px;
     
+}
+.delete-edit{
+    background: transparent;
+    border: none;
+    outline: none;
+    margin: 0px 5px;
+    color: rgb(209, 4, 4);
+    border-radius: 10px;
+    padding: 1px 3px;
+}
+.edit{
+    background: rgb(245, 244, 250);
+    color:rgb(1, 1, 15)
 }
 @media only screen and (max-width: 600px) {
     #new-entry{
