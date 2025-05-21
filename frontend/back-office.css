@@ -53,6 +53,15 @@ form input{
 form input::placeholder{
     color: var(--yellow);
 }
+form input:focus{
+    color: white;
+    background: transparent;
+}
+#wrong-credentials{
+    color: red;
+    font-size: 16px;
+    display: none;
+}
 #credentials #sign-in-btn{
     margin: 15px 5px 5px 0px;
     background-color: rgba(249, 70, 201, 0.327);
