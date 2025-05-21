@@ -34,7 +34,11 @@ const getUserProducts = async()=>{
     console.log(data)
     data.forEach((el)=>{
         productsDisplay.innerHTML +=`
-            <li>${el.genericName} tradename ${el.tradeName}</li>
+            <li>
+                <p>${el.genericName} tradename ${el.tradeName} </p> 
+                <button id='${el.genericName} ${el.tradeName}' class="delete-edit">  &#9932;  </button>
+                <button id='${el.genericName} ${el.tradeName}' class="delete-edit edit">edit</button>
+            </li>
         `
     })
 }
