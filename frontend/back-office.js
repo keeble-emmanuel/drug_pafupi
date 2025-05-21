@@ -1,6 +1,7 @@
 const username= document.getElementById('username');
 const password = document.getElementById('password');
 const signInBtn = document.getElementById("sign-in-btn");
+const wrongCredentials = document.getElementById('wrong-credentials')
 
 const personData = JSON.parse(localStorage.getItem("person-info")) || [];
 const postSignIn = async()=>{
@@ -33,7 +34,7 @@ const postSignIn = async()=>{
         
         
     }else{
-        alert('wrong password')
+        wrongCredentials.style.display = 'block'
     }
 }
 signInBtn.addEventListener('click', ()=>{ 
