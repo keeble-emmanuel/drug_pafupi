@@ -185,6 +185,18 @@ const marketDisplay =(req, res)=>{
     })
 
 }
+const deleteProduct =(req, res)=>{
+    const { productId } = req.params;
+    
+    console.log(productId)
+    newDrugModel.findByIdAndDelete(`${productId}`)
+    .then((data)=>{
+        console.log(data)
+    })
+    .catch((err)=>{
+        console.error(err)
+    })
+}
 
 module.exports = {
     createNewDrug,
@@ -193,5 +205,6 @@ module.exports = {
     getUserproducts,
     doPopulate,
     searchedPage,
-    marketDisplay
+    marketDisplay,
+    deleteProduct
 }
