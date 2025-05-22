@@ -15,6 +15,8 @@ app.get('/',)
 app.get('/new_product', (req, res)=>{
     res.sendFile(__dirname + "/frontend/back-office.html")
 })
+//delete product
+app.get('/deleteProduct/:productId', contoller.deleteProduct)
 
 //
 app.post('/new-product', contoller.createNewDrug)
