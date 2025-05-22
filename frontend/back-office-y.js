@@ -36,13 +36,22 @@ const getUserProducts = async()=>{
         productsDisplay.innerHTML +=`
             <li>
                 <p>${el.genericName} tradename ${el.tradeName} </p> 
-                <button id='${el.genericName} ${el.tradeName}' class="delete-edit">  &#9932;  </button>
+                <button id='${el._id}' class="delete-edit" onclick="deleteProduct('${el._id}')">  &#9932;  </button>
                 <button id='${el.genericName} ${el.tradeName}' class="delete-edit edit">edit</button>
             </li>
         `
     })
 }
 getUserProducts()
+//delete product function
+const deleteProduct = async(par)=>{
+    const del = await fetch(`${window.location.origin}/deleteProduct/${par}`)
+    const response = await del.json()
+    console.log(response)
+}
+
+
+
 enterNewEntry.addEventListener('click', ()=>{
     if( genericName.value && tradeName.value && drugStrength && drugCategory && drugStockstatus){
         postNewEntry()
@@ -54,3 +63,5 @@ enterNewEntry.addEventListener('click', ()=>{
     
     
 })
+
+
