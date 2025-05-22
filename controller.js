@@ -31,7 +31,8 @@ const newDrugSchema = new Schema({
     tradeName: String,
     drugStrength: String,
     drugCategory: String,
-    drugStockstatus: String
+    drugStockstatus: String,
+    route: String
 })
 const newDrugModel = mongoose.model('newDrugSchema', newDrugSchema)
 
@@ -43,9 +44,10 @@ const createNewDrug= async(req, res)=>{
         drugStrength,
         drugCategory,
         drugStockstatus,
+        route,
         user_id
     } = req.body;
-    console.log(log_id)
+    console.log(route, tradeName)
     const addNewDrug = new newDrugModel({
         
         genericName: genericName,
@@ -53,6 +55,7 @@ const createNewDrug= async(req, res)=>{
         drugStrength: drugStrength,
         drugCategory: drugCategory,
         drugStockstatus: drugStockstatus,
+        route:route,
         user_id: user_id
     })
     try{
