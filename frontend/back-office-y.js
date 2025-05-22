@@ -1,10 +1,13 @@
 const genericName = document.getElementById('generic-name');
 const tradeName = document.getElementById('trade-name');
 const drugStrength = document.getElementById('strength');
-const drugCategory = document.getElementById('category');
-const drugStockstatus = document.getElementById('stock-status');
 const enterNewEntry = document.getElementById('entry-btn')
-const productsDisplay =  document.getElementById('products-display')
+const productsDisplay =  document.getElementById('products-display');
+const stockStat=  document.getElementById('stock-stat');
+const pcategory = document.getElementById('category');
+const route = document.getElementById('route');
+
+console.log(route.value)
 
 const personData = JSON.parse(localStorage.getItem("person-info")) || [];
 const postNewEntry =async()=>{
@@ -17,8 +20,10 @@ const postNewEntry =async()=>{
             genericName: genericName.value,
             tradeName: tradeName.value,
             drugStrength: drugStrength.value,
-            drugCategory: drugCategory.value,
-            drugStockstatus: drugStockstatus.value, 
+            drugCategory: pcategory.value,
+            drugStockstatus: stockStat.value, 
+            route:route.value,
+            
             user_id: personData[0].user_id
         })
     })
@@ -35,7 +40,7 @@ const getUserProducts = async()=>{
     data.forEach((el)=>{
         productsDisplay.innerHTML +=`
             <li>
-                <p>${el.genericName} tradename ${el.tradeName} </p> 
+                <p>${el.genericName} ${el.drugStrength} <b>(${el.tradeName})</b> ${el.route} </p> 
                 <button id='${el._id}' class="delete-edit" onclick="deleteProduct('${el._id}')">  &#9932;  </button>
                 <button id='${el.genericName} ${el.tradeName}' class="delete-edit edit">edit</button>
             </li>
@@ -53,8 +58,9 @@ const deleteProduct = async(par)=>{
 
 
 enterNewEntry.addEventListener('click', ()=>{
-    if( genericName.value && tradeName.value && drugStrength && drugCategory && drugStockstatus){
+    if( genericName.value && tradeName.value && drugStrength){
         postNewEntry()
+        //console.log(pcategory.value)
     }else{
         alert('write full details')
     }
