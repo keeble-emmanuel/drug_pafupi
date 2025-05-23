@@ -6,10 +6,14 @@ const productsDisplay =  document.getElementById('products-display');
 const stockStat=  document.getElementById('stock-stat');
 const pcategory = document.getElementById('category');
 const route = document.getElementById('route');
+const dialogMsg = document.getElementById("dialog-msg")
 
+const confirmDeleteDialog = document.getElementById('confirm-delete-dialog');
+const confirmDeleteButton =  document.getElementById('confirm-delete-btn')
 console.log(route.value)
 
 const personData = JSON.parse(localStorage.getItem("person-info")) || [];
+const productToDelete = JSON.parse(localStorage.getItem("product-delete")) || [];
 const postNewEntry =async()=>{
     const post = await fetch(`${window.location.origin}/new-product`,{
         method: 'POST',
@@ -41,7 +45,7 @@ const getUserProducts = async()=>{
         productsDisplay.innerHTML +=`
             <li>
                 <p>${el.genericName} ${el.drugStrength} <b>(${el.tradeName})</b> ${el.route} </p> 
-                <button id='${el._id}' class="delete-edit" onclick="deleteProduct('${el._id}')">  &#9932;  </button>
+                <button id='${el._id}' class="delete-edit" onclick="deleteDialog()">  &#9932;  </button>
                 <button id='${el.genericName} ${el.tradeName}' class="delete-edit edit">edit</button>
             </li>
         `
@@ -49,10 +53,19 @@ const getUserProducts = async()=>{
 }
 getUserProducts()
 //delete product function
+
+const deleteDialog=()=>{
+    productToDelete.unshift("www")
+    localStorage.setItem('product-delete', JSON.stringify(productToDelete))
+    dialogMsg.textContent = `delete ${productToDelete}`
+    confirmDeleteDialog.showModal()
+}
+//deleteDialog();
 const deleteProduct = async(par)=>{
     const del = await fetch(`${window.location.origin}/deleteProduct/${par}`)
     const response = await del.json()
     console.log(response)
+    
 }
 
 
@@ -68,6 +81,10 @@ enterNewEntry.addEventListener('click', ()=>{
     window.location.reload()
     
     
+})
+
+confirmDeleteButton.addEventListener("click", ()=>{
+    window.location.reload()
 })
 
 
