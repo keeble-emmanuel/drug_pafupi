@@ -100,33 +100,73 @@ const signInfunx =(req, res)=>{
 
 }
 
-const searchDrug = (req, res)=>{
+const searchDrug = async(req, res)=>{
     const searchResults = []
     const { searchWord } = req.body;
     const reg = new RegExp(`.*${searchWord}.*`, 'i')
     console.log(searchWord, reg)
     const datatosend = []
-    newDrugModel.find({
-        $or:[
-            {genericName: {
-                $regex: reg
-            }},
-            {tradeName: {
-                $regex: reg
-            }}
+    try{
+        /*const uniq = await newDrugModel.aggregate([
+            {
+                $match:{
+                    $or:[
+                        {genericName: {
+                            $regex: reg
+                        }},
+                        {tradeName: {
+                            $regex: reg
+                        }}
+            
+                    ]
+                }
+            }
+           ])
+           //res.send(uniq)*/
 
-        ]}
+           const piple = [{
+            $match:{
+                $or:[
+                    {genericName: {
+                        $regex: reg
+                    }},
+                    {tradeName: {
+                        $regex: reg
+                    }}
         
-)
-    .populate('user_id')
-    .then((data)=>{
-        res.send(data)
-        
-    })
-    .catch((err)=>{
-        console.error(err)
-    })
+                ]
+            }
+        }];
+        const matchedDo = await newDrugModel.aggregate(piple)
+        const uniqueTrade =  new Set();
+        const filterD = [];
+        for(const doc of matchedDo){
+            let isRedundant = false;
+            if(doc.tradeName){
+                if(uniqueTrade.has(doc.tradeName)){
+                    isRedundant =true;
+                }else{
+                    uniqueTrade.add(doc.tradeName);
+                }
     
+            }
+            if(!isRedundant){
+                filterD.push(doc)
+            }
+    
+        }
+        res.send(filterD)
+        //console.log(filterD)  
+
+
+
+    }
+    catch(err){
+        console.error(err)
+    }
+
+    
+      
 
 }
 
