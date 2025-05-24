@@ -45,8 +45,7 @@ const getUserProducts = async()=>{
         productsDisplay.innerHTML +=`
             <li>
                 <p>${el.genericName} ${el.drugStrength} <b>(${el.tradeName})</b> ${el.route} </p> 
-                <button id='${el._id}' class="delete-edit" onclick="deleteDialog()">  &#9932;  </button>
-                <button id='${el.genericName} ${el.tradeName}' class="delete-edit edit">edit</button>
+                <button id='${el._id}' class="delete-edit" onclick="deleteDialog('${el.tradeName}')">  &#9932;  </button>
             </li>
         `
     })
@@ -54,10 +53,12 @@ const getUserProducts = async()=>{
 getUserProducts()
 //delete product function
 
-const deleteDialog=()=>{
-    productToDelete.unshift("www")
+const deleteDialog=(par)=>{
+    const idto = event.target.id
+    console.log(idto)
+    productToDelete.unshift(idto)
     localStorage.setItem('product-delete', JSON.stringify(productToDelete))
-    dialogMsg.textContent = `delete ${productToDelete}`
+    dialogMsg.textContent = `delete ${par}`
     confirmDeleteDialog.showModal()
 }
 //deleteDialog();
@@ -85,6 +86,7 @@ enterNewEntry.addEventListener('click', ()=>{
 
 confirmDeleteButton.addEventListener("click", ()=>{
     window.location.reload()
+    deleteProduct(productToDelete[0])
 })
 
 
