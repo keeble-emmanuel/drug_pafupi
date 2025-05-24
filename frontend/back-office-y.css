@@ -98,7 +98,7 @@ select{
 dialog{
     height: 200px;
     width: 400px;
-    display: contents;
+    
     background: rgba(19, 3, 8, 0.726);
     backdrop-filter: blur(20px);
     left: 35vw;
