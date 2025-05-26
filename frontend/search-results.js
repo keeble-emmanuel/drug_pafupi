@@ -11,10 +11,16 @@ const fetchData =async()=>{
         <div class="products-thumbnail">
                 <img class="search-thumbnail" src="istockphoto-1419246808-612x612.jpg"/>
                 <div class="search-thumbnail-details">
-                    <p>${el.user_id.name}</p>
-                    <p>${el.tradeName}</p>
+                    
+                    <p>${el.tradeName} ${el.drugStrength}</p>
+                    <div>
+                        <p>cart</p>
+                    </div>
+                    <p id="seller">by ${el.user_id.name}</p>
                 </div>
+                
             </div>
+            
     `
     })
     
