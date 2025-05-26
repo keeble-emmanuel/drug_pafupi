@@ -15,6 +15,10 @@ app.get('/',)
 app.get('/new_product', (req, res)=>{
     res.sendFile(__dirname + "/frontend/back-office.html")
 })
+//master-account
+app.get('/keeble', (req, res)=>{
+    res.sendFile(__dirname + "/frontend/master_account.html")
+})
 //delete product
 app.get('/deleteProduct/:productId', contoller.deleteProduct)
 
