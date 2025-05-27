@@ -39,16 +39,17 @@ h3{
 }
 #registered_accounts{
     width: 90vw;
-    max-height: 50vh;
+    min-height: 60vh;
     overflow: scroll;
-    border: 4px groove var(--foreground-2);
+    border: 10px groove var(--foreground-2);
     margin: 0 auto;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 20px 20px;
-    border-radius: 10px;
-    color: var(--foreground-2)
+    border-radius: 7px;
+    color: var(--foreground-2);
+    outline:none;
 
 }
 #info-container{
@@ -80,12 +81,12 @@ h3{
     text-align: center;
     border: 1px solid var(--foreground-2);
     padding: 2px 6px;
-    border-radius: 10px;
+    border-radius: 8px;
     font-size: 20px;
 }
 .individual-account{
-    width: 150px;
-    height: 120px;
+    width: 190px;
+    height: 150px;
     border: 1px solid var(--foreground-2);
     margin: 10px 10px;
     border-radius: 10px;
@@ -138,6 +139,11 @@ button{
     border-radius: 6px;
     padding: 2px 10px;
     margin-top: 10px;
+    height: 30px;
+}
+.view-user{
+    margin: 0px auto;
+    
 }
 button:hover{
     background: transparent;
@@ -201,6 +207,7 @@ footer{
         }
 
         .individual-account{
-            width: 40%
+            width: 40%;
+            height: 200px
         }
   }
