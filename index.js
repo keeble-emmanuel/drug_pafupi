@@ -21,7 +21,8 @@ app.get('/keeble', (req, res)=>{
 })
 //delete product
 app.get('/deleteProduct/:productId', contoller.deleteProduct)
-
+//get all-users
+app.get('/all-users', contoller.getAllUsers)
 //
 app.post('/new-product', contoller.createNewDrug)
 //searched page
