@@ -255,15 +255,17 @@ const getAllUsers = (req, res)=>{
     })
 }
 //create new user
-const creatNewUser = async()=>{
+const creatNewUser = async(req, res)=>{
     const{
         name,
         city,
         contact,
-        location,
+        locationOfUser,
         username,
         password
     } = req.body;
+    console.log(username);
+    
     const addUser = new User({
         name:name,
         location:city,
@@ -274,6 +276,8 @@ const creatNewUser = async()=>{
     try{
         const added = await addUser.save()
         console.log(added)
+        //add sign-in-credentials
+        
         const addSignindetails = new SignInModel({
                 username: username,
                 password:password,
@@ -302,5 +306,6 @@ module.exports = {
     searchedPage,
     marketDisplay,
     deleteProduct,
-    getAllUsers
+    getAllUsers,
+    creatNewUser
 }
