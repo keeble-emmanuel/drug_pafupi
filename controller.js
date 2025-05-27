@@ -217,6 +217,9 @@ const searchedPage =(req, res)=>{
     })
 
 }
+
+//display everything on the market
+
 const marketDisplay =(req, res)=>{
     newDrugModel.find().
     populate('user_id')
@@ -228,6 +231,7 @@ const marketDisplay =(req, res)=>{
     })
 
 }
+//delete product from market on request of a user
 const deleteProduct =(req, res)=>{
     const { productId } = req.params;
     
@@ -240,6 +244,54 @@ const deleteProduct =(req, res)=>{
         console.error(err)
     })
 }
+//get all users
+const getAllUsers = (req, res)=>{
+    User.find()
+    .then((data)=>{
+        res.send(data)
+    })
+    .catch((err)=>{
+        console.error(err)
+    })
+}
+//create new user
+const creatNewUser = async()=>{
+    const{
+        name,
+        city,
+        contact,
+        location,
+        username,
+        password
+    } = req.body;
+    const addUser = new User({
+        name:name,
+        location:city,
+        phone:contact,
+        
+
+    })
+    try{
+        const added = await addUser.save()
+        console.log(added)
+        const addSignindetails = new SignInModel({
+                username: username,
+                password:password,
+                user_id: added._id
+        })
+        try{
+            addsignIn = addSignindetails.save()
+        }
+        catch(err){
+            console.error(err)
+        }
+    }
+    catch(err){
+        console.error(err)
+    }
+
+    
+}
 
 module.exports = {
     createNewDrug,
@@ -249,5 +301,6 @@ module.exports = {
     doPopulate,
     searchedPage,
     marketDisplay,
-    deleteProduct
+    deleteProduct,
+    getAllUsers
 }
