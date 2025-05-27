@@ -24,6 +24,8 @@ app.get('/deleteProduct/:productId', contoller.deleteProduct)
 //get all-users
 app.get('/all-users', contoller.getAllUsers)
 //
+app.post('/new-user', contoller.creatNewUser)
+//
 app.post('/new-product', contoller.createNewDrug)
 //searched page
 app.get('/searched-page/:genericName/:tradeName', contoller.searchedPage)
