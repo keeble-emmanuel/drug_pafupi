@@ -1,4 +1,4 @@
-const regAccounts = document.getElementById("registered-accountsx");
+const regAccounts = document.getElementById("registered-accounts");
 const nameOfUser = document.getElementById('name');
 const locationOfUser = document.getElementById('location')
 const contactOfUser = document.getElementById('contact')
