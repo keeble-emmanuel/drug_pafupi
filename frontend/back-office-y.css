@@ -140,6 +140,11 @@ dialog{
     #new-entry{
         min-height: 50vh;  
     }
+    #entry-preview{
+    
+    border-left: none;
+    
+    }
     dialog{
         width: 200px;
         height: 130px;
