@@ -133,14 +133,15 @@ h3{
     color: var(--foreground-1)
 }
 button{
-    background-color: rgba(252, 141, 193, 0.801);
-    border: 1px solid transparent;
+    background-color: transparent;
+    border: 2px solid rgba(248, 242, 242, 0.801);
     outline: none;
-    color: rgb(19, 19, 1);
+    color: rgb(245, 241, 242);
     border-radius: 6px;
     padding: 2px 5px;
     height: 25px;
     text-wrap: wrap;
+    transition: 1s;
     
 }
 #button-div{
@@ -148,16 +149,24 @@ button{
     flex-wrap: wrap;
     height: 30%
 }
-.view-user{
-    margin: 1px auto;
-    width: 80%;
-    
-}
 button:hover{
-    background: transparent;
+    background: white;
     border:  1px solid rgb(248, 72, 154);
     color: rgb(218, 8, 113);
 }
+.view-user{
+    margin: 1px auto;
+    width: 80%;
+    background-color: transparent;
+    color: brown;
+    border: 2px solid brown;
+    
+}
+.view-user:hover{
+    background: brown;
+    color: white;
+}
+
 
 .new-account{
     margin: 20px 5px;
