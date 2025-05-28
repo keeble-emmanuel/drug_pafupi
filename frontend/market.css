@@ -4,30 +4,34 @@
     margin: 0px;
 }
 :root{
-    --background-1: rgb(246, 244, 245);
+    --background-1: rgb(248, 250, 250);
     --background-2:red;
-    --foreground-1:rgb(249, 248, 248);
-    --foreground-2:rgb(2, 2, 10);
+    --foreground-1:rgb(255, 255, 255);
+    --foreground-2:rgba(84, 2, 17, 0.944);
+    --melon:rgba(54, 2, 33, 0.438);
+    --yellow: rgba(250, 213, 5, 0.886)
 }
 body{
-    background-color: rgb(75, 2, 19);
-    color: rgba(192, 217, 4, 0.612);
+    background-color: var(--foreground-1);
+    color: black;
     backdrop-filter: blur(10px);
     font-family: 'Times New Roman', Times, serif;
 }
-
+h1{
+    margin: 80px 0px 10px 0px;
+}
 #products-thumbnail-div{
     display: flex;
     flex-wrap: wrap; 
     justify-content: space-evenly;   
-    border: 1px solid rgba(21, 18, 18, 0);
+    border: 1px solid transparent;
     width: 90vw;
     
 }
 .products-thumbnail{
     width: 200px;
     height: 200px;
-    border: 2px solid rgb(231, 231, 235);
+    border: 2px solid var(--foreground-2);
     margin: 15px 5px;
     border-radius: 10px;
 }
@@ -49,7 +53,7 @@ body{
 
 .navbar {
     margin-bottom: 0;
-    background-color: rgba(79, 1, 50, 0.87);
+    background-color: var(--foreground-2);
     z-index: 9999;
     border: 0;
     font-size: 12px !important;
@@ -64,7 +68,7 @@ body{
   }
   
   .navbar-nav li a:hover, .navbar-nav li.active a {
-    color: var(--melon) !important;
+    color: var(--foreground-2) !important;
     background-color: rgb(255, 255, 255) !important;
   }
   
