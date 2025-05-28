@@ -297,6 +297,49 @@ const creatNewUser = async(req, res)=>{
     
 }
 
+
+const deleteUser =(req, res)=>{
+    const { idtodelete} = req.params;
+    console.log(idtodelete)
+    User.findByIdAndDelete(idtodelete)
+    .then((data)=>{
+        try{
+            //delete product entries
+            newDrugModel.deleteMany({
+                user_id: idtodelete
+
+            })
+            .then((data)=>{
+                console.log(data)
+            })
+            .catch((err)=>{
+                console.error(err)
+            })
+            //delete sign-in
+            SignInModel.deleteOne({
+                user_id: idtodelete
+            })
+            .then((data)=>{
+                console.log(data)
+            })
+            .catch((err)=>{
+                console.error(err)
+            })
+        
+            res.send({
+                info: 'deleted'
+            })
+        }
+        catch(err){
+            console.error(err)
+        }
+        
+    })
+    .catch((err)=>{
+        console.error(err)
+    })
+}
+
 module.exports = {
     createNewDrug,
     signInfunx,
@@ -307,5 +350,6 @@ module.exports = {
     marketDisplay,
     deleteProduct,
     getAllUsers,
-    creatNewUser
+    creatNewUser,
+    deleteUser
 }
