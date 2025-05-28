@@ -12,7 +12,7 @@
 }
 body{
     background: var(--melon);
-    color: var(--yellow);
+    color:white;
     font-family: "Garamond";
     
 }
@@ -42,18 +42,18 @@ form input{
     border-radius: 10px;
     margin: 5px 0px;
     font-size: 25px;
-    padding: 5px 10px;
-    border: 1px solid var(--yellow);
+    padding: 5px 10px 5px 20px;
+    border: 1px solid white;
     outline: none;
     width: 60%;
     backdrop-filter: blur(10px);
     background: transparent;
-    color: var(--yellow);
+    color: white;
     
     
 }
 form input::placeholder{
-    color: var(--yellow);
+    color: white;
 }
 form input:focus{
     color: white;
@@ -66,18 +66,19 @@ form input:focus{
 }
 #credentials #sign-in-btn{
     margin: 15px 5px 5px 0px;
-    background-color: rgba(249, 70, 201, 0.327);
+    background-color: transparent;
     border-radius: 15px;
     outline: none;
-    border: 1px solid transparent;
+    border: 1px solid rgba(249, 70, 201, 0.327);
     width: 250px;
     margin: 0px auto;
     font-size: 30px;
+    transition: 2s;
 
 }
 #credentials #sign-in-btn:hover{
-    background-color: rgba(255, 255, 255, 0.041);
-    border:1px solid rgba(249, 70, 201, 0.327)
+    background:  rgba(249, 70, 201, 0.327);
+    border:1px solid rgba(255, 255, 255, 0.041);
 }
 
 
@@ -98,7 +99,6 @@ form input:focus{
     
 }
 #credentials #sign-in-btn{
-   
     font-size: 20px;
 
 }
