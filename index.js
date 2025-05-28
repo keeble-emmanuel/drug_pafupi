@@ -26,6 +26,8 @@ app.get('/all-users', contoller.getAllUsers)
 //
 app.post('/new-user', contoller.creatNewUser)
 //
+app.get('/keeble/delete-user/:idtodelete', contoller.deleteUser)
+//
 app.post('/new-product', contoller.createNewDrug)
 //searched page
 app.get('/searched-page/:genericName/:tradeName', contoller.searchedPage)
