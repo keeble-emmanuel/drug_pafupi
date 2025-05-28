@@ -228,8 +228,9 @@ footer{
         }
 
         .individual-account{
-            width: 40%;
-            height: 200px
+            width: 65%;
+            height: 200px;
+            margin: 10px auto
         }
 
         #new-account-div input{
