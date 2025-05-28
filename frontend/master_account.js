@@ -19,7 +19,11 @@ const fetchRegisterOfAccounts =async()=>{
             <div class="individual-account">
                     <img src=""/>
                     <p class="text-center">${el.name} (${el.location})</p>
-                    <button class="text-center view-user">visit account</p>
+                    <div id="button-div">
+                        <button id='${el._id}' class="text-center view-user" onclick="deleteUserMain()">visit</p>
+                        <button class="text-center view-user">delete</p>
+                    </div>
+                    
                 </div>
         `
     })
@@ -52,6 +56,19 @@ const postNewaccount =async()=>{
     }
     
     
+}
+
+const deleteUser =async(par)=>{
+    const fetchs = await fetch(`${window.location.origin}/keeble/delete-user/${par}`)
+    const response = await fetchs.json()
+    console.log(response)
+}
+
+const deleteUserMain=()=>{
+    const idtodelete = event.target.id
+    console.log(idtodelete);
+    deleteUser(idtodelete)
+    window.location.reload()
 }
 
 fetchRegisterOfAccounts()
