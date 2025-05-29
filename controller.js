@@ -67,7 +67,7 @@ const createNewDrug= async(req, res)=>{
     
 }
 
-const signInfunx =(req, res)=>{
+const signInfunx =async(req, res)=>{
     const data = req.body;
     const { username }= req.query;
     if(!data.username || !data.password){
@@ -75,7 +75,7 @@ const signInfunx =(req, res)=>{
             response: 'incomplete'
         })
     }else{
-        SignInModel.find({username: data.username})
+        await SignInModel.find({username: data.username})
         .then((datas)=>{
             
             if(datas[0].password == data.password){
