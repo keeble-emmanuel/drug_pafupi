@@ -69,7 +69,6 @@ h3{
     color: rgb(47, 0, 31);
     border-radius: 10px;
     background: 1px solid var(--foreground-2);
-    font-family: 'Brush Script MT';
     font-size: 18px;
     
     
@@ -110,38 +109,38 @@ h3{
 }
 #new-account-div-inner{
     width: 50vw;
-    height: 80%;
+    height: 90%;
     margin: 4px auto;
     border: 1px solid rgb(255, 255, 255);
     border-radius: 10px;
     font-family: "Papyrus";
     font-size: 18px;
+    padding: 5px 20px 
 }
 #new-account-div-inner h2{
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     text-decoration: underline;
 }
 #new-account-div input{
-    width: 70%;
+    width: 80%;
     margin: 2px 5px 2px 20px;
     border: none;
     outline: none;
-    border-bottom: 1px solid var(--foreground-1);
-    padding: 1px 5px;
+    border: 1px solid var(--foreground-1);
+    padding: 3px 15px;
     font-size: 18px;
     background: transparent;
-    color: var(--foreground-1)
+    color: var(--foreground-1);
+    border-radius: 20px;
+    margin: 5px 0px;
 }
 button{
-    background-color: transparent;
-    border: 2px solid rgba(248, 242, 242, 0.801);
-    outline: none;
+   
     color: rgb(245, 241, 242);
-    border-radius: 6px;
-    padding: 2px 5px;
-    height: 25px;
-    text-wrap: wrap;
+    border-radius: 20px;
+    padding: 1px 8px;
     transition: 1s;
+    width: 100px;
     
 }
 #button-div{
@@ -149,20 +148,30 @@ button{
     flex-wrap: wrap;
     height: 30%
 }
-button:hover{
-    background: white;
-    border:  1px solid rgb(248, 72, 154);
-    color: rgb(218, 8, 113);
+
+.brown-back-btn{
+    margin: 5px 0px
 }
-.view-user{
+.brown-back-btn{
+    background: transparent;
+    color: white;
+    border: 2px solid rgb(248, 245, 245);
+}
+.brown-back-btn:hover{
+    background-color: white;
+    color: brown;
+    
+}
+.white-back-btn{
     margin: 1px auto;
     width: 80%;
     background-color: transparent;
     color: brown;
     border: 2px solid brown;
     
+    
 }
-.view-user:hover{
+.white-back-btn:hover{
     background: brown;
     color: white;
 }
@@ -234,7 +243,7 @@ footer{
         }
 
         #new-account-div input{
-            width: 60%;
+            width: 80%;
         }
 
         .view-user{
