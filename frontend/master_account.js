@@ -8,7 +8,7 @@ const password = document.getElementById('password')
 const confirmPassword = document.getElementById('confirm');
 const createAccBtn = document.getElementById("create-account")
 
-
+const personData = JSON.parse(localStorage.getItem("person-info")) || [];
 
 const fetchRegisterOfAccounts =async()=>{
     const fetchs = await fetch(`${window.location.origin}/all-users`)
@@ -20,8 +20,8 @@ const fetchRegisterOfAccounts =async()=>{
                     <img src=""/>
                     <p class="text-center">${el.name} (${el.location})</p>
                     <div id="button-div">
-                        <button id='${el._id}' class="text-center view-user" onclick="deleteUserMain()">delete</p>
-                        <button class="text-center view-user">visit</p>
+                        <button  class="text-center white-back-btn" onclick="deleteUserMain()">delete</p>
+                        <button id='${el._id}' class="text-center white-back-btn" onclick="visitUserAcc()">visit</p>
                     </div>
                     
                 </div>
@@ -69,6 +69,21 @@ const deleteUserMain=()=>{
     console.log(idtodelete);
     deleteUser(idtodelete)
     window.location.reload()
+}
+const visitUserAcc=()=>{
+    
+    const user = { user_id: event.target.id}
+    console.log(user)
+    if(!personData){
+        personData.unshift(user);
+    }else{
+        personData.pop()
+        personData.unshift(user); 
+    }
+    personData.pop()
+    personData.unshift(user);
+    localStorage.setItem('person-info', JSON.stringify(personData))
+    window.location.href = 'back-office-y.html';
 }
 
 fetchRegisterOfAccounts()
