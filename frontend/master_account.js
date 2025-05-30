@@ -20,7 +20,7 @@ const fetchRegisterOfAccounts =async()=>{
                     <img src=""/>
                     <p class="text-center">${el.name} (${el.location})</p>
                     <div id="button-div">
-                        <button  class="text-center white-back-btn" onclick="deleteUserMain()">delete</p>
+                        <button id='${el._id}' class="text-center white-back-btn" onclick="deleteUserMain()">delete</p>
                         <button id='${el._id}' class="text-center white-back-btn" onclick="visitUserAcc()">visit</p>
                     </div>
                     
