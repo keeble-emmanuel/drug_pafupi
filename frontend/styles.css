@@ -27,6 +27,7 @@ body{
 h2{
     color: black;
 }
+
 #img-div{
   position: absolute;
   left: 0px;
@@ -155,7 +156,12 @@ h2{
   .navbar li a, .navbar .navbar-brand {
     color: rgb(250, 249, 249) !important;
   }
-  
+  .navbar #logo{
+    position: absolute;
+    top: -40px;
+    width: auto;
+    height: 130px;
+  }
   .navbar-nav li a:hover, .navbar-nav li.active a {
     color: var(--foreground-2) !important;
     background-color: rgb(255, 255, 255) !important;
@@ -174,6 +180,12 @@ h2{
     font-style: italic;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     width: 99vw;
+  }
+  footer img{
+    width: auto;
+    height: 100px;
+    margin: 0 auto;
+    
   }
 
   @media only screen and (max-width: 600px) {
@@ -198,6 +210,10 @@ h2{
   }
     .jumbotron .input-group{
       width: 250px;  
+  }
+  .navbar #logo{
+    height: 100px;
+    top: -30px;
   }
   #search-results{
     width: 300px;
