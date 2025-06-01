@@ -29,7 +29,7 @@ const fetchResults = async()=>{
         displaySearchResults.innerHTML +=
         `<li>
             <div class="search-results-div" id='${el.tradeName}+${el.genericName}+${el.drugStrength}'>
-                ${el.tradeName} <i> ${el.drugStrength}</i> <b>( ${el.genericName} )</b> 
+                ${el.tradeName} <b>( ${el.genericName} )</b> 
             </div>
              </li>`
 
