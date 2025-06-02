@@ -17,7 +17,7 @@ const fetchData =async()=>{
                         <p><img src="cart.png" class="icon"/> </p>
                     </div>
                     <p>
-                     sold by:${el.user_id.name}<a 
+                     by:${el.user_id.name}<a 
                     href='https://www.google.com/maps/search/?api=1&query=${el.user_id.location[0]},${el.user_id.location[1]}'
                     ><img src="location.png" class="icon"/></a>
                     </p>
