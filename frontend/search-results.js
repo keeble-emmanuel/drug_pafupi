@@ -16,7 +16,9 @@ const fetchData =async()=>{
                     <div>
                         <p>cart</p>
                     </div>
-                    <p id="seller">by ${el.user_id.name}</p>
+                    <a 
+                    href='https://www.google.com/maps/search/?api=1&query=${el.user_id.location[0]},${el.user_id.location[1]}'
+                    >${el.user_id.name}</a>
                 </div>
                 
             </div>
