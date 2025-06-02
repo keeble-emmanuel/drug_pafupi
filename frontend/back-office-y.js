@@ -18,7 +18,7 @@ const productToDelete = JSON.parse(localStorage.getItem("product-delete")) || []
 const personLocation = JSON.parse(localStorage.getItem("person-location")) || [];
 
 //post location
-//console.log(personLocation[0].lat);
+console.log(personLocation[0].lat);
 
 const postLocation =async()=>{
     const postit = await fetch(`${window.location.origin}/update-location`,{
@@ -33,7 +33,12 @@ const postLocation =async()=>{
         })
     })
     const response =  await postit.json()
-    console.log(response)
+    console.log(response);
+    if(response.data = 'updated'){
+        alert('updated')
+    }else{
+        alert('not succefull')
+    }
 }
 //
 //postLocation()
