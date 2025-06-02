@@ -25,6 +25,8 @@ app.get('/deleteProduct/:productId', contoller.deleteProduct)
 app.get('/all-users', contoller.getAllUsers)
 //
 app.post('/new-user', contoller.creatNewUser)
+//update location
+app.post('/update-location', contoller.updateLocation)
 //
 app.get('/keeble/delete-user/:idtodelete', contoller.deleteUser)
 //
