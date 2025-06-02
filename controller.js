@@ -17,7 +17,7 @@ const SignInModel = mongoose.model('signInSchema', signIschema)
 //user details schema
 const userDetails =  new Schema({
     name: String,
-    location:String,
+    location: Array,
     phone: String,
 })
 const User = mongoose.model('User', userDetails)
@@ -340,6 +340,24 @@ const deleteUser =(req, res)=>{
     })
 }
 
+const updateLocation =(req, res)=>{
+    const data = req.body
+    const {user_id, locationOfUser} = req.body;
+   
+    console.log(user_id, locationOfUser, data);
+    User.findByIdAndUpdate(user_id, {
+        $set:{
+            location: locationOfUser
+        }
+    },{new: true})
+    .then((data)=>{
+        console.log(data)
+    })
+    .catch((err)=>{
+        console.error(err)
+    })
+}
+
 module.exports = {
     createNewDrug,
     signInfunx,
@@ -351,5 +369,6 @@ module.exports = {
     deleteProduct,
     getAllUsers,
     creatNewUser,
-    deleteUser
+    deleteUser,
+    updateLocation
 }
