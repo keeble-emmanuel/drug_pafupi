@@ -6,7 +6,8 @@ const productsDisplay =  document.getElementById('products-display');
 const stockStat=  document.getElementById('stock-stat');
 const pcategory = document.getElementById('category');
 const route = document.getElementById('route');
-const dialogMsg = document.getElementById("dialog-msg")
+const dialogMsg = document.getElementById("dialog-msg");
+const locationBtn = document.getElementById('submit-location')
 
 const confirmDeleteDialog = document.getElementById('confirm-delete-dialog');
 const confirmDeleteButton =  document.getElementById('confirm-delete-btn')
@@ -14,6 +15,60 @@ console.log(route.value)
 
 const personData = JSON.parse(localStorage.getItem("person-info")) || [];
 const productToDelete = JSON.parse(localStorage.getItem("product-delete")) || [];
+const personLocation = JSON.parse(localStorage.getItem("person-location")) || [];
+
+//post location
+console.log(personLocation[0].lat);
+
+const postLocation =async()=>{
+    const postit = await fetch(`${window.location.origin}/update-location`,{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            user_id: personData[0].user_id,
+            locationOfUser: [personLocation[0].lat, personLocation[0].long]
+            
+        })
+    })
+    const response =  await postit.json()
+    console.log(response)
+}
+//
+//postLocation()
+function showPosition(position) {
+    const longt = position.coords.longitude;
+    const lati = position.coords.latitude;
+    const loc = {
+        lat: lati,
+        long:longt
+    }
+    personLocation.unshift(loc);
+    localStorage.setItem('person-location', JSON.stringify(personLocation));
+    const nowurl=`https://www.google.com/maps/search/?api=1&query=${lati},${longt}`
+
+    let latlon = position.coords.latitude + "," + position.coords.longitude;
+
+    let img_url = `https://maps.googleapis.com/maps/api/staticmap?center=
+    "+${latlon}+"&zoom=14&size=400x300&sensor=false&key=YOUR_KEY`;
+    postLocation()
+    //window.open(nowurl)
+
+    
+}
+locationBtn.addEventListener('click', ()=>{
+    
+    if(navigator.geolocation){
+        const pos = navigator.geolocation.getCurrentPosition(showPosition)
+       
+    }else{
+        console.log('please allow location')
+    }
+})
+
+
+//post new drug
 const postNewEntry =async()=>{
     const post = await fetch(`${window.location.origin}/new-product`,{
         method: 'POST',
