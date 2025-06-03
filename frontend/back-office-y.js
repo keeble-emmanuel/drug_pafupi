@@ -5,9 +5,23 @@ const enterNewEntry = document.getElementById('entry-btn')
 const productsDisplay =  document.getElementById('products-display');
 const stockStat=  document.getElementById('stock-stat');
 const pcategory = document.getElementById('category');
+const price =  document.getElementById('price');
+const expiryDtae =  document.getElementById('expiry');
+const dosageForm = document.getElementById('dosage-form');
 const route = document.getElementById('route');
 const dialogMsg = document.getElementById("dialog-msg");
 const locationBtn = document.getElementById('submit-location')
+
+const genericNameP = genericName.value.trim()
+const tradeNameP = tradeName.value.trim();
+const drugStrengthP = drugStrength.value.trim();
+const routeP = route.value.trim()
+const stockStatP=  stockStat.value.trim();
+const pcategoryP = pcategory.value.trim();
+const priceP =  price.value.trim();
+const expiryDateP =  expiryDtae.value.trim();
+const dosageFormP = dosageForm.value.trim();
+
 
 const confirmDeleteDialog = document.getElementById('confirm-delete-dialog');
 const confirmDeleteButton =  document.getElementById('confirm-delete-btn')
@@ -81,13 +95,15 @@ const postNewEntry =async()=>{
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            genericName: genericName.value,
-            tradeName: tradeName.value,
-            drugStrength: drugStrength.value,
-            drugCategory: pcategory.value,
-            drugStockstatus: stockStat.value, 
-            route:route.value,
-            
+            genericName: genericNameP,
+            tradeName: tradeNameP,
+            drugStrength: drugStrengthP,
+            drugCategory: pcategoryP,
+            drugStockstatus: stockStatP, 
+            route:routeP,
+            dosageForm: dosageFormP,
+            expiryDate:expiryDateP,
+            price: priceP,
             user_id: personData[0].user_id
         })
     })
