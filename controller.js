@@ -18,7 +18,8 @@ const SignInModel = mongoose.model('signInSchema', signIschema)
 const userDetails =  new Schema({
     name: String,
     location: Array,
-    phone: String,
+    city: String,
+    phone: Number,
 })
 const User = mongoose.model('User', userDetails)
 
@@ -268,7 +269,7 @@ const creatNewUser = async(req, res)=>{
     
     const addUser = new User({
         name:name,
-        location:city,
+        city:city,
         phone:contact,
         
 
