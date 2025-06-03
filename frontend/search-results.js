@@ -14,12 +14,12 @@ const fetchData =async()=>{
                     
                     <p>${el.tradeName} ${el.drugStrength}</p>
                     <div>
-                        <p><img src="cart.png" class="icon"/> </p>
+                        <p><img src="cart.svg" class="icon"/> </p>
                     </div>
                     <p>
                      by:${el.user_id.name}<a 
                     href='https://www.google.com/maps/search/?api=1&query=${el.user_id.location[0]},${el.user_id.location[1]}'
-                    ><img src="location.png" class="icon"/></a>
+                    ><img src="location2.svg" class="icon"/></a>
                     </p>
                 </div>
                 
