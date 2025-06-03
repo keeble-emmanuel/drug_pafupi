@@ -14,7 +14,7 @@ const fetchData =async()=>{
                     
                     <p>${el.tradeName} ${el.drugStrength}</p>
                     <div>
-                        <p><img src="cart.svg" class="icon"/> </p>
+                        <p>MWK ${el.price?el.price:'N/A'}<img src="cart.svg" class="icon"/> </p>
                     </div>
                     <p>
                      by:${el.user_id.name}<a 
