@@ -12,7 +12,7 @@ const fetchData =async()=>{
                     <p>${el.name}
                     <a 
                     href='https://www.google.com/maps/search/?api=1&query=${el.location[0]},${el.location[1]}'
-                    ><img src="location.png"/></a></p>
+                    ><img src="location2.svg"/></a></p>
                     
                 </div>
             </div>
