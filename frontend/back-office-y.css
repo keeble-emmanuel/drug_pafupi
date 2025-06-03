@@ -135,6 +135,12 @@ dialog{
     border-color: transparent;
     color: var(--foreground-1) !important;
   }
+   .navbar #logo{
+    position: absolute;
+    top: -40px;
+    width: auto;
+    height: 130px;
+  }
 
 @media only screen and (max-width: 600px) {
     #new-entry{
@@ -150,4 +156,8 @@ dialog{
         height: 130px;
         left: 20vw
     }
+    .navbar #logo{
+    height: 100px;
+    top: -25px;
+  }
 }
