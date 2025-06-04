@@ -18,7 +18,8 @@ const fetchRegisterOfAccounts =async()=>{
         regAccounts.innerHTML += `
             <div class="individual-account">
                     <img src=""/>
-                    <p class="text-center">${el.name} (${el.location})</p>
+                    <p class="text-center">${el.name} (${el.city})</p>
+                    <p>${el.phone?el.phone:'N/A'}</p>
                     <div id="button-div">
                         <button id='${el._id}' class="text-center white-back-btn" onclick="deleteUserMain()">delete</p>
                         <button id='${el._id}' class="text-center white-back-btn" onclick="visitUserAcc()">visit</p>
@@ -88,5 +89,6 @@ const visitUserAcc=()=>{
 
 fetchRegisterOfAccounts()
 createAccBtn.addEventListener('click', ()=>{
-    postNewaccount()
+    postNewaccount();
+    window.location.reload();
 })
