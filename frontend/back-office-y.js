@@ -10,7 +10,8 @@ const expiryDate =  document.getElementById('expiry');
 const dosageForm = document.getElementById('dosage-form');
 const route = document.getElementById('route');
 const dialogMsg = document.getElementById("dialog-msg");
-const locationBtn = document.getElementById('submit-location')
+const locationBtn = document.getElementById('submit-location');
+const accBtn =  document.getElementById('accounts')
 
 const genericNameP = genericName.value.trim()
 const tradeNameP = tradeName.value.trim();
@@ -164,4 +165,14 @@ confirmDeleteButton.addEventListener("click", ()=>{
     deleteProduct(productToDelete[0])
 })
 
+accBtn.addEventListener('click', ()=>{
+    document.getElementById('man-acc-div').style.display='block'
+    document.getElementById('man-acc-div').style.top='15vh'
+    document.getElementById('accounts').style.display='none'
+})
 
+document.getElementById('close-man-acc').addEventListener('click', ()=>{
+    document.getElementById('man-acc-div').style.top='-15vh';
+    document.getElementById('man-acc-div').style.display='none';
+    document.getElementById('accounts').style.display='block'
+})
