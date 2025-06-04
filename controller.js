@@ -19,7 +19,7 @@ const userDetails =  new Schema({
     name: String,
     location: Array,
     city: String,
-    phone: Number,
+    phone: mongoose.Schema.Types.Mixed,
 })
 const User = mongoose.model('User', userDetails)
 
@@ -33,7 +33,11 @@ const newDrugSchema = new Schema({
     drugStrength: String,
     drugCategory: String,
     drugStockstatus: String,
-    route: String
+    route: String,
+    dosageForm: String,
+    expiryDate: Date,
+    price: mongoose.Schema.Types.Mixed
+
 })
 const newDrugModel = mongoose.model('newDrugSchema', newDrugSchema)
 
@@ -46,9 +50,13 @@ const createNewDrug= async(req, res)=>{
         drugCategory,
         drugStockstatus,
         route,
+        dosageForm,
+        expiryDate,
+        price,
         user_id
     } = req.body;
-    console.log(route, tradeName)
+    console.log(route, req.body)
+
     const addNewDrug = new newDrugModel({
         
         genericName: genericName,
@@ -57,6 +65,9 @@ const createNewDrug= async(req, res)=>{
         drugCategory: drugCategory,
         drugStockstatus: drugStockstatus,
         route:route,
+        dosageForm: dosageForm,
+        expiryDate: expiryDate,
+        price: price,
         user_id: user_id
     })
     try{
@@ -108,24 +119,7 @@ const searchDrug = async(req, res)=>{
     console.log(searchWord, reg)
     const datatosend = []
     try{
-        /*const uniq = await newDrugModel.aggregate([
-            {
-                $match:{
-                    $or:[
-                        {genericName: {
-                            $regex: reg
-                        }},
-                        {tradeName: {
-                            $regex: reg
-                        }}
-            
-                    ]
-                }
-            }
-           ])
-           //res.send(uniq)*/
-
-           const piple = [{
+        const piple = [{
             $match:{
                 $or:[
                     {genericName: {
@@ -260,7 +254,7 @@ const creatNewUser = async(req, res)=>{
     const{
         name,
         city,
-        contact,
+        phone,
         locationOfUser,
         username,
         password
@@ -270,7 +264,7 @@ const creatNewUser = async(req, res)=>{
     const addUser = new User({
         name:name,
         city:city,
-        phone:contact,
+        phone:phone,
         
 
     })
