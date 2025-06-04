@@ -109,7 +109,22 @@ dialog{
     outline: none;
     border-radius: 10px;
 }
-
+#accounts{
+    position: absolute;
+    right: 30px;
+    top: 150px;
+    z-index: 10;
+}
+#man-acc-div{
+    position: absolute;
+    top: -15vh;
+    left: 10vw;
+    width:80vw;
+    height: 80vh;
+    background: rgb(14, 13, 13);
+    transition: 3s;
+    display:none;
+}
 .navbar {
     margin-bottom: 0;
     background-color: var(--foreground-2);
