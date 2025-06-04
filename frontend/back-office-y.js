@@ -12,7 +12,16 @@ const route = document.getElementById('route');
 const dialogMsg = document.getElementById("dialog-msg");
 const locationBtn = document.getElementById('submit-location')
 
-
+const genericNameP = genericName.value.trim()
+const tradeNameP = tradeName.value.trim();
+const drugStrengthP = drugStrength.value.trim();
+const routeP = route.value.trim()
+const stockStatP=  stockStat.value.trim();
+const pcategoryP = pcategory.value.trim();
+const priceP =  price.value.trim();
+const expiryDateP =  expiryDate.value.trim();
+const dosageFormP = dosageForm.value.trim();
+ console.log(genericNameP, expiryDateP, pcategoryP)
 
 const confirmDeleteDialog = document.getElementById('confirm-delete-dialog');
 const confirmDeleteButton =  document.getElementById('confirm-delete-btn')
@@ -22,7 +31,8 @@ const personData = JSON.parse(localStorage.getItem("person-info")) || [];
 const productToDelete = JSON.parse(localStorage.getItem("product-delete")) || [];
 const personLocation = JSON.parse(localStorage.getItem("person-location")) || [];
 
-
+//post location
+//console.log(personLocation[0].lat);
 
 const postLocation =async()=>{
     const postit = await fetch(`${window.location.origin}/update-location`,{
@@ -110,7 +120,7 @@ const getUserProducts = async()=>{
     data.forEach((el)=>{
         productsDisplay.innerHTML +=`
             <li>
-                <p>${el.genericName} ${el.drugStrength} <b>(${el.tradeName})</b> ${el.route} </p> 
+                <p>${el.tradeName} ${el.drugStrength} @<b>MWK ${el.price?el.price: 'N/A'} </b></p> 
                 <button id='${el._id}' class="delete-edit" onclick="deleteDialog('${el.tradeName}')">  &#9932;  </button>
                 <button id='' class="back-office-y-btn" onclick="deleteDialog('${el.tradeName}')">edit</button>
             </li>
