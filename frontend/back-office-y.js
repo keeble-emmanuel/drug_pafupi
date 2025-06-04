@@ -6,21 +6,12 @@ const productsDisplay =  document.getElementById('products-display');
 const stockStat=  document.getElementById('stock-stat');
 const pcategory = document.getElementById('category');
 const price =  document.getElementById('price');
-const expiryDtae =  document.getElementById('expiry');
+const expiryDate =  document.getElementById('expiry');
 const dosageForm = document.getElementById('dosage-form');
 const route = document.getElementById('route');
 const dialogMsg = document.getElementById("dialog-msg");
 const locationBtn = document.getElementById('submit-location')
 
-const genericNameP = genericName.value.trim()
-const tradeNameP = tradeName.value.trim();
-const drugStrengthP = drugStrength.value.trim();
-const routeP = route.value.trim()
-const stockStatP=  stockStat.value.trim();
-const pcategoryP = pcategory.value.trim();
-const priceP =  price.value.trim();
-const expiryDateP =  expiryDtae.value.trim();
-const dosageFormP = dosageForm.value.trim();
 
 
 const confirmDeleteDialog = document.getElementById('confirm-delete-dialog');
@@ -31,8 +22,7 @@ const personData = JSON.parse(localStorage.getItem("person-info")) || [];
 const productToDelete = JSON.parse(localStorage.getItem("product-delete")) || [];
 const personLocation = JSON.parse(localStorage.getItem("person-location")) || [];
 
-//post location
-//console.log(personLocation[0].lat);
+
 
 const postLocation =async()=>{
     const postit = await fetch(`${window.location.origin}/update-location`,{
@@ -95,15 +85,15 @@ const postNewEntry =async()=>{
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            genericName: genericNameP,
-            tradeName: tradeNameP,
-            drugStrength: drugStrengthP,
-            drugCategory: pcategoryP,
-            drugStockstatus: stockStatP, 
-            route:routeP,
-            dosageForm: dosageFormP,
-            expiryDate:expiryDateP,
-            price: priceP,
+            genericName: genericName.value.trim(),
+            tradeName: tradeName.value.trim(),
+            drugStrength: drugStrength.value.trim(),
+            drugCategory: pcategory.value.trim(),
+            drugStockstatus: stockStat.value.trim(), 
+            route:route.value.trim(),
+            dosageForm: dosageForm.value.trim(),
+            expiryDate:expiryDate.value.trim(),
+            price: price.value.trim(),
             user_id: personData[0].user_id
         })
     })
@@ -146,14 +136,12 @@ const deleteProduct = async(par)=>{
     
 }
 
-
-
 enterNewEntry.addEventListener('click', ()=>{
-    if( genericName.value && tradeName.value && drugStrength){
+    if( genericName.value && tradeName.value && drugStrength.value && expiryDate.value && dosageForm.value && route.value){
         postNewEntry()
-        //console.log(pcategory.value)
+       
     }else{
-        alert('write full details')
+        alert(genericName.value.trim())
     }
     
     window.location.reload()
