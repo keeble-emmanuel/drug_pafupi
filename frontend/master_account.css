@@ -40,7 +40,7 @@ h3{
 }
 #registered-accounts{
     width: 90vw;
-    min-height: 60vh;
+    max-height: 60vh;
     overflow: scroll;
     border: 10px ridge var(--foreground-2);
     margin: 0 auto;
