@@ -11,8 +11,8 @@ const postSignIn = async()=>{
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            username: username.value,
-            password: password.value
+            username: username.value.trim(),
+            password: password.value.trim()
         })
     })
     const response = await post.json()
