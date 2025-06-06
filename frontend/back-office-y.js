@@ -13,16 +13,7 @@ const dialogMsg = document.getElementById("dialog-msg");
 const locationBtn = document.getElementById('submit-location');
 const accBtn =  document.getElementById('accounts')
 
-const genericNameP = genericName.value.trim()
-const tradeNameP = tradeName.value.trim();
-const drugStrengthP = drugStrength.value.trim();
-const routeP = route.value.trim()
-const stockStatP=  stockStat.value.trim();
-const pcategoryP = pcategory.value.trim();
-const priceP =  price.value.trim();
-const expiryDateP =  expiryDate.value.trim();
-const dosageFormP = dosageForm.value.trim();
- console.log(genericNameP, expiryDateP, pcategoryP)
+
 
 const confirmDeleteDialog = document.getElementById('confirm-delete-dialog');
 const confirmDeleteButton =  document.getElementById('confirm-delete-btn')
@@ -119,6 +110,7 @@ const getUserProducts = async()=>{
     const data = await getproducts.json()
     console.log(data)
     data.forEach((el)=>{
+        
         productsDisplay.innerHTML +=`
             <li>
                 <p>${el.tradeName} ${el.drugStrength} @<b>MWK ${el.price?el.price: 'N/A'} </b></p> 
