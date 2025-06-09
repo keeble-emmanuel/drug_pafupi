@@ -239,6 +239,43 @@ const deleteProduct =(req, res)=>{
         console.error(err)
     })
 }
+//update product
+
+const updateProduct = (req, res)=>{
+    const { genericName, 
+        tradeName,
+        drugStrength,
+        drugCategory,
+        drugStockstatus,
+        route,
+        dosageForm,
+        expiryDate,
+        price,
+        user_id,
+        product_id
+    } = req.body;
+    newDrugModel.findByIdAndUpdate(product_id,
+        {
+            genericName: genericName,
+            tradeName: tradeName,
+            drugStrength: drugStrength,
+            drugCategory: drugCategory,
+            drugStockstatus: drugStockstatus,
+            route:route,
+            dosageForm: dosageForm,
+            expiryDate: expiryDate,
+            price: price,
+            user_id: user_id  
+        },{new: true})
+    .then((data)=>{
+        res.send(data)
+    })
+    .catch((err)=>{
+        console.error(err)
+    })
+
+}
+
 //get all users
 const getAllUsers = (req, res)=>{
     User.find()
@@ -362,6 +399,7 @@ module.exports = {
     searchedPage,
     marketDisplay,
     deleteProduct,
+    updateProduct,
     getAllUsers,
     creatNewUser,
     deleteUser,
