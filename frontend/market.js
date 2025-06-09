@@ -7,7 +7,7 @@ const fetchData =async()=>{
     results.forEach((el)=>{
         productsThumbnailDiv.innerHTML += `
         <div class="products-thumbnail">
-                <img class="search-thumbnail" src="pharmacy1.png"/>
+                <img class="search-thumbnail" src="logo.png"/>
                 <div class="search-thumbnail-details">
                     <p>${el.name}
                     <a 
