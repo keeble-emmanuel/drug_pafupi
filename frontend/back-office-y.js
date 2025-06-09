@@ -13,7 +13,7 @@ const dialogMsg = document.getElementById("dialog-msg");
 const locationBtn = document.getElementById('submit-location');
 const accBtn =  document.getElementById('accounts')
 
-
+let userProducts
 
 const confirmDeleteDialog = document.getElementById('confirm-delete-dialog');
 const confirmDeleteButton =  document.getElementById('confirm-delete-btn')
@@ -108,6 +108,7 @@ const getUserProducts = async()=>{
     const user_id= personData[0].user_id
     const getproducts = await fetch(`${window.location.origin}/getproducts/${user_id}`)
     const data = await getproducts.json()
+    userProducts = data;
     console.log(data)
     data.forEach((el)=>{
         
@@ -115,7 +116,7 @@ const getUserProducts = async()=>{
             <li>
                 <p>${el.tradeName} ${el.drugStrength} @<b>MWK ${el.price?el.price: 'N/A'} </b></p> 
                 <button id='${el._id}' class="delete-edit" onclick="deleteDialog('${el.tradeName}')">  &#9932;  </button>
-                <button id='' class="back-office-y-btn" onclick="deleteDialog('${el.tradeName}')">edit</button>
+                <button id='' class="back-office-y-btn" onclick="editFunction('${el._id}')">edit</button>
             </li>
         `
     })
@@ -138,7 +139,25 @@ const deleteProduct = async(par)=>{
     console.log(response)
     
 }
+// edit entry function
+const editFunction=(par)=>{
+    window.location.href = "#new-entry"
+    userProducts=userProducts.filter((el)=>{
+        return el._id.toLowerCase() == par
+    })
+    console.log(userProducts)
+    genericName.value= userProducts[0].genericName;
+            tradeName.value= userProducts[0].tradeName;
+            drugStrength.value= userProducts[0].drugStrength
+            pcategory.value= userProducts[0].drugCategory
+            stockStat.value= userProducts[0].drugStockstatus
+            route.value=userProducts[0].route
+            dosageForm.value= userProducts[0].dosageForm
+            expiryDate.value=userProducts[0].expiryDate ? userProducts[0].expiryDate: new Date()
+            price.value= userProducts[0].price
 
+}
+//
 enterNewEntry.addEventListener('click', ()=>{
     if( genericName.value && tradeName.value && drugStrength.value && expiryDate.value && dosageForm.value && route.value){
         postNewEntry()
