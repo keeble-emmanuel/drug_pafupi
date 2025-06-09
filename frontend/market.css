@@ -76,6 +76,12 @@ h1{
     border-color: transparent;
     color: var(--foreground-1) !important;
   }
+  .navbar #logo{
+    position: absolute;
+    top: -40px;
+    width: auto;
+    height: 130px;
+  }
 
 @media only screen and (max-width: 600px) {
     .products-thumbnail{
@@ -84,4 +90,8 @@ h1{
         font-size: 12px;
         line-height: normal;
     }
+     .navbar #logo{
+    height: 100px;
+    top: -25px;
+  }
 }
