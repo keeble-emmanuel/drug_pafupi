@@ -1,12 +1,26 @@
 const productsThumbnailDiv = document.getElementById('products-thumbnail-div')
+const productsThumbnailDivB = document.getElementById('products-thumbnail-div-b')
+const citySelected = document.getElementById('cities')
+
 const searchFiters = JSON.parse(localStorage.getItem("searchfilter")) || [];
 
 
 const fetchData =async()=>{
     const fetched = await fetch(`${window.location.origin}/searched-page/${searchFiters[0].genericName}/${searchFiters[0].tradeName}`)
     const results = await fetched.json();
-    console.log(results)
-    results.forEach((el)=>{
+    const productsThumbnailDiv = document.createElement('div');
+    productsThumbnailDiv.id = "products-thumbnail-div";
+    productsThumbnailDivB.textContent = '';
+    var resultsFiltered = results.filter((el)=>{
+        
+        var city = el.user_id.city ? el.user_id.city : 'lilongwe'
+        return city.toLowerCase() == citySelected.value
+    })
+    if(citySelected.value == 'all'){
+        resultsFiltered =  results;
+    }
+    console.log(resultsFiltered, results)
+    resultsFiltered.forEach((el)=>{
         productsThumbnailDiv.innerHTML += `
         <div class="products-thumbnail">
                 <img class="search-thumbnail" src="istockphoto-1419246808-612x612.jpg"/>
@@ -27,6 +41,13 @@ const fetchData =async()=>{
             
     `
     })
+    productsThumbnailDivB.appendChild(productsThumbnailDiv)
     
 }
 fetchData()
+
+citySelected.addEventListener('change', ()=>{
+    //alert('sss')
+    
+    fetchData();
+})
