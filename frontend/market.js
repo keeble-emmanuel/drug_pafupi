@@ -1,13 +1,27 @@
-const productsThumbnailDiv = document.getElementById('products-thumbnail-div')
+const productsThumbnailDivB = document.getElementById('products-thumbnail-div-b');
+const citySelected = document.getElementById('cities');
+let resultsFiltered;
 
 const fetchData =async()=>{
     const fetched = await fetch(`${window.location.origin}/all-users`)
     const results = await fetched.json();
-    console.log(results)
-    results.forEach((el)=>{
+    console.log(results);
+    const productsThumbnailDiv = document.createElement('div');
+    productsThumbnailDiv.id = "products-thumbnail-div";
+    productsThumbnailDivB.textContent = '';
+    var resultsFiltered = results.filter((el)=>{
+        
+        var city = el.city ? el.city : 'lilongwe'
+        return city.toLowerCase() == citySelected.value
+    })
+    if(citySelected.value == 'all'){
+        resultsFiltered =  results;
+    }
+    console.log(resultsFiltered)
+    resultsFiltered.forEach((el)=>{
         productsThumbnailDiv.innerHTML += `
         <div class="products-thumbnail">
-                <img class="search-thumbnail" src="logo.png"/>
+                <img class="search-thumbnail" src="istockphoto-1419246808-612x612.jpg"/>
                 <div class="search-thumbnail-details">
                     <p>${el.name}
                     <a 
@@ -18,6 +32,12 @@ const fetchData =async()=>{
             </div>
     `
     })
+    productsThumbnailDivB.appendChild(productsThumbnailDiv)
     
 }
-fetchData()
+fetchData();
+
+citySelected.addEventListener('change', ()=>{
+    //alert('eee')
+    fetchData()
+})
