@@ -129,6 +129,11 @@ dialog{
     right: 30px;
     top: 150px;
     z-index: 10;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid black;
 }
 #man-acc-div{
     position: absolute;
