@@ -13,7 +13,9 @@ const dialogMsg = document.getElementById("dialog-msg");
 const locationBtn = document.getElementById('submit-location');
 const accBtn =  document.getElementById('accounts')
 
-let userProducts
+let userProducts;
+let product_id
+var update = false;
 
 const confirmDeleteDialog = document.getElementById('confirm-delete-dialog');
 const confirmDeleteButton =  document.getElementById('confirm-delete-btn')
@@ -94,7 +96,7 @@ const postNewEntry =async()=>{
             drugStockstatus: stockStat.value.trim(), 
             route:route.value.trim(),
             dosageForm: dosageForm.value.trim(),
-            expiryDate:expiryDate.value.trim(),
+            expiryDate:expiryDate.value,
             price: price.value.trim(),
             user_id: personData[0].user_id
         })
@@ -102,7 +104,35 @@ const postNewEntry =async()=>{
     const response =  await post.json()
     console.log(response)
 }
+//update post request
+const postUpdateEntry =async(parameter)=>{
+    const post = await fetch(`${window.location.origin}/update-product`,{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            genericName: genericName.value.trim(),
+            tradeName: tradeName.value.trim(),
+            drugStrength: drugStrength.value.trim(),
+            drugCategory: pcategory.value.trim(),
+            drugStockstatus: stockStat.value.trim(), 
+            route:route.value.trim(),
+            dosageForm: dosageForm.value.trim(),
+            expiryDate:expiryDate.value.trim(),
+            price: price.value.trim(),
+            user_id: personData[0].user_id,
+            product_id: product_id
 
+
+        })
+    })
+    const response =  await post.json()
+    console.log(response)
+}
+
+
+//
 
 const getUserProducts = async()=>{
     const user_id= personData[0].user_id
@@ -141,29 +171,43 @@ const deleteProduct = async(par)=>{
 }
 // edit entry function
 const editFunction=(par)=>{
-    window.location.href = "#new-entry"
+    
+    window.location.href = "#back-office"
     userProducts=userProducts.filter((el)=>{
         return el._id.toLowerCase() == par
     })
-    console.log(userProducts)
+    console.log(userProducts);
+    product_id = userProducts[0]._id
     genericName.value= userProducts[0].genericName;
-            tradeName.value= userProducts[0].tradeName;
-            drugStrength.value= userProducts[0].drugStrength
-            pcategory.value= userProducts[0].drugCategory
-            stockStat.value= userProducts[0].drugStockstatus
-            route.value=userProducts[0].route
-            dosageForm.value= userProducts[0].dosageForm
-            expiryDate.value=userProducts[0].expiryDate ? userProducts[0].expiryDate: new Date()
-            price.value= userProducts[0].price
+    tradeName.value= userProducts[0].tradeName;
+    drugStrength.value= userProducts[0].drugStrength
+    pcategory.value= userProducts[0].drugCategory
+    stockStat.value= userProducts[0].drugStockstatus
+    route.value=userProducts[0].route
+    dosageForm.value= userProducts[0].dosageForm ? userProducts[0].dosageForm : 'tablet'
+    expiryDate.value=userProducts[0].expiryDate ? userProducts[0].expiryDate: '2025-12-12'
+    price.value= userProducts[0].price?userProducts[0].price: 100
+    console.log(userProducts);
+    enterNewEntry.textContent = 'update'
+
+    update = true;
+    
+    
 
 }
 //
 enterNewEntry.addEventListener('click', ()=>{
-    if( genericName.value && tradeName.value && drugStrength.value && expiryDate.value && dosageForm.value && route.value){
+    if(!update){
+        if( genericName.value && tradeName.value && drugStrength.value && expiryDate.value && dosageForm.value && route.value){
         postNewEntry()
-       
+        
+        }else{
+            alert('not complete')
+        }
+        
     }else{
-        alert(genericName.value.trim())
+        postUpdateEntry()
+        update = false
     }
     
     window.location.reload()
