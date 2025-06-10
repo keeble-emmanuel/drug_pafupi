@@ -1,14 +1,14 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-const contoller = require('./controller')
+const controller = require('./controller')
 const PORT = 3000
 
 app.use(bodyParser.json())
 app.use(express.static('frontend'))
 
 //search input controller
-app.post('/', contoller.searchDrug)
+app.post('/', controller.searchDrug)
 
 //first page display
 app.get('/',)
@@ -20,24 +20,26 @@ app.get('/keeble', (req, res)=>{
     res.sendFile(__dirname + "/frontend/master_account.html")
 })
 //delete product
-app.get('/deleteProduct/:productId', contoller.deleteProduct)
+app.get('/deleteProduct/:productId', controller.deleteProduct)
 //get all-users
-app.get('/all-users', contoller.getAllUsers)
+app.get('/all-users', controller.getAllUsers)
 //
-app.post('/new-user', contoller.creatNewUser)
+app.post('/new-user', controller.creatNewUser)
 //update location
-app.post('/update-location', contoller.updateLocation)
+app.post('/update-location', controller.updateLocation)
 //
-app.get('/keeble/delete-user/:idtodelete', contoller.deleteUser)
-//
-app.post('/new-product', contoller.createNewDrug)
+app.get('/keeble/delete-user/:idtodelete', controller.deleteUser)
+//create product
+app.post('/new-product', controller.createNewDrug)
+//update product
+app.post('/update-product', controller.updateProduct)
 //searched page
-app.get('/searched-page/:genericName/:tradeName', contoller.searchedPage)
+app.get('/searched-page/:genericName/:tradeName', controller.searchedPage)
 //market page
-app.get('/market', contoller.marketDisplay)
+app.get('/market', controller.marketDisplay)
 //sign-in
-app.post('/sign-in', contoller.signInfunx)
-app.get('/getproducts/:user_id',  contoller.getUserproducts )
+app.post('/sign-in', controller.signInfunx)
+app.get('/getproducts/:user_id',  controller.getUserproducts )
 
 app.listen(PORT, ()=>{
     console.log('app listening')
