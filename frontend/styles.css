@@ -133,12 +133,23 @@ h2{
   
   .panel:hover {
     box-shadow: 5px 0px 40px rgba(0,0,0, .2);
+    transform: scale(1.02, 1.02);
   }
   .big-panel h2 {
     padding: 10px 0px 10px 0px;
     color: var(--foreground-2);
   }
-  
+  .img-topic{
+    width: 100%;
+    height: 85%;
+  }
+  .topic-subtitle{
+    width: 100%;
+    height: 15%;
+    padding: 4px 0px 4px 0px;
+    text-decoration:underline;
+    text-transform: capitalize;
+  }
   
 
   .navbar {
@@ -177,7 +188,6 @@ h2{
     background: var(--foreground-2);
     color: rgb(249, 250, 252);
     font-size: large;
-    font-style: italic;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     width: 99vw;
   }
