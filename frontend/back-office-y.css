@@ -113,11 +113,11 @@ select{
 dialog{
     height: 200px;
     width: 400px;
-    background: white;
+    background: rgba(0, 0, 0, 0.726);
     backdrop-filter: blur(50px);
     left: 35vw;
     top: 35vh;
-    color: black;
+    color: white;
     text-align: center;
     padding-top: 50px;
     border: 1px solid rgb(54, 1, 10);
@@ -240,6 +240,12 @@ dialog{
         height: 130px;
         left: 20vw
     }
+    #promote-div{
+    width:70vw;
+    
+    top: 45vh;
+    left: 15vw;
+    }
     #man-acc-div{
         position: absolute;
         top: 15vh;
@@ -250,5 +256,5 @@ dialog{
     .navbar #logo{
     height: 100px;
     top: -25px;
-  }
+    }
 }
