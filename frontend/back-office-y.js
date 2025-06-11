@@ -147,7 +147,7 @@ const getUserProducts = async()=>{
                 <p>${el.tradeName} ${el.drugStrength} @<b>MWK ${el.price?el.price: 'N/A'} </b></p> 
                 <button id='${el._id}' class="delete-edit" onclick="deleteDialog('${el.tradeName}')"><img src="delete.svg"/></button>
                 <button id='' class="delete-edit" onclick="editFunction('${el._id}')"><img src="edit.svg"/></button>
-                <button id='' class="delete-edit" ><img src="gift.svg"/></button>
+                <button id='' class="delete-edit" onclick="promoteFunction('${el._id}')"><img src="gift.svg"/></button>
             </li>
         `
     })
@@ -169,6 +169,11 @@ const deleteProduct = async(par)=>{
     const response = await del.json()
     console.log(response)
     
+}
+//promoteFunction
+const promoteFunction =()=>{
+    //alert("ee")
+    document.getElementById('promote-div').style.display='block';
 }
 // edit entry function
 const editFunction=(par)=>{
@@ -231,4 +236,8 @@ document.getElementById('close-man-acc').addEventListener('click', ()=>{
     document.getElementById('man-acc-div').style.top='-15vh';
     document.getElementById('man-acc-div').style.display='none';
     document.getElementById('accounts').style.display='block'
+})
+
+document.getElementById('cancel-promotion').addEventListener('click', ()=>{
+   document.getElementById('promote-div').style.display='none';
 })
