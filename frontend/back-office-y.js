@@ -145,8 +145,9 @@ const getUserProducts = async()=>{
         productsDisplay.innerHTML +=`
             <li>
                 <p>${el.tradeName} ${el.drugStrength} @<b>MWK ${el.price?el.price: 'N/A'} </b></p> 
-                <button id='${el._id}' class="delete-edit" onclick="deleteDialog('${el.tradeName}')">  &#9932;  </button>
-                <button id='' class="back-office-y-btn" onclick="editFunction('${el._id}')">edit</button>
+                <button id='${el._id}' class="delete-edit" onclick="deleteDialog('${el.tradeName}')"><img src="delete.svg"/></button>
+                <button id='' class="delete-edit" onclick="editFunction('${el._id}')"><img src="edit.svg"/></button>
+                <button id='' class="delete-edit" ><img src="gift.svg"/></button>
             </li>
         `
     })
