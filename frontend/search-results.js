@@ -26,7 +26,7 @@ const fetchData =async()=>{
                 <img class="search-thumbnail" src="istockphoto-1419246808-612x612.jpg"/>
                 <div class="search-thumbnail-details">
                     <div class="product-details">
-                        <p>${el.tradeName} ${el.drugStrength}</p>
+                        <p class="text-center">${el.tradeName} ${el.drugStrength}</p>
                     </div>
                     
                     <div class="product-details">
@@ -34,8 +34,7 @@ const fetchData =async()=>{
                     </div>
                     
                     <div class="product-details">
-                    <p>
-                     by:${el.user_id.name}<a 
+                    <p>${el.user_id.name}<a 
                     href='https://www.google.com/maps/search/?api=1&query=${el.user_id.location[0]},${el.user_id.location[1]}'
                     ><img src="location2.svg" class="icon"/></a>
                     </p>
