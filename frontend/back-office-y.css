@@ -135,6 +135,36 @@ dialog{
     background: transparent;
     border: 1px solid black;
 }
+#promote-div{
+    width:30vw;
+    height: 250px;
+    margin: 0 auto;
+    position: fixed;
+    top: 45vh;
+    left: 35vw;
+    background: rgba(0, 0, 0, 0.726);
+    border-radius: 20px;
+    color: white;
+    text-align: center;
+    display: none;
+}
+#promote-div input{
+    border-radius: 20px;
+    background: transparent;
+    color: white;
+    padding: 1px 10px 1px 10px;
+    border: 1px solid white;
+    width: 80px;
+
+}
+#promote-div #per-reduct{
+    width: 60px;
+}
+.btn-div{
+    margin: 25px 0px 0px 0px;
+    display: flex;
+    flex-wrap: wrap;
+}
 #man-acc-div{
     position: absolute;
     top: 15vh;
