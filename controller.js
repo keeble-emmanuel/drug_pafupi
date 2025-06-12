@@ -286,6 +286,19 @@ const getAllUsers = (req, res)=>{
         console.error(err)
     })
 }
+//get a specific user
+const getUserDetails=(req, res)=>{
+    const { user_id }= req.params
+    User.findById(user_id)
+    .then((data)=>{
+        console.log(data)
+        res.send(data)
+    })
+    .catch((err)=>{
+        console.error(err)
+    })
+}
+
 //create new user
 const creatNewUser = async(req, res)=>{
     const{
@@ -401,6 +414,7 @@ module.exports = {
     deleteProduct,
     updateProduct,
     getAllUsers,
+    getUserDetails,
     creatNewUser,
     deleteUser,
     updateLocation
