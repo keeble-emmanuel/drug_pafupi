@@ -37,8 +37,8 @@ app.post('/new-product', controller.createNewDrug)
 app.post('/update-product', controller.updateProduct)
 //searched page
 app.get('/searched-page/:genericName/:tradeName', controller.searchedPage)
-//market page
-app.get('/market', controller.marketDisplay)
+//display all products
+app.get('/all-products', controller.marketDisplay)
 //sign-in
 app.post('/sign-in', controller.signInfunx)
 app.get('/getproducts/:user_id',  controller.getUserproducts )
