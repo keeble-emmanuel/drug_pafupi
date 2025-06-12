@@ -23,7 +23,9 @@ app.get('/keeble', (req, res)=>{
 app.get('/deleteProduct/:productId', controller.deleteProduct)
 //get all-users
 app.get('/all-users', controller.getAllUsers)
-//
+//get specific user
+app.get('/get_user/:user_id', controller.getUserDetails)
+//create new user
 app.post('/new-user', controller.creatNewUser)
 //update location
 app.post('/update-location', controller.updateLocation)
