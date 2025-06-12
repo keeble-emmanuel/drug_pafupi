@@ -11,17 +11,22 @@ const dosageForm = document.getElementById('dosage-form');
 const route = document.getElementById('route');
 const dialogMsg = document.getElementById("dialog-msg");
 const locationBtn = document.getElementById('submit-location');
-const accBtn =  document.getElementById('accounts')
+const accBtn =  document.getElementById('accounts');
+const closeDeleteDialog = document.getElementById('confirm-close-dialog');
+const userHeading = document.getElementById('user-heading');
 
 let userProducts;
-let product_id
+let product_id;
+var userDetailArray =[];
 var update = false;
+
 
 const confirmDeleteDialog = document.getElementById('confirm-delete-dialog');
 const confirmDeleteButton =  document.getElementById('confirm-delete-btn')
 console.log(route.value)
 
 const personData = JSON.parse(localStorage.getItem("person-info")) || [];
+const userDetailLS = JSON.parse(localStorage.getItem("user-details")) || [];
 const productToDelete = JSON.parse(localStorage.getItem("product-delete")) || [];
 const personLocation = JSON.parse(localStorage.getItem("person-location")) || [];
 
@@ -79,8 +84,26 @@ locationBtn.addEventListener('click', ()=>{
         console.log('please allow location')
     }
 })
+//post change sign credentials
+const postChangeSignIn = ()=>{
 
-
+}
+//get user details
+const getUserDetails= async()=>{
+    const dofetch = await fetch(`${window.location.origin}/get_user/${personData[0].user_id}`);
+    const data = await dofetch.json()
+    
+    if (userDetailLS.length>=1){
+        userDetailLS.pop()
+        userDetailLS.unshift(data);
+    }else{
+        userDetailLS.unshift(data);
+    }
+    
+    localStorage.setItem('user-details', JSON.stringify(userDetailLS));
+    
+}
+getUserDetails()
 //post new drug
 const postNewEntry =async()=>{
     const post = await fetch(`${window.location.origin}/new-product`,{
@@ -144,7 +167,7 @@ const getUserProducts = async()=>{
         
         productsDisplay.innerHTML +=`
             <li>
-                <p>${el.tradeName} ${el.drugStrength} @<b>MWK ${el.price?el.price: 'N/A'} </b></p> 
+                <p>${el.tradeName} ${el.dosageForm} ${el.drugStrength} @<b>MWK ${el.price?el.price: 'N/A'} </b></p> 
                 <button id='${el._id}' class="delete-edit" onclick="deleteDialog('${el.tradeName}')"><img src="delete.svg"/></button>
                 <button id='' class="delete-edit" onclick="editFunction('${el._id}')"><img src="edit.svg"/></button>
                 <button id='' class="delete-edit" onclick="promoteFunction('${el._id}')"><img src="gift.svg"/></button>
@@ -241,3 +264,12 @@ document.getElementById('close-man-acc').addEventListener('click', ()=>{
 document.getElementById('cancel-promotion').addEventListener('click', ()=>{
    document.getElementById('promote-div').style.display='none';
 })
+
+confirmDeleteDialog.addEventListener('click', ()=>{
+    confirmDeleteDialog.close()
+})
+
+if(!userDetailLS[0].location){
+    locationBtn.textContent = 'submit location'
+}
+userHeading.innerHTML=`<p>${userDetailLS[0].name}</p>`
