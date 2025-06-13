@@ -25,6 +25,17 @@ h1{
     padding: 40px 0px 20px 0px;
     margin-top: 40px;
 }
+h4{
+    text-decoration: underline;
+}
+#notifications{
+    width: 50vw;
+    height: 50vw;
+    border: 1px solid rgb(136, 83, 4);
+    margin: 0 auto;
+    border-radius: 20px;
+    
+}
 #new-entry{
     height: 100vh;
     backdrop-filter: blur(20px);
