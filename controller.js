@@ -104,7 +104,9 @@ const signInfunx =async(req, res)=>{
 
         })
         .catch((err)=>{
-            console.log(err)
+           res.send({
+                    entry: "denied"
+                }) 
         })
         
         
