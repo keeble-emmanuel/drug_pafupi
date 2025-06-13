@@ -28,17 +28,29 @@ h1{
 h4{
     text-decoration: underline;
 }
+#container{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 40px;
+}
+
 #notifications{
-    width: 50vw;
-    height: 50vw;
-    border: 1px solid rgb(136, 83, 4);
+    width: 30vw;
+    height: 40vw;
+    border: 1px solid var(--foreground-1);
     margin: 0 auto;
     border-radius: 20px;
+    box-shadow: 5px 0px 40px rgba(0,0,0, .2);
     
 }
 #new-entry{
-    height: 100vh;
+    height: 40vw;
     backdrop-filter: blur(20px);
+    border: 1px solid var(--foreground-1);
+    border-radius: 20px;
+    padding: 0px 20px 0px 20px;
+    box-shadow: 5px 0px 40px rgba(0,0,0, .2);
+    
 }
 #new-entry h2{
     font-size: 30px;
@@ -59,10 +71,14 @@ hr{
 #new-entry input::placeholder{
     color: black;
 }
+hr{
+    border: 1px solid red
+}
 #entry-preview{
-    height: 100vh;
-    border-left: 2px solid black;
+    width: 50vw;
     backdrop-filter: blur(20px);
+    margin: 20px auto;
+   
 }
 #entry-preview h2{
     font-size: 25px;
@@ -238,12 +254,23 @@ dialog{
   }
 
 @media only screen and (max-width: 600px) {
+    
+    #notifications{
+    width: 85vw;
+    height: 90vw;
+    margin: 20px auto;
+    
+    
+    }
     #new-entry{
-        min-height: 50vh;  
+        min-height: 50vh;
+        
+        
     }
     #entry-preview{
-    
+    width: 85vw;
     border-left: none;
+   
     
     }
     dialog{
