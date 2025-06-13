@@ -53,3 +53,11 @@ signInBtn.addEventListener('click', ()=>{
     username.value= ""
     password.value = ""
 })
+
+username.addEventListener('keyup', ()=>{
+    wrongCredentials.style.display = 'none'
+})
+
+password.addEventListener('keyup', ()=>{
+    wrongCredentials.style.display = 'none'
+})
