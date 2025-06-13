@@ -1,239 +1,142 @@
-*{
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    max-width: 99vw;
-}
-:root{
-    --background-1: rgb(248, 250, 250);
-    --background-2:red;
-    --foreground-1:rgb(255, 255, 255);
-    --foreground-2:rgba(84, 2, 17, 0.944);
-    --melon:rgba(54, 2, 33, 0.438);
-    --yellow: rgba(250, 213, 5, 0.886)
-}
-body >div:first-child{
-  background-image: url('photo-1607619056574-7b8d3ee536b2.jpeg');
-  overflow: hidden;
-  background-size: cover;
-  backdrop-filter: blur(3px);
-}
-body{
-    background-color:var(--foreground-1);
-    color: black;
-    max-width: 100vw;
-    font-size: 18px;
-}
-h2{
-    color: black;
-}
-
-#img-div{
-  position: absolute;
-  left: 0px;
-  top: 70px;
-}
-#img-div img{
-  padding-left: 30px;
-  width: 250px;
-}
-.jumbotron{
-    background: rgba(255, 0, 0, 0); 
-    width: 100vw;
-    color: white
-   
-    
- 
-}
-.jumbotron h1{
-    padding-top: 90px;
-    color: white;
-    text-shadow: 3px 3px rgba(45, 1, 31, 0.886);
-}
-.jumbotron #search-input{
-    border-radius: 20px;
-    outline: none;
-    padding:0px 15px;
-    height: 50px;
-    font-size: 30px;
-    border: 3px solid var(--foreground-2);
-    background: transparent;
-    backdrop-filter: blur(20px);
-    margin-bottom: 50px;
-    color: rgb(20, 20, 20);
-   
-
-}
-.jumbotron #search-input::placeholder{
-  color: rgba(0, 0, 0, 0.461)
-}
-.jumbotron .input-group{
-    align-items: center;
-    width: 500px;
-    margin: 0px auto;
-    
-   
-
-}
-.jumbotron .input-group #search-btn{
-    background: none;
-    color: var(--foreground-1);
-    font-size: 30px;
-    outline: none;
-    border: none;
-    position: absolute;
-    transform: translate(-53px, -49px);
-    z-index: 999;
-}
-.jumbotron .input-group #search-btn span{
-  background: none;
-  color: var(--foreground-2);
-  font-size: 30px;
-  outline: none;
-  border: none;
-  
-}
-#search-results{
-    height: 200px;
-    width: 50vw;
-    margin: 0px auto;
-    backdrop-filter: blur(5px);
-    color: rgb(245, 245, 239);
-    text-align: left;
-    padding: 2px 5px 1px 40px;
-    font-size: 22px;
-    font-family: 'Times New Roman', Times, serif;
-    
-}
-.search-result{
-   background-color: rgba(189, 186, 186, 0.083);
-   border-radius: 10px;
-   overflow-y: auto;
-   margin-top: 30px;
-   
-}
-.search-result h2{
-    text-align: center;
-}
-
-.search-results-div:hover{
-  cursor: pointer;
-}
-#trending-products{
-    padding: 50px 0px;
-}
-.panel {
-    border: 1px solid var(--foreground-2);
-    border-radius:5px;
-    margin:  0px 30px 20px 30px;
-    transition: box-shadow 0.5s;
-    height: 300px;
-    color: var(--foreground-2);
-  }
-  
-  .panel:hover {
-    box-shadow: 5px 0px 40px rgba(0,0,0, .2);
-    transform: scale(1.02, 1.02);
-  }
-  .big-panel h2 {
-    padding: 10px 0px 10px 0px;
-    color: var(--foreground-2);
-  }
-  .img-topic{
-    width: 100%;
-    height: 85%;
-  }
-  .topic-subtitle{
-    width: 100%;
-    height: 15%;
-    padding: 4px 0px 4px 0px;
-    text-decoration:underline;
-    text-transform: capitalize;
-  }
-  
-
-  .navbar {
-    margin-bottom: 0;
-    background-color: var(--foreground-2);
-    z-index: 9999;
-    border: 0;
-    font-size: 12px !important;
-    line-height: 1.42857143 !important;
-    letter-spacing: 4px;
-    border-radius: 0;
-    max-width: 100vw
-  }
-  
-  .navbar li a, .navbar .navbar-brand {
-    color: rgb(250, 249, 249) !important;
-  }
-  .navbar #logo{
-    position: absolute;
-    top: -40px;
-    width: auto;
-    height: 130px;
-  }
-  .navbar-nav li a:hover, .navbar-nav li.active a {
-    color: var(--foreground-2) !important;
-    background-color: rgb(255, 255, 255) !important;
-  }
-  
-  .navbar-default .navbar-toggle {
-    border-color: transparent;
-    color: var(--foreground-1) !important;
-  }
-
-  footer{
-    padding: 30px 0px 70px 0px;
-    background: var(--foreground-2);
-    color: rgb(249, 250, 252);
-    font-size: large;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    width: 99vw;
-  }
-  footer img{
-    width: auto;
-    height: 100px;
-    margin: 0 auto;
-    
-  }
-
-  @media only screen and (max-width: 600px) {
-    *{
-      max-width: 100vw;
-      font-size: 16px;
-  }
-    body{
-      font-size: 14px;
-    }
-    #img-div img{
-      padding-left: 30px;
-      width: 70px;
-    }
-    .jumbotron h1{
-      padding-top: 90px;
-      color: var(--foreground-2);
-      text-shadow: 1px 1px white;
-  }
-    .jumbotron #search-input{
-      font-size: 20px;  
-  }
-    .jumbotron .input-group{
-      width: 250px;  
-  }
-  .navbar #logo{
-    height: 100px;
-    top: -25px;
-  }
-  #search-results{
-    width: 300px;
-    
-   
-  }
-  footer{
-    width: 100vw;
-    font-size: 14px;
-  }
-   
-  }
-
+!DOCTYPE html>Add commentMore actions
+<html lang="en">
+    <head>
+        <title>Drug pafupi</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+        <link rel='stylesheet' href="back-office-y.css"/>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <h1 id="back-office" class='text-center'>back office</h1>
+           
+            <button id="accounts"><img src="account.svg"/></button>
+            <div id="notifications">Add commentMore actions
+              <h4 class="text-center">notifications</h4>
+            </div>
+            <div class="row">
+              <div id="new-entry"class="col-sm-4">
+                <h2> new entry</h2>
+                <form>
+                    <input id="generic-name"required placeholder="generic-name"/><label>generic</label>
+                    <input id="trade-name" required placeholder='trade-name'/><label>tradename</label>
+                    <input id="strength"required placeholder="strength"/><label>strength</label>
+                    <select id="stock-stat" color="red">
+                      <option value="alot">lot</option>
+                      <option value="few">few</option>
+                  </select><label>stock</label>
+                    <select id="category" color="red">
+                        <option value="anti-biotic">anti-biotic</option>
+                        <option value="analgesia">analgesia</option>
+                        <option value="corticosteroids">corticosteroids</option>
+                        <option value="anticancer">anticancer</option>
+                        <option value="heamolytic">hemolytic</option>
+                        <option value="anti-protozoa">anti-protozoa</option>
+                        <option value="anti-fungal">anti-fungal</option>
+                        <option value="anti-virus">anti-virus</option>
+                        <option value="antihypertensive">antihypertensive</option>
+                        <option value="anti-asthmatic">antiasthmatic</option>
+                        <option value="anti-acid">anti-acid</option>
+                        <option value="anti-emetic">anti-emetic</option>
+                        <option value="anti-diabetic">anti-diabetic</option>
+                        <option value="anti-diarrhoes">anti-diarrhoes</option>
+                    </select><label>category</label>
+                    <select id="route" color="red">
+                      <option value="oral">oral</option>
+                      <option value="intravenous">intravenous</option>
+                      <option value="intrathecal">intrathecal</option>
+                      <option value="rectal">rectal</option>
+                      <option value="inhalation">inhalation</option>
+                      <option value="subcutaneous">subcutaneous</option>
+                      <option value="topical">topical</option>
+                      <option value="eye-ear">eye-ear-droplets</option>
+                  </select><label>route</label>
+                  <select id="dosage-form" color="red">
+                      <option value="tablet">tablet</option>
+                      <option value="capsules">capsules</option>
+                      <option value="syrup">syrup</option>
+                      <option value="ointment">ointment</option>
+                      <option value="solution">solution</option>
+                      <option value="powder-for-reconstitution">powder-for-reconstitution</option>
+                      <option value="suppositories">suppositories</option>
+                      <option value="aerosols">aerosols</option>
+                  </select><label>dosage-form</label>
+                  <input id="expiry" type="date" placeholder="expiry date"/><label>expiry</label>
+                  <input id ="price" type="number" placeholder="0.00" step="0.01"/><label>MWK</label>
+                </form>
+                <button id="entry-btn" class="back-office-y-btn">Enter Product</button>
+                <button id="cancel-update" class="back-office-y-btn">cancel</button>
+              </div>
+              <div id="entry-preview"class="col-sm-8" >
+                <h2>products appearing on the market</h2>
+                <ol id="products-display"></ol>
+              </div>
+            </div>
+            <dialog id="confirm-delete-dialog">Add commentMore actions
+              <p id="dialog-msg"></p>
+              <button id="confirm-delete-btn" class="back-office-y-btn2">confirm</button>
+              <button id="confirm-close-dialog" class="back-office-y-btn2">cancel</button>
+          </dialog>
+          <div id="promote-div">Add commentMore actions
+            <h3 id="promote-h3">promote ${}</h3>
+            <input id="new_price_input" placeholder="new price"/><h4 id="promotep">old(MWK ${})</h4>
+            <div id="promoper"></div>
+            <div class="btn-div">
+                <button class="back-office-y-btn2">promote</button>
+                <button id="cancel-promotion"class="back-office-y-btn2">cancel</button>
+            </div>
+            
+          </div>
+          <div id="man-acc-div">Add commentMore actions
+            <h2 class='text-center' id="user-heading"> hello${user}</h2>
+           
+            <div class='acc-divs'>
+               <hr/>
+              <p class='text-center'>change or update your location</p>
+            <button id="submit-location" class="back-office-y-btn2">change location</button>
+            <hr/>
+            </div>
+            <div class='acc-divs'>
+              <p class='text-center'>change your sign in credentials</p>
+              <input placeholder='username'/>
+              <input placeholder='current-password'/>
+              <input placeholder='new password'/>
+              <input placeholder = 'confirm password'/>
+              <button id="change-password" class="back-office-y-btn2">change-password</button>
+              <hr/>
+            </div>
+                <div class='acc-divs'>
+                  <button id="close-man-acc" class="back-office-y-btn2">close</button>
+              </div>
+            </div>
+            
+            
+            
+        </div>
+        <nav class="navbar navbar-default navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">
+                <img id="logo"src="logo8.png"/>
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+              <ul class="nav navbar-nav navbar-right">
+                <li><a href="index.html">HOME</a></li>
+                <li><a href="new_product">BACK OFFICE</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <script src="back-office-y.js"></script>
+  </body>
+</html>
