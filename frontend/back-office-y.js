@@ -14,11 +14,15 @@ const locationBtn = document.getElementById('submit-location');
 const accBtn =  document.getElementById('accounts');
 const closeDeleteDialog = document.getElementById('confirm-close-dialog');
 const userHeading = document.getElementById('user-heading');
+const newpricePromotion = document.getElementById('new_price_input');
+const cancelUpdate = document.getElementById('cancel-update');
 
+cancelUpdate.style.display = 'none'
 let userProducts;
 let product_id;
 var userDetailArray =[];
 var update = false;
+let productToPromote;
 
 
 const confirmDeleteDialog = document.getElementById('confirm-delete-dialog');
@@ -28,6 +32,7 @@ console.log(route.value)
 const personData = JSON.parse(localStorage.getItem("person-info")) || [];
 const userDetailLS = JSON.parse(localStorage.getItem("user-details")) || [];
 const productToDelete = JSON.parse(localStorage.getItem("product-delete")) || [];
+const productPromote = JSON.parse(localStorage.getItem("product-promote")) || [];
 const personLocation = JSON.parse(localStorage.getItem("person-location")) || [];
 
 //post location
@@ -65,11 +70,6 @@ function showPosition(position) {
     personLocation.unshift(loc);
     localStorage.setItem('person-location', JSON.stringify(personLocation));
     const nowurl=`https://www.google.com/maps/search/?api=1&query=${lati},${longt}`
-
-    let latlon = position.coords.latitude + "," + position.coords.longitude;
-
-    let img_url = `https://maps.googleapis.com/maps/api/staticmap?center=
-    "+${latlon}+"&zoom=14&size=400x300&sensor=false&key=YOUR_KEY`;
     postLocation()
     //window.open(nowurl)
 
@@ -101,6 +101,7 @@ const getUserDetails= async()=>{
     }
     
     localStorage.setItem('user-details', JSON.stringify(userDetailLS));
+    userHeading.innerHTML=`<p>${userDetailLS[0].name}</p>`
     
 }
 getUserDetails()
@@ -170,7 +171,7 @@ const getUserProducts = async()=>{
                 <p>${el.tradeName} ${el.dosageForm} ${el.drugStrength} @<b>MWK ${el.price?el.price: 'N/A'} </b></p> 
                 <button id='${el._id}' class="delete-edit" onclick="deleteDialog('${el.tradeName}')"><img src="delete.svg"/></button>
                 <button id='' class="delete-edit" onclick="editFunction('${el._id}')"><img src="edit.svg"/></button>
-                <button id='' class="delete-edit" onclick="promoteFunction('${el._id}')"><img src="gift.svg"/></button>
+                <button id='${el.price}' class="delete-edit" onclick="promoteFunction('${el._id}')"><img src="gift.svg"/></button>
             </li>
         `
     })
@@ -193,14 +194,29 @@ const deleteProduct = async(par)=>{
     console.log(response)
     
 }
+
 //promoteFunction
-const promoteFunction =()=>{
-    //alert("ee")
+const promoteFunction =(par)=>{
+    var idOf = event.target.id
+    if(productPromote.length >= 1){
+        productPromote.pop()
+        productPromote.unshift(par)
+    }
+    var todele = userProducts.filter((el)=>{
+        return el._id == par;
+    })
+    document.getElementById('promote-h3').textContent='Promote ' + todele[0].tradeName;
+    document.getElementById('promotep').textContent= "old price MWK : "+todele[0].price;
+    productPromote.unshift(par)
+    localStorage.setItem('productPromote', JSON.stringify(productPromote));
+    productToPromote = par;
     document.getElementById('promote-div').style.display='block';
 }
+
+
 // edit entry function
 const editFunction=(par)=>{
-    
+    cancelUpdate.style.display = 'inline'
     window.location.href = "#back-office"
     userProducts=userProducts.filter((el)=>{
         return el._id.toLowerCase() == par
@@ -218,7 +234,6 @@ const editFunction=(par)=>{
     price.value= userProducts[0].price?userProducts[0].price: 100
     console.log(userProducts);
     enterNewEntry.textContent = 'update'
-
     update = true;
     
     
@@ -248,6 +263,36 @@ confirmDeleteButton.addEventListener("click", ()=>{
     window.location.reload()
     deleteProduct(productToDelete[0])
 })
+//cancel update
+cancelUpdate.addEventListener('click', ()=>{
+    update = false;
+    genericName.value= '';
+    tradeName.value= '';
+    drugStrength.value= ''
+    pcategory.value= ''
+    stockStat.value= ''
+    route.value=''
+    dosageForm.value= ''
+    expiryDate.value=''
+    price.value= ''
+    cancelUpdate.style.display='none'
+    enterNewEntry.textContent = 'Enter Product'
+
+})
+
+//keyup in promotion
+newpricePromotion.addEventListener('keyup', ()=>{
+    console.log(parseFloat(newpricePromotion.value))
+    console.log(userProducts);
+    var todele = userProducts.filter((el)=>{
+        return el._id == productPromote[0]
+    })
+    console.log(todele)
+    var percnt = parseFloat(newpricePromotion.value)/parseFloat(todele[0].price)*100
+    console.log(percnt)
+    document.getElementById('promoper').textContent= percnt == NaN? '0': percnt + '%'
+
+})
 
 accBtn.addEventListener('click', ()=>{
     document.getElementById('man-acc-div').style.display='block'
@@ -269,7 +314,5 @@ confirmDeleteDialog.addEventListener('click', ()=>{
     confirmDeleteDialog.close()
 })
 
-if(!userDetailLS[0].location){
-    locationBtn.textContent = 'submit location'
-}
-userHeading.innerHTML=`<p>${userDetailLS[0].name}</p>`
+
+
