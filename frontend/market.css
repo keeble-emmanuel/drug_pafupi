@@ -34,6 +34,7 @@ h1{
     border: 2px solid var(--foreground-2);
     margin: 15px 5px;
     border-radius: 10px;
+    font-size: clamp(11px, 2vw, 14px );
 }
 .products-thumbnail:hover{
     transform: scale(1.02, 1.02);
@@ -85,10 +86,9 @@ h1{
 
 @media only screen and (max-width: 600px) {
     .products-thumbnail{
-        width:37vw;
-        height: 37vw;
-        font-size: 12px;
-        line-height: normal;
+        width:40vw;
+        height: 42vw;
+        
     }
      .navbar #logo{
     height: 100px;
