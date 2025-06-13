@@ -15,6 +15,10 @@
             <h1 id="back-office" class='text-center'>back office</h1>
            
             <button id="accounts"><img src="account.svg"/></button>
+
+            <div id="notifications">
+              <h4 class="text-center">notifications</h4>
+            </div>
             <div class="row">
               <div id="new-entry"class="col-sm-4">
                 <h2> new entry</h2>
@@ -66,6 +70,7 @@
                   <input id ="price" type="number" placeholder="0.00" step="0.01"/><label>MWK</label>
                 </form>
                 <button id="entry-btn" class="back-office-y-btn">Enter Product</button>
+                <button id="cancel-update" class="back-office-y-btn">cancel</button>
               </div>
               <div id="entry-preview"class="col-sm-8" >
                 <h2>products appearing on the market</h2>
@@ -81,12 +86,9 @@
 
 
             <div id="promote-div">
-              <h3>promote ${}</h3>
-              <div>
-                <p>reduce by(%): </p>
-               <input id="per-reduct" placeholder="50" type="number"/>
-              </div>
-              <input placeholder="new price"/><label>old(MWK ${})</label>
+              <h3 id="promote-h3">promote ${}</h3>
+              <input id="new_price_input" placeholder="new price"/><h4 id="promotep">old(MWK ${})</h4>
+              <div id="promoper"></div>
               <div class="btn-div">
                   <button class="back-office-y-btn2">promote</button>
                   <button id="cancel-promotion"class="back-office-y-btn2">cancel</button>
