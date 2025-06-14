@@ -113,8 +113,8 @@ const postNewEntry =async()=>{
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            genericName: genericName.value.trim(),
-            tradeName: tradeName.value.trim(),
+            genericName: genericName.value.trim().toLowerCase(),
+            tradeName: tradeName.value.trim().toUpperCase(),
             drugStrength: drugStrength.value.trim(),
             drugCategory: pcategory.value.trim(),
             drugStockstatus: stockStat.value.trim(), 
