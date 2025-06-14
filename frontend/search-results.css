@@ -117,8 +117,13 @@ body{
     #select{
         margin: 1px 20px 5px 30px;
     }
+    .products-thumbnail{
+    width: 40vw;
+    height: 42vw;
+    font-size: 11px;
+    }
     .navbar #logo{
     height: 100px;
     top: -25px;
-  }
+    }
   }
