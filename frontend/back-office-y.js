@@ -2,7 +2,7 @@ const genericName = document.getElementById('generic-name');
 const tradeName = document.getElementById('trade-name');
 const drugStrength = document.getElementById('strength');
 const enterNewEntry = document.getElementById('entry-btn')
-const productsDisplay =  document.getElementById('products-display');
+const productsDisplayD =  document.getElementById('products-display-div');
 const stockStat=  document.getElementById('stock-stat');
 const pcategory = document.getElementById('category');
 const price =  document.getElementById('price');
@@ -163,28 +163,40 @@ const getUserProducts = async()=>{
     const getproducts = await fetch(`${window.location.origin}/getproducts/${user_id}`)
     const data = await getproducts.json()
     userProducts = data;
-    console.log(data)
+    const productsDisplay = document.createElement('ul');
+    productsDisplay.id = "products-thumbnail-i";
+    productsDisplayD.textContent = '';
+    console.log(data, 'o')
     data.forEach((el)=>{
         
         productsDisplay.innerHTML +=`
             <li>
-                <p>${el.tradeName} ${el.dosageForm} ${el.drugStrength} @<b>MWK ${el.price?el.price: 'N/A'} </b></p> 
-                <button id='${el._id}' class="delete-edit" onclick="deleteDialog('${el.tradeName}')"><img src="delete.svg"/></button>
+                <p>${el.tradeName} ${el.dosageForm} ${el.drugStrength} ${el._id} @<b>MWK ${el.price?el.price: 'N/A'} </b></p> 
+                <button id='${el.tradeName}' class="delete-edit" onclick="deleteDialog('${el._id}')"><img src="delete.svg"/></button>
                 <button id='' class="delete-edit" onclick="editFunction('${el._id}')"><img src="edit.svg"/></button>
                 <button id='${el.price}' class="delete-edit" onclick="promoteFunction('${el._id}')"><img src="gift.svg"/></button>
             </li>
         `
     })
+    productsDisplayD.appendChild(productsDisplay);
+    //cancelUpdate.style.display = 'none'
 }
 getUserProducts()
 //delete product function
 
 const deleteDialog=(par)=>{
     const idto = event.target.id
-    console.log(idto)
-    productToDelete.unshift(idto)
+    //console.log(event.target.id, "feef")
+    if(productToDelete.length != 0){
+        productToDelete.pop();
+        productToDelete.unshift(par)
+    }
+    productToDelete.unshift(par)
     localStorage.setItem('product-delete', JSON.stringify(productToDelete))
-    dialogMsg.textContent = `delete ${par}`
+    var todp =userProducts.filter((el)=>{
+        return el.id= par
+    })
+    dialogMsg.textContent = `delete ${todp[0].tradeName}`
     confirmDeleteDialog.showModal()
 }
 //deleteDialog();
@@ -216,6 +228,7 @@ const promoteFunction =(par)=>{
 
 // edit entry function
 const editFunction=(par)=>{
+    getUserProducts()
     cancelUpdate.style.display = 'inline'
     window.location.href = "#back-office"
     userProducts=userProducts.filter((el)=>{
@@ -239,28 +252,38 @@ const editFunction=(par)=>{
     
 
 }
+if(!update){
+    enterNewEntry.textContent = 'Enter Product';
+    cancelUpdate.style.display = 'none'
+}
 //
 enterNewEntry.addEventListener('click', ()=>{
     if(!update){
         if( genericName.value && tradeName.value && drugStrength.value && expiryDate.value && dosageForm.value && route.value){
         postNewEntry()
-        
         }else{
             alert('not complete')
         }
         
     }else{
+        if( genericName.value && tradeName.value && drugStrength.value && expiryDate.value && dosageForm.value && route.value){
         postUpdateEntry()
-        update = false
+        }else{
+            alert('not complete')
+        }
+        update = false;
+        window.location.reload()
     }
-    
-    window.location.reload()
+    getUserProducts()
+     update = false
+    //window.location.reload()
     
     
 })
 
 confirmDeleteButton.addEventListener("click", ()=>{
-    window.location.reload()
+    //window.location.reload()
+    getUserProducts()
     deleteProduct(productToDelete[0])
 })
 //cancel update
