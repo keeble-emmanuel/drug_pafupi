@@ -13,8 +13,9 @@ const fetchData =async()=>{
     productsThumbnailDivB.textContent = '';
     var resultsFiltered = results.filter((el)=>{
         
-        var city = el.user_id.city ? el.user_id.city : 'lilongwe'
-        return city.toLowerCase() == citySelected.value
+        var city = el.user_id.city ? el.user_id.city.toLowerCase() : 'other'
+        console.log(city.toLowerCase(), citySelected.value)
+        return city.trim() === citySelected.value
     })
     if(citySelected.value == 'all'){
         resultsFiltered =  results;
