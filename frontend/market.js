@@ -8,10 +8,10 @@ const fetchData =async()=>{
     const productsThumbnailDiv = document.createElement('div');
     productsThumbnailDiv.id = "products-thumbnail-div";
     productsThumbnailDivB.textContent = '';
-    
+    var citiesz = ['zomba', 'blantyre', 'lilongwe', 'mzuzu']
     var resultsFiltered = results.filter((el)=>{
         
-        var city = el.city ? el.city.toLowerCase() : 'other'
+        var city = !citiesz.includes(el.city.trim().toLowerCase()) || !el.city ?'none': el.city.toLowerCase() ;
         return city.toLowerCase().trim() == citySelected.value
     })
     if(citySelected.value == 'all'){
