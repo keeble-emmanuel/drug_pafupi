@@ -11,7 +11,7 @@ const fetchData =async()=>{
     productsThumbnailDivB.textContent = '';
     var resultsFiltered = results.filter((el)=>{
         
-        var city = el.user_id.city ? el.user_id.city : 'lilongwe'
+        var city = el.user_id.city ? el.user_id.city.trim() : 'other'
         return city.toLowerCase() == citySelected.value
     })
     if(citySelected.value == 'all'){
