@@ -31,19 +31,21 @@ h4{
 #container{
     display: flex;
     flex-wrap: wrap;
-    margin-top: 40px;
+    justify-content: space-evenly;
+    margin-top: 50px;
+    padding: 20px 0px 20px 0px;
 }
 
 #notifications{
     width: 30vw;
     height: 40vw;
     border: 1px solid var(--foreground-1);
-    margin: 0 auto;
     border-radius: 20px;
     box-shadow: 5px 0px 40px rgba(0,0,0, .2);
     
 }
 #new-entry{
+    width:30vw;
     height: 40vw;
     backdrop-filter: blur(20px);
     border: 1px solid var(--foreground-1);
@@ -76,8 +78,8 @@ hr{
 }
 #entry-preview{
     width: 50vw;
-    backdrop-filter: blur(20px);
-    margin: 20px auto;
+    padding: 20px 0px 20px 10px;
+    margin: 0 auto;
    
 }
 #entry-preview h2{
@@ -92,7 +94,7 @@ hr{
     outline: none;
     border-radius: 15px;
     padding: 2px 10px;
-    margin-top: 10px;
+    margin: 10px 0px;
 }
 .back-office-y-btn2{
     background-color: transparent ;
@@ -154,7 +156,7 @@ dialog{
 #accounts{
     position: absolute;
     right: 30px;
-    top: 150px;
+    top: 130px;
     z-index: 10;
     width: 40px;
     height: 40px;
@@ -256,20 +258,23 @@ dialog{
 @media only screen and (max-width: 600px) {
     
     #notifications{
-    width: 85vw;
+    width: 75vw;
     height: 90vw;
     margin: 20px auto;
     
     
     }
     #new-entry{
-        min-height: 50vh;
+        height: auto;
+        width: 75vw;
+        margin: 20px auto;
         
         
     }
     #entry-preview{
     width: 85vw;
     border-left: none;
+    margin: 20px auto;
    
     
     }
