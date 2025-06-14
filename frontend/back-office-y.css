@@ -171,7 +171,7 @@ dialog{
     position: fixed;
     top: 45vh;
     left: 35vw;
-    background: rgba(0, 0, 0, 0.726);
+    background: rgba(0, 0, 0, 0.911);
     border-radius: 20px;
     color: white;
     text-align: center;
@@ -284,10 +284,9 @@ dialog{
         left: 20vw
     }
     #promote-div{
-    width:70vw;
-    
-    top: 45vh;
-    left: 15vw;
+    width:80vw;
+    top: 50vh;
+    left: 10vw;
     }
     #man-acc-div{
         position: absolute;
