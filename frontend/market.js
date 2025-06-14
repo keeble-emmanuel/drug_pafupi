@@ -5,19 +5,19 @@ let resultsFiltered;
 const fetchData =async()=>{
     const fetched = await fetch(`${window.location.origin}/all-users`)
     const results = await fetched.json();
-    console.log(results);
     const productsThumbnailDiv = document.createElement('div');
     productsThumbnailDiv.id = "products-thumbnail-div";
     productsThumbnailDivB.textContent = '';
+    
     var resultsFiltered = results.filter((el)=>{
         
-        var city = el.city ? el.city : 'lilongwe'
-        return city.toLowerCase() == citySelected.value
+        var city = el.city ? el.city.toLowerCase() : 'other'
+        return city.toLowerCase().trim() == citySelected.value
     })
     if(citySelected.value == 'all'){
         resultsFiltered =  results;
     }
-    console.log(resultsFiltered)
+    
     resultsFiltered.forEach((el)=>{
         productsThumbnailDiv.innerHTML += `
         <div class="products-thumbnail">
