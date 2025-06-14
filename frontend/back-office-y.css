@@ -258,7 +258,7 @@ dialog{
 @media only screen and (max-width: 600px) {
     
     #notifications{
-    width: 75vw;
+    width: 79vw;
     height: 90vw;
     margin: 20px auto;
     
@@ -266,7 +266,7 @@ dialog{
     }
     #new-entry{
         height: auto;
-        width: 75vw;
+        width: 79vw;
         margin: 20px auto;
         
         
