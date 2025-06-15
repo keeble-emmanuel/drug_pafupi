@@ -9,10 +9,10 @@ const fetchData =async()=>{
     const productsThumbnailDiv = document.createElement('div');
     productsThumbnailDiv.id = "products-thumbnail-div";
     productsThumbnailDivB.textContent = '';
+    var citiesz = ['zomba', 'blantyre', 'lilongwe', 'mzuzu']
     var resultsFiltered = results.filter((el)=>{
-        
-        var city = el.user_id.city ? el.user_id.city.trim() : 'other'
-        return city.toLowerCase() == citySelected.value
+        var city = !el.user_id.city ?'other': !citiesz.includes(el.user_id.city.toLowerCase().trim())? 'other':el.user_id.city;
+        return city.toLowerCase().trim() == citySelected.value
     })
     if(citySelected.value == 'all'){
         resultsFiltered =  results;
@@ -28,7 +28,7 @@ const fetchData =async()=>{
                     </div>
                     
                     <div class="product-details">
-                        <p>MWK ${el.price?el.price:'N/A'}<img src="cart.svg" class="icon"/> </p>
+                        <p>MWK ${el.price?el.price:'N/A'} </p>
                     </div>
                     
                     <div class="product-details">
