@@ -22,9 +22,12 @@ const fetchData =async()=>{
     }
     console.log(resultsFiltered, results)
     resultsFiltered.forEach((el)=>{
+        var img = el.dosageForm == 'tablet' || el.dosageForm == 'capsules' ?'download.png':
+            el.dosageForm == 'solution' || el.dosageForm == 'powder-for-reconstitution'?'istockphoto-1603361100-612x612.jpg':
+            el.dosageForm =='ointment'? 'photo-1631549916768-4119b2e5f926.jpeg':'photo-1607619056574-7b8d3ee536b2.jpeg'
         productsThumbnailDiv.innerHTML += `
         <div class="products-thumbnail">
-                <img class="search-thumbnail" src="istockphoto-1419246808-612x612.jpg"/>
+                <img class="search-thumbnail" src='${img}'/>
                 <div class="search-thumbnail-details">
                     <div class="product-details">
                         <p class="text-center">${el.tradeName} ${el.drugStrength}</p>
