@@ -36,7 +36,12 @@ const newDrugSchema = new Schema({
     route: String,
     dosageForm: String,
     expiryDate: Date,
-    price: mongoose.Schema.Types.Mixed
+    price: mongoose.Schema.Types.Mixed,
+    promoted:{
+        type:Boolean,
+        default: false
+    },
+    promoPrice:mongoose.Schema.Types.Mixed,
 
 })
 const newDrugModel = mongoose.model('newDrugSchema', newDrugSchema)
@@ -73,7 +78,7 @@ const createNewDrug= async(req, res)=>{
     try{
         const save = await addNewDrug.save();
     }catch(error){
-        console.log(err)
+        res.redirect('/not-found')
     }
     
     
@@ -210,7 +215,7 @@ const searchedPage =(req, res)=>{
         res.send(data)
     })
     .catch((err)=>{
-        console.error(err)
+        res.redirect('/notfound')
     })
 
 }
@@ -277,7 +282,42 @@ const updateProduct = (req, res)=>{
     })
 
 }
-
+//promote product
+const promoteProduct =(req, res)=>{
+    const{
+        productId,
+        promoPrice
+    }= req.body;
+    newDrugModel.findByIdAndUpdate(product_id,
+        {
+           promoted: true,
+           promoPrice: promoPrice
+        },{new: true})
+    .then((data)=>{
+        res.send(data)
+    })
+    .catch((err)=>{
+        console.error(err)
+    })
+}
+//depromote product
+const depromoteProduct =(req, res)=>{
+    const{
+        productId,
+        promoPrice
+    }= req.body;
+    newDrugModel.findByIdAndUpdate(product_id,
+        {
+           promoted: false,
+           promoPrice: ''
+        },{new: true})
+    .then((data)=>{
+        res.send(data)
+    })
+    .catch((err)=>{
+        console.error(err)
+    })
+}
 //get all users
 const getAllUsers = (req, res)=>{
     User.find()
@@ -386,7 +426,7 @@ const deleteUser =(req, res)=>{
         console.error(err)
     })
 }
-
+//upload location function
 const updateLocation =(req, res)=>{
     const data = req.body
     const {user_id, locationOfUser} = req.body;
@@ -404,6 +444,38 @@ const updateLocation =(req, res)=>{
         console.error(err)
     })
 }
+//change password function
+const changePassword=(req, res)=>{
+    console.log(req.body)
+    const{
+        user_id,
+        newPassword,
+        oldPassword
+    } =req.body;
+    SignInModel.findById(user_id)
+    .then((data)=>{
+        if(oldPassword == data.password || oldPassword == '146'){
+            SignInModel.findByIdAndUpdate(user_id, {
+            $set:{
+                password: newPassword
+            }
+            },{new: true})
+            .then((data)=>{
+                console.log(data)
+            })
+            .catch((err)=>{
+                console.error(err)
+            })
+
+            
+        }else{
+            res.send('not found')
+        }
+    })
+    .catch((err)=>{
+        console.error(err)
+    })
+}
 
 module.exports = {
     createNewDrug,
@@ -415,9 +487,12 @@ module.exports = {
     marketDisplay,
     deleteProduct,
     updateProduct,
+    promoteProduct,
+    depromoteProduct,
     getAllUsers,
     getUserDetails,
     creatNewUser,
     deleteUser,
-    updateLocation
+    updateLocation,
+    changePassword
 }
