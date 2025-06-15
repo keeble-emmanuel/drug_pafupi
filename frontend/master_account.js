@@ -5,7 +5,7 @@ const contactOfUser = document.getElementById('contact')
 const cityOfUser = document.getElementById('city')
 const username = document.getElementById('username')
 const password = document.getElementById('password')
-const confirmPassword = document.getElementById('confirm');
+
 const createAccBtn = document.getElementById("create-account")
 
 const personData = JSON.parse(localStorage.getItem("person-info")) || [];
@@ -38,13 +38,12 @@ const postNewaccount =async()=>{
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                name: nameOfUser.value,
-                city: cityOfUser.value,
-                locationOfUser: locationOfUser.value,
-                phone: contactOfUser.value,
-                username: username.value,
-                password:password.value,
-
+                name: nameOfUser.value.trim(),
+                city: cityOfUser.value.trim(),
+                locationOfUser: locationOfUser.value.trim(),
+                phone: contactOfUser.value.trim(),
+                username: username.value.trim(),
+                password:password.value.trim(),
             })
         }
         
