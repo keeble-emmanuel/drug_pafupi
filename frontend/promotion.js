@@ -9,14 +9,21 @@ const fetchData =async()=>{
     const productsThumbnailDiv = document.createElement('div');
     productsThumbnailDiv.id = "products-thumbnail-div";
     productsThumbnailDivB.textContent = '';
-    var citiesz = ['zomba', 'blantyre', 'lilongwe', 'mzuzu']
-    var resultsFiltered = results.filter((el)=>{
-        var city = !el.user_id.city ?'other': !citiesz.includes(el.user_id.city.toLowerCase().trim())? 'other':el.user_id.city;
-        return city.toLowerCase().trim() == citySelected.value
+    var filterpromo = results.filter((el)=>{
+        return el.promoted == true;
     })
-    if(citySelected.value == 'all'){
-        resultsFiltered =  results;
-    }
+    console.log(filterpromo)
+    var citiesz = ['zomba', 'blantyre', 'lilongwe', 'mzuzu']
+    var resultsFiltered = filterpromo.filter((el)=>{
+        if(citySelected.value == 'all'){
+            return resultsFiltered =  results;
+        }else{
+            var city = !el.user_id.city ?'other': !citiesz.includes(el.user_id.city.toLowerCase().trim())? 'other':el.user_id.city;
+            return city.toLowerCase().trim() == citySelected.value
+        }
+       
+    })
+    
     console.log(resultsFiltered)
     resultsFiltered.forEach((el)=>{
         productsThumbnailDiv.innerHTML += `
