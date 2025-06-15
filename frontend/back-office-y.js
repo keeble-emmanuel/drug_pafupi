@@ -16,6 +16,11 @@ const closeDeleteDialog = document.getElementById('confirm-close-dialog');
 const userHeading = document.getElementById('user-heading');
 const newpricePromotion = document.getElementById('new_price_input');
 const cancelUpdate = document.getElementById('cancel-update');
+const notificationsDisplay =  document.getElementById('notifications-display');
+const changePassword =  document.getElementById('change-password');
+const OldPassword =  document.getElementById('current-password');
+const newPassword =  document.getElementById('new-password');
+const confirmPassword =  document.getElementById('confirm-password');
 
 cancelUpdate.style.display = 'none'
 let userProducts;
@@ -104,7 +109,17 @@ const getUserDetails= async()=>{
     userHeading.innerHTML=`<p>${userDetailLS[0].name}</p>`
     
 }
-getUserDetails()
+getUserDetails();
+
+// addd some notifications
+if(!userDetailLS[0].location){
+    notificationsDisplay.innerHTML +=`
+        <li>Please submit your pharmacy location</li>
+    ` 
+}
+notificationsDisplay.innerHTML +=`
+        <li>Visit the promotion page regulary to check products that other pharmacies have promoted</li>
+    ` 
 //post new drug
 const postNewEntry =async()=>{
     const post = await fetch(`${window.location.origin}/new-product`,{
@@ -163,7 +178,7 @@ const getUserProducts = async()=>{
     const getproducts = await fetch(`${window.location.origin}/getproducts/${user_id}`)
     const data = await getproducts.json()
     userProducts = data;
-    const productsDisplay = document.createElement('ul');
+    const productsDisplay = document.createElement('ol');
     productsDisplay.id = "products-thumbnail-i";
     productsDisplayD.textContent = '';
     console.log(data, 'o')
@@ -338,4 +353,11 @@ confirmDeleteDialog.addEventListener('click', ()=>{
 })
 
 
+//change password
+changePassword.addEventListener('click', ()=>{
+    if(newPassword.value != confirmPassword){
+        alert('your passwords dont much')
+    }else{
+    }
+})
 
