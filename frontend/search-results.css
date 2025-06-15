@@ -61,6 +61,7 @@ body{
     height: 60%;
     border-top-left-radius: 7px;
     border-top-right-radius: 7px;
+    border-bottom: 2px solid var(--foreground-2);
 }
 .search-thumbnail-details{
     text-align: center;
