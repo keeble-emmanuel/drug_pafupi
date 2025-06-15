@@ -10,13 +10,13 @@ const fetchData =async()=>{
     productsThumbnailDivB.textContent = '';
     var citiesz = ['zomba', 'blantyre', 'lilongwe', 'mzuzu']
     var resultsFiltered = results.filter((el)=>{
-        var city = !citiesz.includes(el.city) || !el.city ?'none': el.city.toLowerCase() ;
+        var city = !el.city ?'other': !citiesz.includes(el.city.trim().toLowerCase())?'other': el.city ;
         return city.toLowerCase().trim() == citySelected.value
     })
     if(citySelected.value == 'all'){
         resultsFiltered =  results;
     }
-    
+    console.log(resultsFiltered, citySelected.value)
     resultsFiltered.forEach((el)=>{
         productsThumbnailDiv.innerHTML += `
         <div class="products-thumbnail">
