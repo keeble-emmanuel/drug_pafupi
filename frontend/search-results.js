@@ -11,15 +11,15 @@ const fetchData =async()=>{
     const productsThumbnailDiv = document.createElement('div');
     productsThumbnailDiv.id = "products-thumbnail-div";
     productsThumbnailDivB.textContent = '';
-     var citiesz = ['zomba', 'blantyre', 'lilongwe', 'mzuzu']
+    var citiesz = ['zomba', 'blantyre', 'lilongwe', 'mzuzu']
     var resultsFiltered = results.filter((el)=>{
-        var city = !citiesz.includes(el.user_id.city) || !el.user_id.city ?'other': el.user_id.city;
+        var city = !el.user_id.city ?'other': !citiesz.includes(el.user_id.city.toLowerCase().trim())? 'other':el.user_id.city;
         return city.toLowerCase().trim() == citySelected.value
     })
     if(citySelected.value == 'all'){
         resultsFiltered =  results;
     }
-    console.log(resultsFiltered, results)
+    
     resultsFiltered.forEach((el)=>{
         var img = el.dosageForm == 'tablet' || el.dosageForm == 'capsules' ?'download.png':
             el.dosageForm == 'solution' || el.dosageForm == 'powder-for-reconstitution'?'vial.png':
