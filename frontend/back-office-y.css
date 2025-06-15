@@ -25,7 +25,7 @@ h1{
     padding: 40px 0px 20px 0px;
     margin-top: 40px;
 }
-h4{
+h2{
     text-decoration: underline;
 }
 #container{
@@ -43,6 +43,13 @@ h4{
     border-radius: 20px;
     box-shadow: 5px 0px 40px rgba(0,0,0, .2);
     
+}
+#notifications-display{
+    margin: 5px 5px 3px 25px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+#notifications-display li{
+    padding: 1px 0px 5px 0px;
 }
 #new-entry{
     width:30vw;
