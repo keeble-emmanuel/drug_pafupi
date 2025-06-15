@@ -18,7 +18,7 @@ const newpricePromotion = document.getElementById('new_price_input');
 const cancelUpdate = document.getElementById('cancel-update');
 const notificationsDisplay =  document.getElementById('notifications-display');
 const changePassword =  document.getElementById('change-password');
-const OldPassword =  document.getElementById('current-password');
+const oldPassword =  document.getElementById('current-password');
 const newPassword =  document.getElementById('new-password');
 const confirmPassword =  document.getElementById('confirm-password');
 
@@ -143,6 +143,23 @@ const postNewEntry =async()=>{
     const response =  await post.json()
     console.log(response)
 }
+//post password change
+const postPasswordChange =async()=>{
+    const post = await fetch(`${window.location.origin}/change-password`,{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            newPassword: newPassword.value.trim(),
+            oldPassword: oldPassword.value.trim(),
+            user_id: personData[0].user_id
+        })
+    })
+    const response =  await post.json()
+    console.log(response)
+    alert(`${response.data}`)
+}
 //update post request
 const postUpdateEntry =async(parameter)=>{
     const post = await fetch(`${window.location.origin}/update-product`,{
@@ -171,6 +188,38 @@ const postUpdateEntry =async(parameter)=>{
 }
 
 
+//
+const postPromoteProduct =async()=>{
+    const post = await fetch(`${window.location.origin}/promote-product`,{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            newPassword: newPassword.value.trim(),
+            oldPassword: oldPassword.value.trim(),
+            user_id: personData[0].user_id
+        })
+    })
+    const response =  await post.json()
+    console.log(response)
+}
+//
+const postDepromoteProduct =async()=>{
+    const post = await fetch(`${window.location.origin}/depromote`,{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            newPassword: newPassword.value.trim(),
+            oldPassword: oldPassword.value.trim(),
+            user_id: personData[0].user_id
+        })
+    })
+    const response =  await post.json()
+    console.log(response)
+}
 //
 
 const getUserProducts = async()=>{
@@ -209,16 +258,18 @@ const deleteDialog=(par)=>{
     productToDelete.unshift(par)
     localStorage.setItem('product-delete', JSON.stringify(productToDelete))
     var todp =userProducts.filter((el)=>{
-        return el.id= par
+        return el._id == par
     })
-    dialogMsg.textContent = `delete ${todp[0].tradeName}`
+    console.log(todp)
+    dialogMsg.textContent = `delete ${todp[0].tradeName} ${todp[0].drugStrength} `
     confirmDeleteDialog.showModal()
 }
 //deleteDialog();
 const deleteProduct = async(par)=>{
     const del = await fetch(`${window.location.origin}/deleteProduct/${par}`)
     const response = await del.json()
-    console.log(response)
+    console.log(response);
+    
     
 }
 
@@ -287,19 +338,19 @@ enterNewEntry.addEventListener('click', ()=>{
             alert('not complete')
         }
         update = false;
-        window.location.reload()
+        
     }
     getUserProducts()
      update = false
-    //window.location.reload()
+    window.location.reload()
     
     
 })
 
 confirmDeleteButton.addEventListener("click", ()=>{
-    //window.location.reload()
-    getUserProducts()
+    //window.location.reload() 
     deleteProduct(productToDelete[0])
+    getUserProducts()
 })
 //cancel update
 cancelUpdate.addEventListener('click', ()=>{
@@ -355,9 +406,10 @@ confirmDeleteDialog.addEventListener('click', ()=>{
 
 //change password
 changePassword.addEventListener('click', ()=>{
-    if(newPassword.value != confirmPassword){
+    if(newPassword.value != confirmPassword.value){
         alert('your passwords dont much')
     }else{
+        postPasswordChange()
     }
 })
 
