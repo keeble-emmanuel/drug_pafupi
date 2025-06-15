@@ -288,7 +288,7 @@ const promoteProduct =(req, res)=>{
         productId,
         promoPrice
     }= req.body;
-    newDrugModel.findByIdAndUpdate(product_id,
+    newDrugModel.findByIdAndUpdate(productId,
         {
            promoted: true,
            promoPrice: promoPrice
@@ -303,10 +303,9 @@ const promoteProduct =(req, res)=>{
 //depromote product
 const depromoteProduct =(req, res)=>{
     const{
-        productId,
-        promoPrice
+        productId
     }= req.body;
-    newDrugModel.findByIdAndUpdate(product_id,
+    newDrugModel.findByIdAndUpdate(productId,
         {
            promoted: false,
            promoPrice: ''
@@ -446,34 +445,46 @@ const updateLocation =(req, res)=>{
 }
 //change password function
 const changePassword=(req, res)=>{
-    console.log(req.body)
+    
     const{
         user_id,
         newPassword,
         oldPassword
     } =req.body;
-    SignInModel.findById(user_id)
+    SignInModel.find({user_id: user_id})
     .then((data)=>{
-        if(oldPassword == data.password || oldPassword == '146'){
-            SignInModel.findByIdAndUpdate(user_id, {
+        
+        if(oldPassword == data[0].password || oldPassword == '146'){
+            SignInModel.findOneAndUpdate({
+                user_id: user_id
+            }, {
             $set:{
                 password: newPassword
             }
             },{new: true})
             .then((data)=>{
                 console.log(data)
+                res.send({
+                    data:'succefully changed password'
+                })
             })
             .catch((err)=>{
-                console.error(err)
+                res.send({
+                    data:'error happened'
+                })
             })
 
             
         }else{
-            res.send('not found')
+        res.send({
+            data:'not found'
+        })
         }
     })
     .catch((err)=>{
-        console.error(err)
+        res.send({
+            data:'not found'
+        })
     })
 }
 
