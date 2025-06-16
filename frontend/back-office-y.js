@@ -22,12 +22,14 @@ const oldPassword =  document.getElementById('current-password');
 const newPassword =  document.getElementById('new-password');
 const confirmPassword =  document.getElementById('confirm-password');
 
+
 cancelUpdate.style.display = 'none'
 let userProducts;
 let product_id;
 var userDetailArray =[];
 var update = false;
 let productToPromote;
+let todele = []
 
 
 const confirmDeleteDialog = document.getElementById('confirm-delete-dialog');
@@ -111,15 +113,7 @@ const getUserDetails= async()=>{
 }
 getUserDetails();
 
-// addd some notifications
-if(!userDetailLS[0].location){
-    notificationsDisplay.innerHTML +=`
-        <li>Please submit your pharmacy location</li>
-    ` 
-}
-notificationsDisplay.innerHTML +=`
-        <li>Visit the promotion page regulary to check products that other pharmacies have promoted</li>
-    ` 
+
 //post new drug
 const postNewEntry =async()=>{
     const post = await fetch(`${window.location.origin}/new-product`,{
@@ -196,9 +190,8 @@ const postPromoteProduct =async()=>{
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            newPassword: newPassword.value.trim(),
-            oldPassword: oldPassword.value.trim(),
-            user_id: personData[0].user_id
+            promoPrice:newpricePromotion.value.trim(),
+            productId: productPromote[0]
         })
     })
     const response =  await post.json()
@@ -212,9 +205,8 @@ const postDepromoteProduct =async()=>{
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            newPassword: newPassword.value.trim(),
-            oldPassword: oldPassword.value.trim(),
-            user_id: personData[0].user_id
+            
+            productId: productPromote[0]
         })
     })
     const response =  await post.json()
@@ -276,17 +268,29 @@ const deleteProduct = async(par)=>{
 //promoteFunction
 const promoteFunction =(par)=>{
     var idOf = event.target.id
+    
+    console.log(todele)
     if(productPromote.length >= 1){
         productPromote.pop()
         productPromote.unshift(par)
+    }else{
+       productPromote.unshift(par) 
     }
+    localStorage.setItem('productPromote', JSON.stringify(productPromote));
     var todele = userProducts.filter((el)=>{
         return el._id == par;
     })
-    document.getElementById('promote-h3').textContent='Promote ' + todele[0].tradeName;
-    document.getElementById('promotep').textContent= "old price MWK : "+todele[0].price;
+    console.log(todele)
+    if(!todele[0].promoted){
+        document.getElementById('promote-h3').textContent='Promote ' + todele[0].tradeName;
+        document.getElementById('promotep').textContent= "old price MWK : "+todele[0].price;
+    }else{
+        document.getElementById('promote-div-sub').textContent='depromote ' + todele[0].tradeName;
+        document.getElementById('promote-product').textContent='depromote' 
+    }
+    
     productPromote.unshift(par)
-    localStorage.setItem('productPromote', JSON.stringify(productPromote));
+    
     productToPromote = par;
     document.getElementById('promote-div').style.display='block';
 }
@@ -341,8 +345,8 @@ enterNewEntry.addEventListener('click', ()=>{
         
     }
     getUserProducts()
-     update = false
-    window.location.reload()
+    update = false
+    //window.location.reload()
     
     
 })
@@ -373,13 +377,12 @@ cancelUpdate.addEventListener('click', ()=>{
 newpricePromotion.addEventListener('keyup', ()=>{
     console.log(parseFloat(newpricePromotion.value))
     console.log(userProducts);
-    var todele = userProducts.filter((el)=>{
-        return el._id == productPromote[0]
+     var todele = userProducts.filter((el)=>{
+        return el._id == productPromote[0];
     })
-    console.log(todele)
     var percnt = parseFloat(newpricePromotion.value)/parseFloat(todele[0].price)*100
     console.log(percnt)
-    document.getElementById('promoper').textContent= percnt == NaN? '0': percnt + '%'
+    document.getElementById('promoper').textContent= percnt == NaN? '0': parseInt(percnt) + '%'
 
 })
 
@@ -402,7 +405,25 @@ document.getElementById('cancel-promotion').addEventListener('click', ()=>{
 confirmDeleteDialog.addEventListener('click', ()=>{
     confirmDeleteDialog.close()
 })
-
+//promote button in dialog
+document.getElementById('promote-product').addEventListener('click', ()=>{
+    //alert("wee")
+    producttobepromotedornot = userProducts.filter((el)=>{
+        return userProducts._id == productPromote[0]
+    })
+    if(postDepromoteProduct.promoted){
+        alert('depro')
+        postDepromoteProduct()
+        
+    }
+    else{
+        postPromoteProduct()
+        alert('pro')
+    }
+    document.getElementById('promote-div').style.display='none';
+    
+    getUserProducts()
+})
 
 //change password
 changePassword.addEventListener('click', ()=>{
@@ -413,3 +434,12 @@ changePassword.addEventListener('click', ()=>{
     }
 })
 
+// addd some notifications
+if(!userDetailLS[0].location){
+    notificationsDisplay.innerHTML +=`
+        <li>Please submit your pharmacy location</li>
+    ` 
+}
+notificationsDisplay.innerHTML +=`
+        <li>Visit the promotion page regulary to check products that other pharmacies have promoted</li>
+    ` 
