@@ -288,6 +288,8 @@ const promoteProduct =(req, res)=>{
         productId,
         promoPrice
     }= req.body;
+    console.log(req.body)
+    
     newDrugModel.findByIdAndUpdate(productId,
         {
            promoted: true,
@@ -305,10 +307,11 @@ const depromoteProduct =(req, res)=>{
     const{
         productId
     }= req.body;
+    console.log(req.body)
     newDrugModel.findByIdAndUpdate(productId,
         {
            promoted: false,
-           promoPrice: ''
+           promoPrice: 0
         },{new: true})
     .then((data)=>{
         res.send(data)
