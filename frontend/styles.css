@@ -71,9 +71,20 @@ h2{
     align-items: center;
     width: 500px;
     margin: 0px auto;
+    animation: slide 2s 0.25s;
     
    
 
+}
+@keyframes slide {
+  from{
+    transform: translateX(-20%);
+    opacity: 0
+  }
+  to{
+    transform: translateX(0);
+    opacity: 1
+  }
 }
 .jumbotron .input-group #search-btn{
     background: none;
