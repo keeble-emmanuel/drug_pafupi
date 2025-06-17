@@ -421,13 +421,13 @@ document.getElementById('promote-product').addEventListener('click', ()=>{
     })
     console.log(producttobepromotedornot, "eee")
     if(producttobepromotedornot[0].promoted == true){
-        alert('depro')
+        //alert('depro')
         postDepromoteProduct()
         
     }
     else{
         postPromoteProduct()
-        alert('pro')
+        //alert('pro')
     }
     document.getElementById('promote-div').style.display='none';
     
