@@ -19,9 +19,13 @@ const fetchData =async()=>{
     }
     console.log(resultsFiltered)
     resultsFiltered.forEach((el)=>{
+        var img = el.dosageForm == 'tablet' || el.dosageForm == 'capsules' ?'download.png':
+            el.dosageForm == 'solution' || el.dosageForm == 'powder-for-reconstitution'?'istockphoto-1304499871-612x612.jpg':
+            el.dosageForm == 'syrup'?'syrup.avif':
+            el.dosageForm =='ointment'? 'gettyimages-182665593-612x612.jpg':'eye.jpg'
         productsThumbnailDiv.innerHTML += `
         <div class="products-thumbnail">
-                <img class="search-thumbnail" src="download.png"/>
+                <img class="search-thumbnail" src="${img}"/>
                 <div class="search-thumbnail-details">
                     <div class="product-details">
                         <p class="text-center">${el.tradeName} ${el.drugStrength}</p>
