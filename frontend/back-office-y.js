@@ -199,7 +199,7 @@ const postPromoteProduct =async()=>{
 }
 //
 const postDepromoteProduct =async()=>{
-    const post = await fetch(`${window.location.origin}/depromote`,{
+    const post = await fetch(`${window.location.origin}/depromote-product`,{
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -284,9 +284,16 @@ const promoteFunction =(par)=>{
     if(!todele[0].promoted){
         document.getElementById('promote-h3').textContent='Promote ' + todele[0].tradeName;
         document.getElementById('promotep').textContent= "old price MWK : "+todele[0].price;
+        newpricePromotion.style.display ='inline'
+        document.getElementById('promote-product').textContent= "promote"
+
     }else{
-        document.getElementById('promote-div-sub').textContent='depromote ' + todele[0].tradeName;
-        document.getElementById('promote-product').textContent='depromote' 
+        document.getElementById('promote-h3').textContent='dePromote ' + todele[0].tradeName;
+        document.getElementById('promotep').textContent= ""
+        document.getElementById('promote-product').textContent= "depromote"
+        document.getElementById('promoper').textContent = ''
+        newpricePromotion.style.display ='none'
+       
     }
     
     productPromote.unshift(par)
@@ -408,10 +415,12 @@ confirmDeleteDialog.addEventListener('click', ()=>{
 //promote button in dialog
 document.getElementById('promote-product').addEventListener('click', ()=>{
     //alert("wee")
+    console.log(userProducts, "gfjf")
     producttobepromotedornot = userProducts.filter((el)=>{
-        return userProducts._id == productPromote[0]
+        return el._id == productPromote[0]
     })
-    if(postDepromoteProduct.promoted){
+    console.log(producttobepromotedornot, "eee")
+    if(producttobepromotedornot[0].promoted == true){
         alert('depro')
         postDepromoteProduct()
         
