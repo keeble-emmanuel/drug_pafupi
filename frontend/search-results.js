@@ -30,21 +30,17 @@ const fetchData =async()=>{
                 <div id="product-thumbnail-name-pcy">
                     <p >${el.user_id.name} pharmacy</p>
                 </div>
-                
-                <div class="product-details">
+                <div class="search-thumbnail-details">
+                    <div class="product-details">
                         <p>MWK ${el.price?el.price:'N/A'} </p>
-                </div>
-                <div class="location-icon">
-                    <a 
-                    href='https://www.google.com/maps/search/?api=1&query=${el.user_id.location[0]},${el.user_id.location[1]}'
-                    ><img src="location2.svg" class="icon"/>
-                    </a>
-                    
-                </div>
-                <div class="search-thumbnail-details">                  
-                    
-                    
-                    
+                    </div>
+                    <div class="location-icon">
+                        <a 
+                        href='https://www.google.com/maps/search/?api=1&query=${el.user_id.location[0]},${el.user_id.location[1]}'
+                        ><img src="location2.svg" class="icon"/>
+                        </a>
+                        
+                    </div>
                 </div>
                 
             </div>

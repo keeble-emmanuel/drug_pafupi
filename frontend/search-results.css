@@ -17,11 +17,11 @@ body{
     font-family: 'Times New Roman', Times, serif;
     font-size: 18px;
 }
-#select{
+.select{
     margin: 1px 20px 5px 90px;
     
 }
-#cities{
+.options{
     color:rgb(12, 12, 12);
     border: 1px;
     border-radius: 10px;
@@ -33,6 +33,14 @@ body{
     margin: 70px 0px 20px 0px;
     text-transform: uppercase;
 }
+#menu-bar{
+    width: 90vw;
+    height: 12vh;
+    display: flex;
+    justify-content: space-evenly;
+    border-radius: 10px;
+    margin: 0 auto;
+}
 #products-thumbnail-div{
     display: flex;
     flex-wrap: wrap; 
@@ -40,9 +48,6 @@ body{
     border: 1px solid rgba(21, 18, 18, 0);
     width: 100vw;
    
-    
-}
-.products-thumbnail:hover{
     
 }
 .products-thumbnail{
@@ -77,10 +82,13 @@ body{
 }
 .search-thumbnail-details{
     font-family: "Courier New";
+    width: 40%;
+    height: 100%;
+    
 }
 .product-details{
     width: calc(100%-50%);
-    height: 100%;
+    height: 50%;
     
 
 }
@@ -89,12 +97,10 @@ body{
     color: var(--foreground-2);
     font-size: 25px;
 }
-.location-icon{
-    position: relative;
-    transform: translate(230px, -40px);
-}
+
 .location-icon img{
     width: 40px;
+    transform: translateX(50%);
 
 }
 
@@ -130,16 +136,50 @@ body{
   }
 
   @media only screen and (max-width: 600px) {
-    #select{
+    #menu-bar{
+    width: 90vw;
+    height: 12vh;
+    display: grid;
+    border-radius: 10px;
+    margin: 10px auto;
+   
+}
+    .select{
         margin: 1px 20px 5px 30px;
     }
+
     .products-thumbnail{
-    width: 40vw;
-    height: 42vw;
-    font-size: 11px;
+    width: 70vw;
+    height: 20vw;
+    margin: 15px 5px;
     }
+    #product-thumbnail-name-pcy p{
+    font-size: 2.5rem;
+    
+    }
+    #product-thumbnail-name-pcy{
+    width: 60%;
+    height: 100%;
+    
+   
+    }
+    .product-details p{
+    
+    color: var(--foreground-2);
+    font-size: 1.8rem;
+    }
+    
+   
+
     .navbar #logo{
     height: 100px;
     top: -25px;
     }
   }
+
+   @media only screen and (max-width: 400px) {
+        #product-thumbnail-name-pcy p{
+        font-size: 2.0rem;
+        }
+   }
+
