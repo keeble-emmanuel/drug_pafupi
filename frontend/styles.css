@@ -134,34 +134,44 @@ h2{
     padding: 50px 0px;
 }
 .panel {
-    border: 1px solid var(--foreground-2);
-    border-radius:5px;
+    border-radius:15px;
     margin:  0px 30px 20px 30px;
     transition: box-shadow 0.5s;
-    height: 300px;
+    height: 250px;
     color: var(--foreground-2);
+    box-shadow: 5px 0px 40px rgba(68, 68, 68, 0.2);
   }
   
   .panel:hover {
-    box-shadow: 5px 0px 40px rgba(0,0,0, .2);
+    
     transform: scale(1.02, 1.02);
   }
   .big-panel h2 {
     padding: 10px 0px 10px 0px;
     color: var(--foreground-2);
+    text-transform: uppercase;
+    text-decoration: underline;
+  }
+  .panel h3{
+    font-size: 2.8rem;
+    color: rgb(155, 155, 158);
+    font-weight: bolder;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+  }
+  .panel p{
+    font-size: 2.0rem;
+    padding: 20px 5px 5px 5px;
   }
   .img-topic{
     width: 100%;
     height: 85%;
   }
-  .topic-subtitle{
-    width: 100%;
-    height: 15%;
-    padding: 4px 0px 4px 0px;
-    text-decoration:underline;
-    text-transform: capitalize;
+  .desc-panel{
+    height: 60vh
   }
-  
+  .desc-panel p{
+    padding: 12px 3px 4px 3px
+  }
 
   .navbar {
     margin-bottom: 0;
@@ -213,7 +223,7 @@ h2{
     *{
       max-width: 100vw;
       font-size: 16px;
-  }
+    }
     body{
       font-size: 14px;
     }
@@ -238,8 +248,21 @@ h2{
   }
   #search-results{
     width: 300px;
-    
    
+   
+  }
+  .panel{
+    height: 200px
+  }
+   .panel h3{
+    font-size: 2.8rem;
+  }
+  .panel p{
+    font-size: 2.0rem;
+    padding: 20px 5px 5px 5px;
+  }
+  .desc-panel{
+    height: fit-content
   }
   footer{
     width: 100vw;
