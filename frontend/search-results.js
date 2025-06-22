@@ -27,22 +27,24 @@ const fetchData =async()=>{
             el.dosageForm =='ointment'? 'gettyimages-182665593-612x612.jpg':'eye.jpg'
         productsThumbnailDiv.innerHTML += `
         <div class="products-thumbnail">
-                <img class="search-thumbnail" src='${img}'/>
-                <div class="search-thumbnail-details">
-                    <div class="product-details">
-                        <p class="text-center">${el.tradeName} ${el.drugStrength}</p>
-                    </div>
-                    
-                    <div class="product-details">
+                <div id="product-thumbnail-name-pcy">
+                    <p >${el.user_id.name} pharmacy</p>
+                </div>
+                
+                <div class="product-details">
                         <p>MWK ${el.price?el.price:'N/A'} </p>
-                    </div>
-                    
-                    <div class="product-details">
-                    <p>${el.user_id.name}<a 
+                </div>
+                <div class="location-icon">
+                    <a 
                     href='https://www.google.com/maps/search/?api=1&query=${el.user_id.location[0]},${el.user_id.location[1]}'
-                    ><img src="location2.svg" class="icon"/></a>
-                    </p>
-                    </div>
+                    ><img src="location2.svg" class="icon"/>
+                    </a>
+                    
+                </div>
+                <div class="search-thumbnail-details">                  
+                    
+                    
+                    
                 </div>
                 
             </div>
