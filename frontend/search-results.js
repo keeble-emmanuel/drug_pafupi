@@ -8,10 +8,21 @@ const searchFiters = JSON.parse(localStorage.getItem("searchfilter")) || [];
 const fetchData =async()=>{
     const fetched = await fetch(`${window.location.origin}/searched-page/${searchFiters[0].genericName}/${searchFiters[0].tradeName}`)
     const results = await fetched.json();
+    console.log(results)
     const productsThumbnailDiv = document.createElement('div');
     productsThumbnailDiv.id = "products-thumbnail-div";
     productsThumbnailDivB.textContent = '';
     var citiesz = ['zomba', 'blantyre', 'lilongwe', 'mzuzu']
+    //
+    var drugstrengthArray = [];
+    
+    results.forEach((el)=>{
+        drugstrengthArray.unshift(el.drugStrength)
+    })
+    var drugstrengthArray2 = [... new Set(drugstrengthArray)];
+    console.log(drugstrengthArray, drugstrengthArray2)
+    
+    //
     var resultsFiltered = results.filter((el)=>{
         var city = !el.user_id.city ?'other': !citiesz.includes(el.user_id.city.toLowerCase().trim())? 'other':el.user_id.city;
         return city.toLowerCase().trim() == citySelected.value
