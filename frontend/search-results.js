@@ -4,6 +4,45 @@ const citySelected = document.getElementById('cities')
 
 const searchFiters = JSON.parse(localStorage.getItem("searchfilter")) || [];
 
+const fetchData1 =async()=>{
+    const fetched = await fetch(`${window.location.origin}/searched-page/${searchFiters[0].genericName}/${searchFiters[0].tradeName}`)
+    const results = await fetched.json();
+    //
+    var drugstrengthArray = [];
+    
+    results.forEach((el)=>{
+        drugstrengthArray.unshift(el.drugStrength)
+    })
+    var drugstrengthArray2 = [... new Set(drugstrengthArray)];
+    console.log(drugstrengthArray, drugstrengthArray2)
+    document.getElementById('strength-select').innerHTML =`
+        <option value="all">all</option>
+    `
+    drugstrengthArray2.forEach((el)=>{
+        document.getElementById('strength-select').innerHTML +=`
+            <option value=${el}>${el}</option>
+        `
+    })
+    //
+    var drugformArray = [];
+    
+    results.forEach((el)=>{
+        drugformArray.unshift(el.dosageForm)
+    })
+    var drugformArray2 = [... new Set(drugformArray)];
+    console.log(drugformArray, drugformArray2)
+    document.getElementById('formulation-select').innerHTML =`
+        <option value="all">all</option>
+    `
+    drugformArray2.forEach((el)=>{
+        document.getElementById('formulation-select').innerHTML +=`
+            <option value=${el}>${el}</option>
+        `
+    })
+    
+    
+}
+fetchData1()
 
 const fetchData =async()=>{
     const fetched = await fetch(`${window.location.origin}/searched-page/${searchFiters[0].genericName}/${searchFiters[0].tradeName}`)
@@ -22,16 +61,41 @@ const fetchData =async()=>{
     var drugstrengthArray2 = [... new Set(drugstrengthArray)];
     console.log(drugstrengthArray, drugstrengthArray2)
     
-    //
+    //filter by city
     var resultsFiltered = results.filter((el)=>{
-        var city = !el.user_id.city ?'other': !citiesz.includes(el.user_id.city.toLowerCase().trim())? 'other':el.user_id.city;
-        return city.toLowerCase().trim() == citySelected.value
+        if(citySelected.value == 'all'){
+            return resultsFiltered =  results;
+        }else{
+            var city = !el.user_id.city ?'other': !citiesz.includes(el.user_id.city.toLowerCase().trim())? 'other':el.user_id.city;
+            return city.toLowerCase().trim() == citySelected.value
+        }
+        
     })
-    if(citySelected.value == 'all'){
-        resultsFiltered =  results;
-    }
+    console.log(resultsFiltered, '0', document.getElementById('strength-select').value)
+    //
+    var resultsFiltered1 = resultsFiltered.filter((el)=>{
+        if(document.getElementById('strength-select').value == 'all'){
+            return resultsFiltered1 = resultsFiltered
+        }else{
+            return el.drugStrength == document.getElementById('strength-select').value
+        }
+        
+        
+    })
+    console.log(resultsFiltered1)
+    //
+    var resultsFiltered2 = resultsFiltered1.filter((el)=>{
+         if(document.getElementById('formulation-select').value == 'all'){
+            return resultsFiltered2 = resultsFiltered1
+        }else{
+            return el.dosageForm == document.getElementById('formulation-select').value
+        }
+        
+    })
+    console.log(resultsFiltered2)
+    //
     
-    resultsFiltered.forEach((el)=>{
+    resultsFiltered2.forEach((el)=>{
         var img = el.dosageForm == 'tablet' || el.dosageForm == 'capsules' ?'download.png':
             el.dosageForm == 'solution' || el.dosageForm == 'powder-for-reconstitution'?'istockphoto-1304499871-612x612.jpg':
             el.dosageForm == 'syrup'?'syrup.avif':
@@ -63,8 +127,12 @@ const fetchData =async()=>{
 }
 fetchData()
 
-citySelected.addEventListener('change', ()=>{
-    //alert('sss')
-    
+citySelected.addEventListener('change', ()=>{   
+    fetchData();
+})
+document.getElementById('strength-select').addEventListener('change', ()=>{
+    fetchData();
+})
+document.getElementById('formulation-select').addEventListener('change', ()=>{
     fetchData();
 })
