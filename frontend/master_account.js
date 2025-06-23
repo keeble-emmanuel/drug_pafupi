@@ -4,24 +4,29 @@ const locationOfUser = document.getElementById('location')
 const contactOfUser = document.getElementById('contact')
 const cityOfUser = document.getElementById('city')
 const username = document.getElementById('username')
-const password = document.getElementById('password')
+const password = document.getElementById('password');
+const deleteDialog= document.getElementById('delete-dialog')
+const confirmDeleteBtn= document.getElementById('confirm-delete')
+const cancelDeletebtn= document.getElementById('cancel-delete')
 
 const createAccBtn = document.getElementById("create-account")
 
 const personData = JSON.parse(localStorage.getItem("person-info")) || [];
+let account_id_todelete
 
 const fetchRegisterOfAccounts =async()=>{
     const fetchs = await fetch(`${window.location.origin}/all-users`)
     const response = await fetchs.json()
     console.log(response)
     response.forEach((el)=>{
+        
         regAccounts.innerHTML += `
             <div class="individual-account">
                     <img src=""/>
                     <p class="text-center">${el.name} (${el.city})</p>
-                    <p>${el.phone?el.phone:'N/A'}</p>
+                    <p class="text-center">${el.phone?el.phone:'N/A'}</p>
                     <div id="button-div">
-                        <button id='${el._id}' class="text-center white-back-btn" onclick="deleteUserMain()">delete</p>
+                        <button id='${el._id}' class="text-center white-back-btn" onclick="deleteBtnFunc()">delete</p>
                         <button id='${el._id}' class="text-center white-back-btn" onclick="visitUserAcc()">visit</p>
                     </div>
                     
@@ -57,9 +62,13 @@ const postNewaccount =async()=>{
     
     
 }
-
+const deleteBtnFunc =()=>{
+    deleteDialog.style.display= 'block'
+    account_id_todelete = event.target.id;
+    console.log(account_id_todelete, 'ww')
+}
 const deleteUser =async(par)=>{
-    const fetchs = await fetch(`${window.location.origin}/keeble/delete-user/${par}`)
+    const fetchs = await fetch(`${window.location.origin}/keeble/delete-user/${account_id_todelete}`)
     const response = await fetchs.json()
     console.log(response)
 }
@@ -89,5 +98,14 @@ const visitUserAcc=()=>{
 fetchRegisterOfAccounts()
 createAccBtn.addEventListener('click', ()=>{
     postNewaccount();
+    //fetchRegisterOfAccounts()
     window.location.reload();
+})
+cancelDeletebtn.addEventListener('click', ()=>{
+    deleteDialog.style.display = 'none'
+})
+confirmDeleteBtn.addEventListener('click', ()=>{
+    deleteUser();
+    fetchRegisterOfAccounts();
+    deleteDialog.style.display = 'none'
 })
