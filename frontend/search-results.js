@@ -1,8 +1,10 @@
 const productsThumbnailDiv = document.getElementById('products-thumbnail-div')
 const productsThumbnailDivB = document.getElementById('products-thumbnail-div-b')
 const citySelected = document.getElementById('cities')
+const nameDisplay = document.getElementById('drug-names')
 
 const searchFiters = JSON.parse(localStorage.getItem("searchfilter")) || [];
+nameDisplay.textContent  = searchFiters[0].genericName +' (' + searchFiters[0].tradeName + ')'
 
 const fetchData1 =async()=>{
     const fetched = await fetch(`${window.location.origin}/searched-page/${searchFiters[0].genericName}/${searchFiters[0].tradeName}`)
