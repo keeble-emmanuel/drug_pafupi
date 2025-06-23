@@ -33,17 +33,23 @@ body{
     margin: 70px 0px 20px 0px;
     text-transform: uppercase;
 }
-#menu-bar{
-    width: 90vw;
+h3{
+    font-size: 18px;
+    text-decoration: underline;
+}
+.menu-bar{
+    width: fit-content;
     height: 12vh;
     display: flex;
-    justify-content: space-evenly;
+    flex-wrap: nowrap;
+    justify-content: space-around;
     border-radius: 10px;
     margin: 0 auto;
+   
 }
 #products-thumbnail-div{
     display: flex;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
     justify-content: space-evenly;   
     border: 1px solid rgba(21, 18, 18, 0);
     width: 100vw;
@@ -135,14 +141,17 @@ body{
   }
 
   @media only screen and (max-width: 600px) {
-    #menu-bar{
-    width: 90vw;
-    height: 12vh;
-    display: grid;
+    .menu-bar{
+    width: 80vw;
+    height: fit-content;
+    display:block;
+    
+   
     border-radius: 10px;
     margin: 10px auto;
    
-}
+    }
+
     .select{
         margin: 1px 20px 5px 30px;
     }
