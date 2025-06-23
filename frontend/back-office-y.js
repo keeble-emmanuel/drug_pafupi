@@ -31,6 +31,19 @@ var update = false;
 let productToPromote;
 let todele = []
 
+const setInputsBlack =()=>{
+    genericName.value= '';
+    tradeName.value= '';
+    drugStrength.value= ''
+    pcategory.value= ''
+    stockStat.value= ''
+    route.value=''
+    dosageForm.value= ''
+    expiryDate.value=''
+    price.value= ''
+    cancelUpdate.style.display='none'
+    enterNewEntry.textContent = 'Enter Product'
+}
 
 const confirmDeleteDialog = document.getElementById('confirm-delete-dialog');
 const confirmDeleteButton =  document.getElementById('confirm-delete-btn')
@@ -136,6 +149,7 @@ const postNewEntry =async()=>{
     })
     const response =  await post.json()
     console.log(response)
+    setInputsBlack()
 }
 //post password change
 const postPasswordChange =async()=>{
@@ -179,6 +193,7 @@ const postUpdateEntry =async(parameter)=>{
     })
     const response =  await post.json()
     console.log(response)
+    setInputsBlack()
 }
 
 
@@ -338,13 +353,17 @@ enterNewEntry.addEventListener('click', ()=>{
     if(!update){
         if( genericName.value && tradeName.value && drugStrength.value && expiryDate.value && dosageForm.value && route.value){
         postNewEntry()
+        getUserProducts()
+        setInputsBlack()
         }else{
             alert('not complete')
         }
         
     }else{
         if( genericName.value && tradeName.value && drugStrength.value && expiryDate.value && dosageForm.value && route.value){
-        postUpdateEntry()
+        postUpdateEntry();
+        getUserProducts()
+        setInputsBlack()
         }else{
             alert('not complete')
         }
@@ -366,17 +385,8 @@ confirmDeleteButton.addEventListener("click", ()=>{
 //cancel update
 cancelUpdate.addEventListener('click', ()=>{
     update = false;
-    genericName.value= '';
-    tradeName.value= '';
-    drugStrength.value= ''
-    pcategory.value= ''
-    stockStat.value= ''
-    route.value=''
-    dosageForm.value= ''
-    expiryDate.value=''
-    price.value= ''
-    cancelUpdate.style.display='none'
-    enterNewEntry.textContent = 'Enter Product'
+    setInputsBlack()
+   
 
 })
 
