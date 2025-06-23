@@ -100,7 +100,7 @@ h3{
 #new-account-div{
     margin: 100px auto;
     width: 100vw;
-    height: 80vh;
+    height: fit-content;
     background: var(--foreground-2);
     box-shadow: inset;
     color: rgb(251, 251, 249);
@@ -109,13 +109,15 @@ h3{
 }
 #new-account-div-inner{
     width: 50vw;
-    height: 90%;
-    margin: 4px auto;
+    height: fit-content;
+    margin: 10px auto;
     border: 1px solid rgb(255, 255, 255);
     border-radius: 10px;
     font-family: "Papyrus";
     font-size: 18px;
-    padding: 5px 20px 
+    padding: 5px 20px ;
+    margin-bottom: 10px;
+   
 }
 #new-account-div-inner h2{
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
@@ -133,6 +135,23 @@ h3{
     color: var(--foreground-1);
     border-radius: 20px;
     margin: 5px 0px;
+}
+
+#delete-dialog{
+    width: 30vw;
+    height: 20vh;
+    margin: 0 auto;
+    z-index: 999;
+    border: 1px solid rgb(15, 4, 95);
+    position: fixed;
+    left: calc((100vw - 30vw)/2);
+    top: calc(100vh/2.5);
+    background: var(--foreground-2);
+    color: white;
+    border-radius: 20px;
+    padding: 5px 5px 5px 10px;
+    display:none;
+    
 }
 button{
    
@@ -249,6 +268,14 @@ footer img{
 
         #new-account-div-inner{
             width: 80vw;
+        }
+        #delete-dialog{
+            width: 60vw;
+            height: 30vh;
+            left: calc((100vw - 60vw)/2);
+            top: calc(100vh/2.5);
+            
+    
         }
 
         .individual-account{
