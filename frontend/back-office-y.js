@@ -334,8 +334,12 @@ const editFunction=(par)=>{
     pcategory.value= userProducts[0].drugCategory
     stockStat.value= userProducts[0].drugStockstatus
     route.value=userProducts[0].route
-    dosageForm.value= userProducts[0].dosageForm ? userProducts[0].dosageForm : 'tablet'
-    expiryDate.value=userProducts[0].expiryDate ? userProducts[0].expiryDate: '2025-12-12'
+    dosageForm.value= userProducts[0].dosageForm ? userProducts[0].dosageForm : 'tablet';
+    //date formats
+    const datefromserver = userProducts[0].expiryDate;
+    const formatdaate = String(datefromserver).substring(0, 10);
+    expiryDate.value= formatdaate;
+    //
     price.value= userProducts[0].price?userProducts[0].price: 100
     console.log(userProducts);
     enterNewEntry.textContent = 'update'
