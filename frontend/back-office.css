@@ -18,8 +18,8 @@ body{
 }
 /* Custom spinner animation */
 .spinner {
-    border: 8px solid rgba(158, 153, 153, 0.3);
-    border-top: 8px solid rgb(7, 206, 241); /* Blue color for the spinner */
+    border: 8px solid rgba(158, 153, 153, 0);
+    border-top: 8px solid rgba(183, 185, 185, 0.623); /* Blue color for the spinner */
     border-radius: 50%;
     width: 60px;
     height: 60px;
