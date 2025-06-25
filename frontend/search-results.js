@@ -116,10 +116,13 @@ const fetchData =async()=>{
                     <p >${el.user_id.name} pharmacy</p>
                 </div>
                 <div class="search-thumbnail-details">
-                    <div class="product-details">
-                        <p>MWK ${el.price?el.price:'N/A'} </p>
+                    <div class="product-details bar">
+                        <p><b>MWK ${el.price?el.price:'N/A'} </b></p>
                     </div>
-                    <div class="location-icon">
+                    <div class="product-details bar">
+                        <p>${el.drugStrength?el.drugStrength:'N/A'} </p>
+                    </div>
+                    <div class="location-icon bar">
                         <a 
                         href='https://www.google.com/maps/search/?api=1&query=${el.user_id.location[0]},${el.user_id.location[1]}'
                         ><img src="location2.svg" class="icon"/>

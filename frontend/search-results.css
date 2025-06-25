@@ -96,15 +96,18 @@ h3{
     width: calc(100%-50%);
     height: 50%;
 }
-.product-details p{
-    
+.product-details p{ 
     color: var(--foreground-2);
-    font-size: 25px;
+    font-size: 18px;
+}
+.bar{
+    height: calc(100%/3);
+    font-size: 16px;
 }
 
 .location-icon img{
     width: 40px;
-    transform: translateX(50%);
+    transform: translate(50%, -15%);
     padding-bottom: 7px;
 
 }
@@ -174,10 +177,14 @@ h3{
     .product-details p{
     
     color: var(--foreground-2);
-    font-size: 1.8rem;
+    
     }
     .location-icon img{
-    transform: translateY(-10%);
+    transform: translate(50%, -10%);
+    width: 25px;
+    }
+    .bar{
+        font-size: 12px;
     }
 
     .navbar #logo{
@@ -192,6 +199,9 @@ h3{
         }
         .location-icon img{
         transform: translateY(-15%);
+        }
+        .bar{
+            font-size: 12px;
         }
    }
 
