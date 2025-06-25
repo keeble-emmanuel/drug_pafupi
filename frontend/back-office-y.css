@@ -18,6 +18,55 @@ body{
     font-family: 'Times New Roman', Times, serif;
     
 }
+/* Custom spinner animation */
+.spinner {
+    border: 8px solid rgba(131, 129, 129, 0);
+    border-top: 8px solid rgba(183, 185, 185, 0.966); /* Blue color for the spinner */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Animation for fading out the loading screen */
+.fade-out {
+    animation: fadeOut 1s forwards;
+}
+
+@keyframes fadeOut {
+    0% { opacity: 1; }
+    100% { opacity: 0; visibility: hidden; }
+}
+
+/* Loading Screen Container */
+#loading-screen {
+    position: fixed;
+    inset: 0; /* top:0; right:0; bottom:0; left:0; */
+    background-color: #1a202c25; /* bg-gray-900 */
+    z-index: 50;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease-in-out;
+    border-radius: 0.5rem; /* rounded-lg */
+    width: 100vw;
+    height: 100vh;
+}
+
+#loading-screen p {
+    margin-bottom: 1.5rem; /* mb-6 */
+    font-size: 1.25rem; /* text-xl */
+    line-height: 1.75rem; /* text-xl */
+    font-weight: 600; /* font-semibold */
+    color: #d1d5db; /* text-gray-300 */
+    text-align: center
+}
 h1{
     font-size: 45px;
     text-transform: uppercase;

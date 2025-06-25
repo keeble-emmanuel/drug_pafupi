@@ -21,6 +21,7 @@ const changePassword =  document.getElementById('change-password');
 const oldPassword =  document.getElementById('current-password');
 const newPassword =  document.getElementById('new-password');
 const confirmPassword =  document.getElementById('confirm-password');
+const loadingScreen = document.getElementById('loading-screen')
 
 
 cancelUpdate.style.display = 'none'
@@ -59,6 +60,7 @@ const personLocation = JSON.parse(localStorage.getItem("person-location")) || []
 //console.log(personLocation[0].lat);
 
 const postLocation =async()=>{
+    loadingScreen.style.display = 'grid'
     const postit = await fetch(`${window.location.origin}/update-location`,{
         method: 'POST',
         headers: {
@@ -77,6 +79,7 @@ const postLocation =async()=>{
     }else{
         alert('not succefull')
     }
+    loadingScreen.style.display = 'none'
 }
 //
 //postLocation()
@@ -110,8 +113,15 @@ const postChangeSignIn = ()=>{
 }
 //get user details
 const getUserDetails= async()=>{
+    loadingScreen.style.display = 'grid'
     const dofetch = await fetch(`${window.location.origin}/get_user/${personData[0].user_id}`);
-    const data = await dofetch.json()
+    const data = await dofetch.json();
+    if(!data.location){
+    notificationsDisplay.innerHTML +=`
+        <li>Please submit your pharmacy location</li>
+    `  
+    }
+    userDetailArray= data
     
     if (userDetailLS.length>=1){
         userDetailLS.pop()
@@ -122,6 +132,7 @@ const getUserDetails= async()=>{
     
     localStorage.setItem('user-details', JSON.stringify(userDetailLS));
     userHeading.innerHTML=`<p>${userDetailLS[0].name}</p>`
+    loadingScreen.style.display = 'none'
     
 }
 getUserDetails();
@@ -129,6 +140,7 @@ getUserDetails();
 
 //post new drug
 const postNewEntry =async()=>{
+    
     const post = await fetch(`${window.location.origin}/new-product`,{
         method: 'POST',
         headers: {
@@ -150,9 +162,11 @@ const postNewEntry =async()=>{
     const response =  await post.json()
     console.log(response)
     setInputsBlack()
+    
 }
 //post password change
 const postPasswordChange =async()=>{
+    loadingScreen.style.display  = 'grid'
     const post = await fetch(`${window.location.origin}/change-password`,{
         method: 'POST',
         headers: {
@@ -167,9 +181,12 @@ const postPasswordChange =async()=>{
     const response =  await post.json()
     console.log(response)
     alert(`${response.data}`)
+    loadingScreen.style.display = 'none'
 }
+
 //update post request
 const postUpdateEntry =async(parameter)=>{
+    
     const post = await fetch(`${window.location.origin}/update-product`,{
         method: 'POST',
         headers: {
@@ -193,7 +210,8 @@ const postUpdateEntry =async(parameter)=>{
     })
     const response =  await post.json()
     console.log(response)
-    setInputsBlack()
+    setInputsBlack();
+    
 }
 
 
@@ -230,6 +248,7 @@ const postDepromoteProduct =async()=>{
 //
 
 const getUserProducts = async()=>{
+    loadingScreen.style.display = 'grid'
     const user_id= personData[0].user_id
     const getproducts = await fetch(`${window.location.origin}/getproducts/${user_id}`)
     const data = await getproducts.json()
@@ -250,19 +269,20 @@ const getUserProducts = async()=>{
         `
     })
     productsDisplayD.appendChild(productsDisplay);
-    //cancelUpdate.style.display = 'none'
+    loadingScreen.style.display = 'none'
 }
 getUserProducts()
-//delete product function
 
+//delete product function
 const deleteDialog=(par)=>{
     const idto = event.target.id
-    //console.log(event.target.id, "feef")
     if(productToDelete.length != 0){
         productToDelete.pop();
         productToDelete.unshift(par)
+    }else{
+        productToDelete.unshift(par)
     }
-    productToDelete.unshift(par)
+    
     localStorage.setItem('product-delete', JSON.stringify(productToDelete))
     var todp =userProducts.filter((el)=>{
         return el._id == par
@@ -276,6 +296,10 @@ const deleteProduct = async(par)=>{
     const del = await fetch(`${window.location.origin}/deleteProduct/${par}`)
     const response = await del.json()
     console.log(response);
+    if(response){
+        getUserProducts()
+    }
+    
     
     
 }
@@ -320,7 +344,7 @@ const promoteFunction =(par)=>{
 
 // edit entry function
 const editFunction=(par)=>{
-    getUserProducts()
+    
     cancelUpdate.style.display = 'inline'
     window.location.href = "#back-office"
     userProducts=userProducts.filter((el)=>{
@@ -382,9 +406,8 @@ enterNewEntry.addEventListener('click', ()=>{
 })
 
 confirmDeleteButton.addEventListener("click", ()=>{
-    //window.location.reload() 
-    deleteProduct(productToDelete[0])
-    getUserProducts()
+    deleteProduct(productToDelete[0]);
+    
 })
 //cancel update
 cancelUpdate.addEventListener('click', ()=>{
@@ -458,11 +481,10 @@ changePassword.addEventListener('click', ()=>{
 })
 
 // addd some notifications
-if(!userDetailLS[0].location){
-    notificationsDisplay.innerHTML +=`
-        <li>Please submit your pharmacy location</li>
-    ` 
-}
+console.log(userDetailArray, 'ss')
+//
+
+
 notificationsDisplay.innerHTML +=`
         <li>Visit the promotion page regulary to check products that other pharmacies have promoted</li>
     ` 
