@@ -113,12 +113,14 @@ const postChangeSignIn = ()=>{
 }
 //get user details
 const getUserDetails= async()=>{
+    console.log('kk')
     loadingScreen.style.display = 'grid'
     const dofetch = await fetch(`${window.location.origin}/get_user/${personData[0].user_id}`);
     const data = await dofetch.json();
-    if(!data.location){
+    console.log(data)
+    if(data.location.length == 0){
     notificationsDisplay.innerHTML +=`
-        <li>Please submit your pharmacy location</li>
+        <li>visit the profile icon to submit your google map coordinates (location)</li>
     `  
     }
     userDetailArray= data
@@ -451,14 +453,14 @@ confirmDeleteDialog.addEventListener('click', ()=>{
 })
 //promote button in dialog
 document.getElementById('promote-product').addEventListener('click', ()=>{
-    //alert("wee")
+    
     console.log(userProducts, "gfjf")
     producttobepromotedornot = userProducts.filter((el)=>{
         return el._id == productPromote[0]
     })
     console.log(producttobepromotedornot, "eee")
     if(producttobepromotedornot[0].promoted == true){
-        //alert('depro')
+        
         postDepromoteProduct()
         
     }
