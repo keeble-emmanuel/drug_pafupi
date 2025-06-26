@@ -295,10 +295,9 @@ const deleteDialog=(par)=>{
 const deleteProduct = async(par)=>{
     const del = await fetch(`${window.location.origin}/deleteProduct/${par}`)
     const response = await del.json()
+    getUserProducts()
     console.log(response);
-    if(response){
-        getUserProducts()
-    }
+    
     
     
     
@@ -448,6 +447,7 @@ document.getElementById('cancel-promotion').addEventListener('click', ()=>{
 
 confirmDeleteDialog.addEventListener('click', ()=>{
     confirmDeleteDialog.close()
+    getUserProducts()
 })
 //promote button in dialog
 document.getElementById('promote-product').addEventListener('click', ()=>{
