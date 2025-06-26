@@ -96,16 +96,16 @@ const fetchData =async()=>{
     })
     console.log(resultsFiltered2)
     //
-    var resultsFiltered3 = resultsFiltered2.reduce((acc, current)=>{
+    /*var resultsFiltered3 = resultsFiltered2.reduce((acc, current)=>{
         if(!acc.find((item)=> item.user_id.name == current.user_id.name)){
             acc.push(current)
         }
         return acc
     }, [])
-    console.log(resultsFiltered3)
+    console.log(resultsFiltered3)*/
     //
     
-    resultsFiltered3.forEach((el)=>{
+    resultsFiltered2.forEach((el)=>{
         var img = el.dosageForm == 'tablet' || el.dosageForm == 'capsules' ?'download.png':
             el.dosageForm == 'solution' || el.dosageForm == 'powder-for-reconstitution'?'istockphoto-1304499871-612x612.jpg':
             el.dosageForm == 'syrup'?'syrup.avif':
