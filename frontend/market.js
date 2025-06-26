@@ -28,6 +28,7 @@ const fetchData =async()=>{
                     ><img src="location2.svg"/></a></p>
                     
                 </div>
+                <div class='text-center'>${el.city}</div>
             </div>
     `
     })
