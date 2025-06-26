@@ -44,6 +44,9 @@ const fetchData =async()=>{
                     ><img src="location2.svg" class="icon"/></a>
                     </p>
                     </div>
+                    <div class="product-details">
+                        <p>${el.user_id.phone?el.user_id.phone:'N/A'} </p>
+                    </div>
                 </div>
                 
             </div>
