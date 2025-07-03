@@ -65,8 +65,8 @@ h3{
 .products-thumbnail{
     display: flex;
     flex-wrap: wrap;
-    width: 310px;
-    height: 100px;
+    width: 360px;
+    height: 120px;
     box-shadow: 5px 0px 40px rgba(0,0,0, .2);
     margin: 15px 5px;
     border-radius: 10px;
@@ -149,7 +149,7 @@ h3{
     color: var(--foreground-1) !important;
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 700px) {
     .menu-bar{
     width: 80vw;
     height: fit-content;
@@ -166,16 +166,16 @@ h3{
     }
 
     .products-thumbnail{
-    width: 70vw;
+    width: 80vw;
     height: 20vw;
     margin: 15px 5px;
     }
     #product-thumbnail-name-pcy p{
-    font-size: 2.5rem;
+    font-size: 2.0rem;
     
     }
     #product-thumbnail-name-pcy{
-    width: 60%;
+    width: 50%;
     height: 100%;
     
    
@@ -190,7 +190,7 @@ h3{
     width: 25px;
     }
     .bar{
-        font-size: 12px;
+        font-size: 6px;
     }
 
     .navbar #logo{
@@ -207,7 +207,7 @@ h3{
         transform: translateY(-15%);
         }
         .bar{
-            font-size: 12px;
+            font-size: 8px;
         }
    }
 

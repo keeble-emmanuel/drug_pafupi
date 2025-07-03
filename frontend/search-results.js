@@ -104,12 +104,14 @@ const fetchData =async()=>{
         console.log(priceArray,'ooo')
         
     })
+    console.log(priceArray)
     var total = priceArray.reduce((a, b)=>{
-            return a+b
+            return a + b
         })
     console.log(total, "total", resultsFiltered2.length)
-    avg_price = total/parseInt(resultsFiltered2.length)
-    console.log(avg_price)
+    var divded =resultsFiltered2.length
+    avg_price = parseInt(total) / parseInt(divded)
+    console.log(avg_price, divded)
     avg_price_display.textContent = 'AVG_Price: '+ avg_price
     //
     
@@ -125,7 +127,7 @@ const fetchData =async()=>{
                 </div>
                 <div class="search-thumbnail-details">
                     <div class="product-details bar">
-                        <p><b>MWK ${el.price?el.price:'N/A'} </b></p>
+                        <p><b>exp:${el.expiryDate?el.expiryDate.substring(0, 7):'N/A'} </b></p>
                     </div>
                     <div class="product-details bar">
                         <p>${el.drugStrength?el.drugStrength:'N/A'} </p>
