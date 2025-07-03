@@ -2,6 +2,7 @@ const productsThumbnailDiv = document.getElementById('products-thumbnail-div')
 const productsThumbnailDivB = document.getElementById('products-thumbnail-div-b')
 const citySelected = document.getElementById('cities')
 const nameDisplay = document.getElementById('drug-names')
+const avg_price_display = document.getElementById('avg_price')
 
 const searchFiters = JSON.parse(localStorage.getItem("searchfilter")) || [];
 nameDisplay.textContent  = searchFiters[0].genericName +' (' + searchFiters[0].tradeName + ')'
@@ -96,13 +97,20 @@ const fetchData =async()=>{
     })
     console.log(resultsFiltered2)
     //
-    /*var resultsFiltered3 = resultsFiltered2.reduce((acc, current)=>{
-        if(!acc.find((item)=> item.user_id.name == current.user_id.name)){
-            acc.push(current)
-        }
-        return acc
-    }, [])
-    console.log(resultsFiltered3)*/
+    var priceArray = []
+    var avg_price = 0
+    resultsFiltered2.forEach((el)=>{
+        priceArray.unshift(el.price)
+        console.log(priceArray,'ooo')
+        
+    })
+    var total = priceArray.reduce((a, b)=>{
+            return a+b
+        })
+    console.log(total, "total", resultsFiltered2.length)
+    avg_price = total/parseInt(resultsFiltered2.length)
+    console.log(avg_price)
+    avg_price_display.textContent = 'AVG_Price: '+ avg_price
     //
     
     resultsFiltered2.forEach((el)=>{

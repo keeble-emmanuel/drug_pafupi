@@ -48,6 +48,11 @@ h3{
     margin: 0 auto;
    
 }
+#avg_price{
+    text-align: center;
+    font-size: 25px;
+    color: red;
+}
 #products-thumbnail-div{
     display: flex;
     flex-wrap: wrap;
