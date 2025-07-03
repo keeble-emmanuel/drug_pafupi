@@ -153,6 +153,16 @@ h3{
     display:none;
     
 }
+.btn-div{
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    
+}
+.btn-div button{
+    margin: 0 auto;
+}
 button{
    
     color: rgb(245, 241, 242);
