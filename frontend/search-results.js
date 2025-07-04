@@ -112,7 +112,7 @@ const fetchData =async()=>{
     var divded =resultsFiltered2.length
     avg_price = parseFloat(total) / parseFloat(divded)
     console.log(avg_price, divded)
-    avg_price_display.textContent = 'AVG_Price: '+ avg_price.toFixed(2)
+    avg_price_display.textContent = 'AVG_Price: K'+ avg_price.toFixed(2)
     //
     
     resultsFiltered2.forEach((el)=>{
