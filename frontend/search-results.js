@@ -106,13 +106,13 @@ const fetchData =async()=>{
     })
     console.log(priceArray)
     var total = priceArray.reduce((a, b)=>{
-            return a + b
-        })
+            return parseFloat(a) + parseFloat(b)
+        }, 0)
     console.log(total, "total", resultsFiltered2.length)
     var divded =resultsFiltered2.length
-    avg_price = parseInt(total) / parseInt(divded)
+    avg_price = parseFloat(total) / parseFloat(divded)
     console.log(avg_price, divded)
-    avg_price_display.textContent = 'AVG_Price: '+ avg_price
+    avg_price_display.textContent = 'AVG_Price: '+ avg_price.toFixed(2)
     //
     
     resultsFiltered2.forEach((el)=>{

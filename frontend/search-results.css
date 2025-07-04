@@ -51,13 +51,12 @@ h3{
 #avg_price{
     text-align: center;
     font-size: 25px;
-    color: red;
+    color: var(--foreground-2);
 }
 #products-thumbnail-div{
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;   
-    border: 1px solid rgba(21, 18, 18, 0);
     width: 100vw;
    
     
@@ -75,14 +74,9 @@ h3{
 .products-thumbnail:hover{
     transform: scale(1.02, 1.02);
 }
-.search-thumbnail{
-    width:30%;
-    height: 30%;
-    border-radius: 50%;
-    border: 2px solid var(--foreground-2);
-}
+
 #product-thumbnail-name-pcy{
-    width: 60%;
+    width: 50%;
     height: 100%;
    
 }
@@ -94,13 +88,14 @@ h3{
 }
 .search-thumbnail-details{
     font-family: "Courier New";
-    width: 40%;
+    width: 50%;
     height: 100%;
     
 }
 .product-details{
     width: calc(100%-50%);
     height: 50%;
+    
 }
 .product-details p{ 
     color: var(--foreground-2);
@@ -207,7 +202,7 @@ h3{
         transform: translateY(-15%);
         }
         .bar{
-            font-size: 8px;
+            font-size: 6px;
         }
    }
 
