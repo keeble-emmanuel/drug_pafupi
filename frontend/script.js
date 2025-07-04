@@ -22,9 +22,29 @@ const fetchResults = async()=>{
        //console.log(data)
        console.log(info[0])
        resut = info;
-       console.log(resut)
+       console.log(info)
+       info2 = info.sort((a, b)=>
+        a.tradeName - b.tradeName
+       )
+       
+       const sortByKey = (arr, key) => {
+        return [...arr].sort((a, b) => {
+            const valA = a[key].toLowerCase(); 
+            const valB = b[key].toLowerCase(); 
+            if (valA < valB) {
+            return -1;
+            }
+            if (valA > valB) {
+            return 1;
+            }
+            return 0; 
+        });
+        };
+        const sortedProducts = sortByKey(info, 'tradeName');
+       
+       
        displaySearchResults.textContent = ''
-       info.forEach(el => {
+       sortedProducts.forEach(el => {
         
         displaySearchResults.innerHTML +=
         `<li>

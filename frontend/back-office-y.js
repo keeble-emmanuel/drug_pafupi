@@ -259,7 +259,21 @@ const getUserProducts = async()=>{
     productsDisplay.id = "products-thumbnail-i";
     productsDisplayD.textContent = '';
     console.log(data, 'o')
-    data.forEach((el)=>{
+    const sortByKey = (arr, key) => {
+        return [...arr].sort((a, b) => {
+            const valA = a[key].toLowerCase(); 
+            const valB = b[key].toLowerCase(); 
+            if (valA < valB) {
+            return -1;
+            }
+            if (valA > valB) {
+            return 1;
+            }
+            return 0; 
+        });
+        };
+    const sortedProducts = sortByKey(data, 'tradeName');
+    sortedProducts.forEach((el)=>{
         
         productsDisplay.innerHTML +=`
             <li>
