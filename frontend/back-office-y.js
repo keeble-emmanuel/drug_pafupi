@@ -21,7 +21,8 @@ const changePassword =  document.getElementById('change-password');
 const oldPassword =  document.getElementById('current-password');
 const newPassword =  document.getElementById('new-password');
 const confirmPassword =  document.getElementById('confirm-password');
-const loadingScreen = document.getElementById('loading-screen')
+const loadingScreen = document.getElementById('loading-screen');
+const completeScreen = document.getElementById('completeScreenContainer');
 
 
 cancelUpdate.style.display = 'none'
@@ -57,10 +58,8 @@ const productPromote = JSON.parse(localStorage.getItem("product-promote")) || []
 const personLocation = JSON.parse(localStorage.getItem("person-location")) || [];
 
 //post location
-//console.log(personLocation[0].lat);
-
 const postLocation =async()=>{
-    loadingScreen.style.display = 'grid'
+    //loadingScreen.style.display = 'grid'
     const postit = await fetch(`${window.location.origin}/update-location`,{
         method: 'POST',
         headers: {
@@ -79,7 +78,7 @@ const postLocation =async()=>{
     }else{
         alert('not succefull')
     }
-    loadingScreen.style.display = 'none'
+    //loadingScreen.style.display = 'none'
 }
 //
 //postLocation()
@@ -92,7 +91,6 @@ function showPosition(position) {
     }
     personLocation.unshift(loc);
     localStorage.setItem('person-location', JSON.stringify(personLocation));
-    const nowurl=`https://www.google.com/maps/search/?api=1&query=${lati},${longt}`
     postLocation()
     //window.open(nowurl)
 
@@ -101,19 +99,18 @@ function showPosition(position) {
 locationBtn.addEventListener('click', ()=>{
     
     if(navigator.geolocation){
-        const pos = navigator.geolocation.getCurrentPosition(showPosition)
+        completeScreen.style.display = 'grid';
+        const pos = navigator.geolocation.getCurrentPosition(showPosition);
+        setTimeout(() => {
+            completeScreen.style.display = 'none';      
+        }, 2000);
        
     }else{
         console.log('please allow location')
     }
 })
-//post change sign credentials
-const postChangeSignIn = ()=>{
-
-}
 //get user details
 const getUserDetails= async()=>{
-    console.log('kk')
     loadingScreen.style.display = 'grid'
     const dofetch = await fetch(`${window.location.origin}/get_user/${personData[0].user_id}`);
     const data = await dofetch.json();
@@ -303,7 +300,6 @@ const deleteDialog=(par)=>{
     var todp =userProducts.filter((el)=>{
         return el._id == par
     })
-    console.log(todp)
     dialogMsg.textContent = `delete ${todp[0].tradeName} ${todp[0].drugStrength} `
     confirmDeleteDialog.showModal()
 }
@@ -311,19 +307,12 @@ const deleteDialog=(par)=>{
 const deleteProduct = async(par)=>{
     const del = await fetch(`${window.location.origin}/deleteProduct/${par}`)
     const response = await del.json()
-    getUserProducts()
-    console.log(response);
-    
-    
-    
-    
+    getUserProducts()   
 }
 
 //promoteFunction
 const promoteFunction =(par)=>{
     var idOf = event.target.id
-    
-    console.log(todele)
     if(productPromote.length >= 1){
         productPromote.pop()
         productPromote.unshift(par)
@@ -365,7 +354,6 @@ const editFunction=(par)=>{
     userProducts=userProducts.filter((el)=>{
         return el._id.toLowerCase() == par
     })
-    console.log(userProducts);
     product_id = userProducts[0]._id
     genericName.value= userProducts[0].genericName;
     tradeName.value= userProducts[0].tradeName;
@@ -380,7 +368,6 @@ const editFunction=(par)=>{
     expiryDate.value= formatdaate;
     //
     price.value= userProducts[0].price?userProducts[0].price: 100
-    console.log(userProducts);
     enterNewEntry.textContent = 'update'
     update = true;
     
@@ -434,13 +421,10 @@ cancelUpdate.addEventListener('click', ()=>{
 
 //keyup in promotion
 newpricePromotion.addEventListener('keyup', ()=>{
-    console.log(parseFloat(newpricePromotion.value))
-    console.log(userProducts);
      var todele = userProducts.filter((el)=>{
         return el._id == productPromote[0];
     })
     var percnt = parseFloat(newpricePromotion.value)/parseFloat(todele[0].price)*100
-    console.log(percnt)
     document.getElementById('promoper').textContent= percnt == NaN? '0': parseInt(percnt) + '%'
 
 })
@@ -467,23 +451,18 @@ confirmDeleteDialog.addEventListener('click', ()=>{
 })
 //promote button in dialog
 document.getElementById('promote-product').addEventListener('click', ()=>{
-    
-    console.log(userProducts, "gfjf")
     producttobepromotedornot = userProducts.filter((el)=>{
         return el._id == productPromote[0]
     })
     console.log(producttobepromotedornot, "eee")
     if(producttobepromotedornot[0].promoted == true){
-        
-        postDepromoteProduct()
-        
+        postDepromoteProduct()  
     }
     else{
         postPromoteProduct()
         //alert('pro')
     }
     document.getElementById('promote-div').style.display='none';
-    
     getUserProducts()
 })
 
@@ -495,10 +474,6 @@ changePassword.addEventListener('click', ()=>{
         postPasswordChange()
     }
 })
-
-// addd some notifications
-console.log(userDetailArray, 'ss')
-//
 
 
 notificationsDisplay.innerHTML +=`
