@@ -154,7 +154,7 @@ h2{
   }
   .panel h3{
     font-size: 2.5rem;
-    color: rgb(155, 155, 158);
+    color: rgb(136, 142, 194);
     font-weight: bolder;
     font-family: Georgia, 'Times New Roman', Times, serif;
   }
@@ -187,6 +187,7 @@ h2{
   
   .navbar li a, .navbar .navbar-brand {
     color: rgb(250, 249, 249) !important;
+    font-size: 14px;
   }
   .navbar #logo{
     position: absolute;
@@ -245,6 +246,9 @@ h2{
   .navbar #logo{
     height: 100px;
     top: -25px;
+  }
+   .navbar li a {
+    font-size: 10px;
   }
   #search-results{
     width: 300px;

@@ -41,7 +41,7 @@ h1{
     flex-wrap: wrap; 
     justify-content: space-evenly;   
     border: 1px solid rgba(21, 18, 18, 0);
-    width: 100vw;
+    width: 95vw;
    
     
 }
@@ -54,7 +54,8 @@ h1{
     border: 2px solid var(--foreground-2);
     margin: 15px 5px;
     border-radius: 10px;
-     transition: box-shadow 0.5s;
+    transition: box-shadow 0.5s;
+    text-transform: uppercase;
 }
 .products-thumbnail:hover{
     transform: scale(1.02, 1.02);
@@ -77,6 +78,7 @@ h1{
     font-size: clamp(11px, 2vw, 14px );
     justify-items: center;
     text-align: center;
+    
     
 
 }
@@ -107,7 +109,7 @@ h1{
   }
   
   .navbar-nav li a:hover, .navbar-nav li.active a {
-    color: var(--melon) !important;
+    color: var(--foreground-2) !important;
     background-color: rgb(255, 255, 255) !important;
   }
   
