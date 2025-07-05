@@ -199,14 +199,14 @@ const doPopulate =()=>{
 }
 
 const searchedPage =(req, res)=>{
-    const { genericName, tradeName }  = req.params;
-    console.log(genericName, tradeName)
+    const { generic, trade }  = req.body;
+    console.log(generic, trade)
     newDrugModel.find({
         $and:[
-            {genericName: genericName
+            {genericName: generic
                 
             },
-            {tradeName: tradeName}
+            {tradeName: trade}
 
         ]
     }).

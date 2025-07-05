@@ -8,8 +8,18 @@ const searchFiters = JSON.parse(localStorage.getItem("searchfilter")) || [];
 nameDisplay.textContent  = searchFiters[0].genericName +' (' + searchFiters[0].tradeName + ')'
 
 const fetchData1 =async()=>{
-    const fetched = await fetch(`${window.location.origin}/searched-page/${searchFiters[0].genericName}/${searchFiters[0].tradeName}`)
+    const fetched = await fetch(`${window.location.origin}/searched-page`,{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            generic:searchFiters[0].genericName,
+            trade:searchFiters[0].tradeName
+        })
+    })
     const results = await fetched.json();
+    console.log(results)
     //
     var drugstrengthArray = [];
     
@@ -19,7 +29,7 @@ const fetchData1 =async()=>{
     var drugstrengthArray2 = [... new Set(drugstrengthArray)];
     console.log(drugstrengthArray, drugstrengthArray2)
     document.getElementById('strength-select').innerHTML =`
-        <option value="all">all</option>
+        <option value = "all">all</option>
     `
     drugstrengthArray2.forEach((el)=>{
         document.getElementById('strength-select').innerHTML +=`
@@ -48,7 +58,16 @@ const fetchData1 =async()=>{
 fetchData1()
 
 const fetchData =async()=>{
-    const fetched = await fetch(`${window.location.origin}/searched-page/${searchFiters[0].genericName}/${searchFiters[0].tradeName}`)
+     const fetched = await fetch(`${window.location.origin}/searched-page`,{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            generic:searchFiters[0].genericName,
+            trade:searchFiters[0].tradeName
+        })
+    })
     const results = await fetched.json();
     console.log(results)
     const productsThumbnailDiv = document.createElement('div');
@@ -78,6 +97,7 @@ const fetchData =async()=>{
     //
     var resultsFiltered1 = resultsFiltered.filter((el)=>{
         if(document.getElementById('strength-select').value == 'all'){
+            console.log(resultsFiltered)
             return resultsFiltered1 = resultsFiltered
         }else{
             return el.drugStrength == document.getElementById('strength-select').value
