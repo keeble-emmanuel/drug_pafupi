@@ -46,9 +46,9 @@ app.post('/new-product', controller.createNewDrug)
 //update product
 app.post('/update-product', controller.updateProduct)
 //searched page
-app.post('/searched-page/', controller.searchedPage)
+app.post('/searched-page', controller.searchedPage)
 //display all products
-app.get('/all-products', controller.marketDisplay)
+app.get('/all-products', controller.marketDisplay)git 
 //sign-in
 app.post('/sign-in', controller.signInfunx)
 //
