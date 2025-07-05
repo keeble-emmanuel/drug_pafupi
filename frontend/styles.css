@@ -78,11 +78,11 @@ h2{
 }
 @keyframes slide {
   from{
-    transform: translateX(-5%);
+    transform: translateY(25%);
     opacity: 0
   }
   to{
-    transform: translateX(0);
+    transform: translateY(0);
     opacity: 1
   }
 }
