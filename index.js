@@ -48,7 +48,7 @@ app.post('/update-product', controller.updateProduct)
 //searched page
 app.post('/searched-page', controller.searchedPage)
 //display all products
-app.get('/all-products', controller.marketDisplay)git 
+app.get('/all-products', controller.marketDisplay)
 //sign-in
 app.post('/sign-in', controller.signInfunx)
 //
