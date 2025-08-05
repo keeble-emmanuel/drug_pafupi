@@ -6,8 +6,8 @@ var log_id = 1;
 mongoose.connect('mongodb+srv://keeble:140076812keeble@cluster0.it6ej.mongodb.net/');
 // user signin credentials
 const signIschema = new Schema({
-    username: String,
-    password: String,
+    username: {type:String,trim: true},
+    password: {type: String, trim: true},
     user_id: {
         type: mongoose.Schema.Types.ObjectId, ref: 'User'
     }
@@ -16,10 +16,10 @@ const SignInModel = mongoose.model('signInSchema', signIschema)
 
 //user details schema
 const userDetails =  new Schema({
-    name: String,
+    name: {type: String, trim: true},
     location: Array,
-    city: String,
-    phone: mongoose.Schema.Types.Mixed,
+    city: {type:String, trim: true},
+    phone: {type:mongoose.Schema.Types.Mixed, trim: true},
 })
 const User = mongoose.model('User', userDetails)
 
