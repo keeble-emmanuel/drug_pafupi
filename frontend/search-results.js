@@ -9,7 +9,8 @@ const searchFiters = JSON.parse(localStorage.getItem("searchfilter")) || [];
 nameDisplay.textContent  = searchFiters[0].genericName +' (' + searchFiters[0].tradeName + ')'
 var allData = []
 var filtered = []
-const fetchData1 =async()=>{
+const fetchData =async()=>{
+    loadingScreen.style.display = 'grid'
     const fetched = await fetch(`${window.location.origin}/searched-page`,{
         method: 'POST',
         headers: {
@@ -69,11 +70,12 @@ const fetchData1 =async()=>{
     })
     var drugstrengthArray2 = [... new Set(drugstrengthArray)];
     console.log(drugstrengthArray, drugstrengthArray2) 
+    loadingScreen.style.display = 'none'
     
 }
-fetchData1()
 
-const fetchData =async(params)=>{
+
+const filterFetchData =async(params)=>{
    
     var citiesz = ['zomba', 'blantyre', 'lilongwe', 'mzuzu']
     //
@@ -174,22 +176,22 @@ const displaynow=async(params)=>{
 }
 
 const organise=async()=>{
-    await fetchData1();
-    await fetchData(allData)
+    await fetchData();
+    await filterFetchData(allData)
     displaynow(filtered)
 }
 
 organise()
 
 citySelected.addEventListener('change', async()=>{   
-    await fetchData(allData)
+    await filterFetchData(allData)
     displaynow(filtered)
 })
 document.getElementById('strength-select').addEventListener('change', async()=>{
-    await fetchData(allData)
+    await filterFetchData(allData)
     displaynow(filtered)
 })
 document.getElementById('formulation-select').addEventListener('change', async()=>{
-    await fetchData(allData)
+    await filterFetchData(allData)
     displaynow(filtered)
 })
