@@ -1,7 +1,14 @@
 const { type } = require('express/lib/response');
+const  z  = require('zod');
 const mongoose = require('mongoose');
 const Schema  = mongoose.Schema;
 var log_id = 1;
+
+const pswdSchema = z.object({
+    username : z.string(),
+    password : z.union([z.string(), z.number()])
+})
+
 
 mongoose.connect('mongodb+srv://keeble:140076812keeble@cluster0.it6ej.mongodb.net/');
 // user signin credentials
@@ -86,7 +93,10 @@ const createNewDrug= async(req, res)=>{
 
 const signInfunx =async(req, res)=>{
     const data = req.body;
-    const { username }= req.query;
+    const check = pswdSchema.safeParse(req.body)
+    if(!check){
+        return res.status(404).send('didnt validate succefully')
+    }
     if(!data.username || !data.password){
         res.json({
             response: 'incomplete'
@@ -120,11 +130,11 @@ const signInfunx =async(req, res)=>{
 }
 
 const searchDrug = async(req, res)=>{
-    const searchResults = []
+    
     const { searchWord } = req.body;
     const reg = new RegExp(`.*${searchWord}.*`, 'i')
     console.log(searchWord, reg)
-    const datatosend = []
+    
     try{
         const piple = [{
             $match:{
@@ -344,6 +354,12 @@ const getUserDetails=(req, res)=>{
 }
 
 //create new user
+const newuserZodSchema = z.object({
+    name : z.string().max(25),
+    city: z.string().max(25),
+    phone: z.number().max(10),
+    password: z.string()
+})
 const creatNewUser = async(req, res)=>{
     const{
         name,
@@ -354,6 +370,10 @@ const creatNewUser = async(req, res)=>{
         password
     } = req.body;
     console.log(username);
+    const check =  newuserZodSchema.safeParse(req.body)
+    if (!check.success){
+        return res.status(404)
+    }
     
     const addUser = new User({
         name:name,
