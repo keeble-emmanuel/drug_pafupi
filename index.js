@@ -2,10 +2,14 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const controller = require('./controller')
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
 const PORT = 3000
 
 app.use(bodyParser.json())
 app.use(express.static('frontend'))
+app.use(mongoSanitize());
+app.use(xss());
 
 //search input controller
 app.post('/', controller.searchDrug)
