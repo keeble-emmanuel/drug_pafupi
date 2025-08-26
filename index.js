@@ -2,10 +2,27 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const controller = require('./controller')
+const fs = require('fs');
+const path = require('path');
 const PORT = 3000
+const multer = require('multer')
 
 app.use(bodyParser.json())
 app.use(express.static('frontend'))
+const uploadDir = './uploads'
+if(!fs.existsSync(uploadDir)){
+  fs.mkdirSync(uploadDir)
+}
+// Multer is a middleware for handling multipart/form-data, used for file uploads.
+const storage = multer.diskStorage({  
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  }
+});
+const upload = multer({ storage: storage });
 
 //search input controller
 app.post('/', controller.searchDrug)
@@ -43,6 +60,10 @@ app.post('/update-location', controller.updateLocation)
 app.get('/keeble/delete-user/:idtodelete', controller.deleteUser)
 //create product
 app.post('/new-product', controller.createNewDrug)
+
+//upload products using excel sheet
+app.post(':user_id/upload',upload.single('excelFile'), controller.uploadFromExcel)
+
 //update product
 app.post('/update-product', controller.updateProduct)
 //searched page

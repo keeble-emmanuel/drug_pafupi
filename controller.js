@@ -1,6 +1,9 @@
 const { type } = require('express/lib/response');
 const mongoose = require('mongoose');
+const xlsx  = require('xlsx');
 const Schema  = mongoose.Schema;
+const fs = require('fs');
+const path = require('path');
 var log_id = 1;
 
 mongoose.connect('mongodb+srv://keeble:140076812keeble@cluster0.it6ej.mongodb.net/');
@@ -28,14 +31,14 @@ const newDrugSchema = new Schema({
     user_id: {
         type: mongoose.Schema.Types.ObjectId, ref: 'User'
     },
-    genericName: String,
-    tradeName: String,
-    drugStrength: String,
-    drugCategory: String,
-    drugStockstatus: String,
+    genericName: {type:String, required: true},
+    tradeName: {type:String, required: true},
+    drugStrength: {type:String, required: true},
+    drugCategory: {type:String,required: true},
+    drugStockstatus: {type:String,required: true},
     route: String,
     dosageForm: String,
-    expiryDate: Date,
+    expiryDate:{type: Date, required: true},
     price: mongoose.Schema.Types.Mixed,
     promoted:{
         type:Boolean,
@@ -82,6 +85,49 @@ const createNewDrug= async(req, res)=>{
     }
     
     
+}
+//upload excell
+const uploadFromExcel=async(req, res)=>{
+    const{ user_id } = req.params
+    try {
+    // Check if a file was uploaded.
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file uploaded.' });
+    }
+
+    const filePath = req.file.path;
+    const workbook = xlsx.readFile(filePath);
+    const sheetName = workbook.SheetNames[0];
+    
+    // Get the worksheet object.
+    const worksheet = workbook.Sheets[sheetName];
+    
+    // Convert the worksheet data to a JSON array.
+    // Each row in the Excel sheet becomes an object in the array.
+    const jsonData = xlsx.utils.sheet_to_json(worksheet);
+    console.log(jsonData)
+   const dataWithUserId = jsonData.map(doc => ({
+  ...doc,
+  userId: user_id
+}));
+  console.log(jsonData)
+    const result = await newDrugModel.insertMany(jsonData);
+    fs.unlinkSync(filePath);
+
+    // Send a success response.
+    res.status(200).json({
+      message: 'Data successfully transferred to MongoDB.',
+      insertedCount: result.length
+    });
+
+  } catch (error) {
+    console.error('Error during data transfer:', error);
+    // Send a detailed error response.
+    res.status(500).json({
+      message: 'An error occurred during the data transfer.',
+      error: error.message
+    });
+  }
 }
 
 const signInfunx =async(req, res)=>{
@@ -493,6 +539,7 @@ const changePassword=(req, res)=>{
 
 module.exports = {
     createNewDrug,
+    uploadFromExcel,
     signInfunx,
     searchDrug,
     getUserproducts,

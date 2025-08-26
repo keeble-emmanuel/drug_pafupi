@@ -23,7 +23,7 @@ const newPassword =  document.getElementById('new-password');
 const confirmPassword =  document.getElementById('confirm-password');
 const loadingScreen = document.getElementById('loading-screen');
 const completeScreen = document.getElementById('completeScreenContainer');
-
+const uploadExcel = document.getElementById('upload-excel')
 
 cancelUpdate.style.display = 'none'
 let userProducts;
@@ -163,6 +163,8 @@ const postNewEntry =async()=>{
     setInputsBlack()
     
 }
+
+
 //post password change
 const postPasswordChange =async()=>{
     loadingScreen.style.display  = 'grid'
@@ -473,6 +475,27 @@ changePassword.addEventListener('click', ()=>{
     }else{
         postPasswordChange()
     }
+})
+uploadExcel.addEventListener('click', async(e)=>{
+    e.preventDefault()
+    //alert('wee')
+    const filex = document.getElementById('file-excelx');
+    const file = filex.files[0]
+    const formData = new FormData();
+    formData.append('excelFile', file)
+    try{
+        const fet = await fetch(`${window.location.origin}/${personData[0].user_id}/upload`, {
+        method: 'POST',
+        body: formData
+
+        })
+       
+        const res = await fet.json()
+        console.log(res)
+    }catch(err){
+        console.error(err)
+    }
+     
 })
 
 
