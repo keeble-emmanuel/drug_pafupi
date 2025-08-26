@@ -121,12 +121,14 @@ h2{
     padding: 20px 0px 20px 0px;
 }
 
-#notifications{
+.div-class{
     width: 30vw;
-    height: 40vw;
+    height: 45vw;
     border: 1px solid var(--foreground-1);
     border-radius: 20px;
     box-shadow: 5px 0px 40px rgba(0,0,0, .2);
+    padding: 5px 5px;
+    text-align: center;
     
 }
 #notifications-display{
@@ -137,8 +139,8 @@ h2{
     padding: 1px 0px 5px 0px;
 }
 #new-entry{
-    width:30vw;
-    height: 40vw;
+    width:40vw;
+    height: 45vw;
     backdrop-filter: blur(20px);
     border: 1px solid var(--foreground-1);
     border-radius: 20px;
@@ -352,7 +354,7 @@ dialog{
 
 @media only screen and (max-width: 600px) {
     
-    #notifications{
+    .div-class{
     width: 79vw;
     height: 90vw;
     margin: 20px auto;

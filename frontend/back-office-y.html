@@ -25,7 +25,7 @@
             
         <button id="accounts"><img src="account.svg"/></button>
         <div id ="container">
-          <div id="notifications">
+          <div id="notifications" class="div-class">
                   <h2 class="text-center">Notifications</h2>
                   <ol id="notifications-display">
 
@@ -83,7 +83,15 @@
                 </form>
                 <button id="entry-btn" class="back-office-y-btn">Enter Product</button>
                 <button id="cancel-update" class="back-office-y-btn">cancel</button>
+                <div>
+                  <form style=" margin: 10px auto;">
+                    <h2 class="text-center">submit excel file</h2>
+                    <input type="file" name="excelFile"/>
+                    <button class="back-office-y-btn">submit</button>
+                  </form>
+                </div>
               </div>
+              
               <!--products-->
               <div id="entry-preview"class="col-sm-8" >
                 <h2>products appearing on the market</h2>
