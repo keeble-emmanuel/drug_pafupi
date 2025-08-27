@@ -29,7 +29,8 @@ const User = mongoose.model('User', userDetails)
 //product schema
 const newDrugSchema = new Schema({
     user_id: {
-        type: mongoose.Schema.Types.ObjectId, ref: 'User'
+        type: mongoose.Schema.Types.ObjectId, ref: 'User',
+        required: true
     },
     genericName: {type:String, required: true},
     tradeName: {type:String, required: true},
@@ -89,6 +90,7 @@ const createNewDrug= async(req, res)=>{
 //upload excell
 const uploadFromExcel=async(req, res)=>{
     const{ user_id } = req.params
+    console.log(user_id)
     try {
     // Check if a file was uploaded.
     if (!req.file) {
@@ -106,12 +108,14 @@ const uploadFromExcel=async(req, res)=>{
     // Each row in the Excel sheet becomes an object in the array.
     const jsonData = xlsx.utils.sheet_to_json(worksheet);
     console.log(jsonData)
+    
    const dataWithUserId = jsonData.map(doc => ({
   ...doc,
-  userId: user_id
+  user_id: user_id
 }));
-  console.log(jsonData)
-    const result = await newDrugModel.insertMany(jsonData);
+  console.log(dataWithUserId)
+    const result = await newDrugModel.insertMany(dataWithUserId);
+    console.log(dataWithUserId)
     fs.unlinkSync(filePath);
 
     // Send a success response.
