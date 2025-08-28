@@ -4,6 +4,7 @@ const xlsx  = require('xlsx');
 const Schema  = mongoose.Schema;
 const fs = require('fs');
 const path = require('path');
+const multer = require('multer')
 var log_id = 1;
 
 mongoose.connect('mongodb+srv://keeble:140076812keeble@cluster0.it6ej.mongodb.net/');
@@ -50,6 +51,23 @@ const newDrugSchema = new Schema({
 })
 const newDrugModel = mongoose.model('newDrugSchema', newDrugSchema)
 
+const storage = multer.diskStorage({  
+  
+  destination: (req, file, cb) => {
+    const { user_id } =req.params;
+
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    const { user_id } =req.params;
+    User.findById(user_id)
+    .then((data)=>{
+        console.log(data)
+        cb(null, `${data.name}-${file.originalname}`);
+    })
+    
+  }
+});
 
 const createNewDrug= async(req, res)=>{
     const { username }= req.query;
@@ -542,6 +560,7 @@ const changePassword=(req, res)=>{
 }
 
 module.exports = {
+    storage,
     createNewDrug,
     uploadFromExcel,
     signInfunx,
