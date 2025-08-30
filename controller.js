@@ -109,9 +109,7 @@ const createNewDrug= async(req, res)=>{
         const save = await addNewDrug.save();
     }catch(error){
         res.redirect('/not-found')
-    }
-    
-    
+    }    
 }
 //upload excell
 const uploadFromExcel=async(req, res)=>{
@@ -137,7 +135,7 @@ const uploadFromExcel=async(req, res)=>{
     
    const dataWithUserId = jsonData.map(doc => ({
   ...doc,
-  user_id: user_id
+  user_id: user_id, expiryDate: new Date(doc.expiryDate)
 }));
   console.log(dataWithUserId)
     await newDrugModel.deleteMany({user_id: user_id})
@@ -172,7 +170,6 @@ const signInfunx =async(req, res)=>{
     }else{
         await SignInModel.find({username: data.username})
         .then((datas)=>{
-            
             if(datas[0].password == data.password){
                 log_id = data.password
                 res.send({
@@ -499,8 +496,7 @@ const deleteUser =(req, res)=>{
         }
         catch(err){
             console.error(err)
-        }
-        
+        }  
     })
     .catch((err)=>{
         console.error(err)

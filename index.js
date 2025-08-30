@@ -25,8 +25,12 @@ app.get('/',)
 app.get('/new_product', (req, res)=>{
     res.sendFile(__dirname + "/frontend/back-office.html")
 })
+//log in master account
+app.get('/ad12min1', (req, res)=>{
+    res.sendFile(__dirname + "/frontend/back-office-con.html")
+})
 //master-account
-app.get('/keeble', (req, res)=>{
+app.get('/ad12min2', (req, res)=>{
     res.sendFile(__dirname + "/frontend/master_account.html")
 })
 //404 page

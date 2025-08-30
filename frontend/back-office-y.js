@@ -92,12 +92,9 @@ function showPosition(position) {
     personLocation.unshift(loc);
     localStorage.setItem('person-location', JSON.stringify(personLocation));
     postLocation()
-    //window.open(nowurl)
-
-    
+    //window.open(nowurl)    
 }
 locationBtn.addEventListener('click', ()=>{
-    
     if(navigator.geolocation){
         completeScreen.style.display = 'grid';
         const pos = navigator.geolocation.getCurrentPosition(showPosition);
@@ -131,15 +128,11 @@ const getUserDetails= async()=>{
     
     localStorage.setItem('user-details', JSON.stringify(userDetailLS));
     userHeading.innerHTML=`<p>${userDetailLS[0].name}</p>`
-    loadingScreen.style.display = 'none'
-    
+    loadingScreen.style.display = 'none'    
 }
 getUserDetails();
-
-
 //post new drug
 const postNewEntry =async()=>{
-    
     const post = await fetch(`${window.location.origin}/new-product`,{
         method: 'POST',
         headers: {
@@ -163,8 +156,6 @@ const postNewEntry =async()=>{
     setInputsBlack()
     
 }
-
-
 //post password change
 const postPasswordChange =async()=>{
     loadingScreen.style.display  = 'grid'
@@ -350,7 +341,6 @@ const promoteFunction =(par)=>{
 
 // edit entry function
 const editFunction=(par)=>{
-    
     cancelUpdate.style.display = 'inline'
     window.location.href = "#back-office"
     userProducts=userProducts.filter((el)=>{
@@ -371,10 +361,7 @@ const editFunction=(par)=>{
     //
     price.value= userProducts[0].price?userProducts[0].price: 100
     enterNewEntry.textContent = 'update'
-    update = true;
-    
-    
-
+    update = true;   
 }
 if(!update){
     enterNewEntry.textContent = 'Enter Product';
