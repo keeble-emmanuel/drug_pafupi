@@ -492,10 +492,15 @@ uploadExcel.addEventListener('click', async(e)=>{
        
         const res = await fet.json()
         console.log(res)
-        completeScreen.style.display = 'grid';
-        setTimeout(() => {
-            completeScreen.style.display = 'none';      
-        }, 2000);
+        if (res.message == 'success'){
+            completeScreen.style.display = 'grid';
+            setTimeout(() => {
+                completeScreen.style.display = 'none';      
+            }, 2000);
+        }else{
+            alert(res.error)
+        }
+        
     }catch(err){
         console.error(err)
     }finally{

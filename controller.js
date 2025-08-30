@@ -34,7 +34,7 @@ const newDrugSchema = new Schema({
         required: true
     },
     genericName: {type:String, required: true},
-    tradeName: {type:String, required: true},
+    tradeName: {type:String, required: true, uppercase: true},
     drugStrength: {type:String, required: true},
     drugCategory: {type:String,required: true},
     drugStockstatus: {type:String,required: true},
@@ -51,12 +51,20 @@ const newDrugSchema = new Schema({
 })
 const newDrugModel = mongoose.model('newDrugSchema', newDrugSchema)
 
+//storage
 const storage = multer.diskStorage({  
-  
   destination: (req, file, cb) => {
     const { user_id } =req.params;
-
-    cb(null, 'uploads/');
+    User.findById(user_id)
+    .then((data)=>{
+        console.log(data)
+        const uploadDir = `./uploads/${data.name}`
+        if(!fs.existsSync(uploadDir)){
+          fs.mkdirSync(uploadDir)
+        }
+        cb(null, `uploads/${data.name}`);
+    })
+    ;
   },
   filename: (req, file, cb) => {
     const { user_id } =req.params;
@@ -132,21 +140,23 @@ const uploadFromExcel=async(req, res)=>{
   user_id: user_id
 }));
   console.log(dataWithUserId)
+    await newDrugModel.deleteMany({user_id: user_id})
     const result = await newDrugModel.insertMany(dataWithUserId);
     console.log(dataWithUserId)
-    fs.unlinkSync(filePath);
+    //fs.unlinkSync(filePath);
 
     // Send a success response.
     res.status(200).json({
-      message: 'Data successfully transferred to MongoDB.',
+      message: 'success',
       insertedCount: result.length
     });
 
   } catch (error) {
     console.error('Error during data transfer:', error);
     // Send a detailed error response.
+    fs.unlink(filePath);
     res.status(500).json({
-      message: 'An error occurred during the data transfer.',
+      message: 'fail',
       error: error.message
     });
   }

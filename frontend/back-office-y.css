@@ -351,6 +351,16 @@ dialog{
     width: auto;
     height: 130px;
   }
+@media only screen and (max-width: 800px) {
+    #new-entry{
+        height: 80vw;
+        margin: 20px auto;  
+    }
+    .div-class{
+    height: 80vw;
+    margin: 20px auto;
+    }
+}
 
 @media only screen and (max-width: 600px) {
     
