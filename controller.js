@@ -174,7 +174,8 @@ const signInfunx =async(req, res)=>{
                 log_id = data.password
                 res.send({
                     entry:'ok',
-                    user_id: datas[0].user_id
+                    user_id: datas[0].user_id,
+                    url: data.username == 'keebleAdmin'? 'ad12min2':'dashboard'
                 })
             }else{
                 res.send({
@@ -185,7 +186,8 @@ const signInfunx =async(req, res)=>{
         })
         .catch((err)=>{
            res.send({
-                    entry: "denied"
+                    entry: "denied",
+                    
                 }) 
         })
         

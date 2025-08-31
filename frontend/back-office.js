@@ -20,10 +20,10 @@ const postSignIn = async()=>{
     })
     const response = await post.json()
     console.log(response)
-    const { entry } = response
-    console.log(entry)
+    const { entry, url } = response
+    //console.log(entry, url)
     if(entry== 'ok'){
-        window.location.href = 'back-office-y.html';
+        window.location.href = `/${url}`;
         const user = { user_id: response.user_id}
         if(!personData){
             personData.unshift(user);
@@ -48,7 +48,6 @@ const postSignIn = async()=>{
     
 }
 signInBtn.addEventListener('click', ()=>{ 
-    //window.location.href = 'back-office-y.html';
     postSignIn()
     username.value= ""
     password.value = ""

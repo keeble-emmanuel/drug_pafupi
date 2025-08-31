@@ -33,6 +33,10 @@ app.get('/ad12min1', (req, res)=>{
 app.get('/ad12min2', (req, res)=>{
     res.sendFile(__dirname + "/frontend/master_account.html")
 })
+//dashboard
+app.get('/dashboard', (req, res)=>{
+    res.sendFile(__dirname + "/frontend/back-office-y.html")
+})
 //404 page
 app.get('/not-found', (req, res)=>{
     res.sendFile(__dirname + "/frontend/404page.html")
