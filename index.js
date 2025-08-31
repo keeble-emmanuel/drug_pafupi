@@ -22,13 +22,10 @@ app.post('/', controller.searchDrug)
 
 //first page display
 app.get('/',)
-app.get('/new_product', (req, res)=>{
+app.get('/sign-in-page', (req, res)=>{
     res.sendFile(__dirname + "/frontend/back-office.html")
 })
-//log in master account
-app.get('/ad12min1', (req, res)=>{
-    res.sendFile(__dirname + "/frontend/back-office-con.html")
-})
+
 //master-account
 app.get('/ad12min2', (req, res)=>{
     res.sendFile(__dirname + "/frontend/master_account.html")
@@ -36,6 +33,9 @@ app.get('/ad12min2', (req, res)=>{
 //dashboard
 app.get('/dashboard', (req, res)=>{
     res.sendFile(__dirname + "/frontend/back-office-y.html")
+})
+app.get('/market', (req, res)=>{
+    res.sendFile(__dirname + "/frontend/market.html")
 })
 //404 page
 app.get('/not-found', (req, res)=>{
