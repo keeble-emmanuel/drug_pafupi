@@ -33,6 +33,7 @@ var userDetailArray =[];
 var update = false;
 let productToPromote;
 let todele = []
+var allproductData = []
 
 const reg = new RegExp(`.*${searchWord.value}.*`, 'i')
 console.log(reg)
@@ -248,11 +249,16 @@ const getUserProducts = async()=>{
     const user_id= personData[0].user_id
     const getproducts = await fetch(`${window.location.origin}/getproducts/${user_id}`)
     const data = await getproducts.json()
-    userProducts = data;
+    allproductData =data
+    //return data
+    
+}
+const filterFetchedproducts=(par)=>{
+    //userProducts = par;
     const productsDisplay = document.createElement('ol');
     productsDisplay.id = "products-thumbnail-i";
     productsDisplayD.textContent = '';
-    console.log(data, 'o')
+    console.log(par, 'o')
     const sortByKey = (arr, key) => {
         return [...arr].sort((a, b) => {
             const valA = a[key].toLowerCase(); 
@@ -266,12 +272,12 @@ const getUserProducts = async()=>{
             return 0; 
         });
         };
-    const sortedProducts = sortByKey(data, 'tradeName');
+    const sortedProducts = sortByKey(par, 'tradeName');
     const reg = new RegExp(`.*${searchWord.value}.*`, 'i')
     const fiteredData = sortedProducts.filter((el)=>
         reg.test(el.tradeName) || reg.test(el.genericName)
     )
-    console.log(fiteredData)
+    console.log(fiteredData, 'fil')
     fiteredData.forEach((el)=>{
         
         productsDisplay.innerHTML +=`
@@ -288,8 +294,16 @@ const getUserProducts = async()=>{
     //productsDisplayD.style.height = '60vh'
     //productsDisplayD.style.overflowY = 'auto'
     loadingScreen.style.display = 'none'
+
 }
-getUserProducts()
+const displayfilterFetchedproducts=()=>{
+
+}
+const hub=async()=>{
+    await getUserProducts()
+    await filterFetchedproducts(allproductData)
+}
+hub()
 
 //delete product function
 const deleteDialog=(par)=>{
@@ -515,8 +529,8 @@ uploadExcel.addEventListener('click', async(e)=>{
 })
 
 search.addEventListener('keyup', ()=>{
-    //alert('ww')
-    getUserProducts()
+    
+    filterFetchedproducts(allproductData)
 })
 
 notificationsDisplay.innerHTML +=`
