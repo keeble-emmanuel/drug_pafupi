@@ -463,6 +463,12 @@ changePassword.addEventListener('click', ()=>{
         postPasswordChange()
     }
 })
+document.getElementById('file-excelx').addEventListener('change', ()=>{
+    if(!document.getElementById('file-excelx').value == ''){
+    document.getElementById('warning-before-submission').style.display='block'
+}
+})
+
 uploadExcel.addEventListener('click', async(e)=>{
     e.preventDefault()
     //alert('wee')
