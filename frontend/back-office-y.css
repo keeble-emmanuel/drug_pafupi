@@ -219,6 +219,11 @@ hr{
     font-size: 22px;
     
 }
+#search{
+    border-radius: 10px;
+    padding: 1px 10px;
+
+}
 .delete-edit{
     background: transparent;
     border: none;

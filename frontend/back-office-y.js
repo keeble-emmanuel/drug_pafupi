@@ -23,7 +23,8 @@ const newPassword =  document.getElementById('new-password');
 const confirmPassword =  document.getElementById('confirm-password');
 const loadingScreen = document.getElementById('loading-screen');
 const completeScreen = document.getElementById('completeScreenContainer');
-const uploadExcel = document.getElementById('upload-excel')
+const uploadExcel = document.getElementById('upload-excel');
+const searchWord = document.getElementById('search')
 
 cancelUpdate.style.display = 'none'
 let userProducts;
@@ -32,6 +33,9 @@ var userDetailArray =[];
 var update = false;
 let productToPromote;
 let todele = []
+
+const reg = new RegExp(`.*${searchWord.value}.*`, 'i')
+console.log(reg)
 
 const setInputsBlack =()=>{
     genericName.value= '';
@@ -263,7 +267,12 @@ const getUserProducts = async()=>{
         });
         };
     const sortedProducts = sortByKey(data, 'tradeName');
-    sortedProducts.forEach((el)=>{
+    const reg = new RegExp(`.*${searchWord.value}.*`, 'i')
+    const fiteredData = sortedProducts.filter((el)=>
+        reg.test(el.tradeName) || reg.test(el.genericName)
+    )
+    console.log(fiteredData)
+    fiteredData.forEach((el)=>{
         
         productsDisplay.innerHTML +=`
             <li>
@@ -502,6 +511,10 @@ uploadExcel.addEventListener('click', async(e)=>{
      
 })
 
+search.addEventListener('keyup', ()=>{
+    //alert('ww')
+    getUserProducts()
+})
 
 notificationsDisplay.innerHTML +=`
         <li>Visit the promotion page regulary to check products that other pharmacies have promoted</li>
