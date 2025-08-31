@@ -283,7 +283,10 @@ const getUserProducts = async()=>{
             </li>
         `
     })
+    
     productsDisplayD.appendChild(productsDisplay);
+    //productsDisplayD.style.height = '60vh'
+    //productsDisplayD.style.overflowY = 'auto'
     loadingScreen.style.display = 'none'
 }
 getUserProducts()

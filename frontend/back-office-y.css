@@ -213,10 +213,11 @@ hr{
     color: black;
     
 }
-#products-display{
+#products-display-div{
     padding-left: 50px;
     overflow-x: scroll;
     font-size: 22px;
+    height: 70vh;
     
 }
 #search{
