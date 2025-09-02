@@ -107,7 +107,13 @@ const createNewDrug= async(req, res)=>{
     })
     try{
         const save = await addNewDrug.save();
+        res.json({
+            message: 'successful'
+        })
     }catch(error){
+        res.json({
+            message: 'fail'
+        })
         res.redirect('/not-found')
     }    
 }

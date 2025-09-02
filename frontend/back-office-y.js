@@ -158,7 +158,7 @@ const postNewEntry =async()=>{
     })
     const response =  await post.json()
     console.log(response)
-    setInputsBlack()
+    //setInputsBlack()
     
 }
 //post password change
@@ -398,9 +398,13 @@ if(!update){
 //
 enterNewEntry.addEventListener('click', async()=>{
     if(!update){
+        
         if( genericName.value && tradeName.value && drugStrength.value && expiryDate.value && dosageForm.value && route.value){
+            alert(1)
         await postNewEntry()
+        alert(1)
         await hub()
+        alert(2)
         setInputsBlack()
         }else{
             alert('not complete')
