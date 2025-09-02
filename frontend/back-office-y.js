@@ -250,11 +250,12 @@ const getUserProducts = async()=>{
     const getproducts = await fetch(`${window.location.origin}/getproducts/${user_id}`)
     const data = await getproducts.json()
     allproductData =data
+    loadingScreen.style.display = 'none'
     //return data
     
 }
 const filterFetchedproducts=(par)=>{
-    //userProducts = par;
+    userProducts = par;
     const productsDisplay = document.createElement('ol');
     productsDisplay.id = "products-thumbnail-i";
     productsDisplayD.textContent = '';
@@ -293,7 +294,7 @@ const filterFetchedproducts=(par)=>{
     productsDisplayD.appendChild(productsDisplay);
     //productsDisplayD.style.height = '60vh'
     //productsDisplayD.style.overflowY = 'auto'
-    loadingScreen.style.display = 'none'
+    
 
 }
 const displayfilterFetchedproducts=()=>{
@@ -326,7 +327,7 @@ const deleteDialog=(par)=>{
 const deleteProduct = async(par)=>{
     const del = await fetch(`${window.location.origin}/deleteProduct/${par}`)
     const response = await del.json()
-    getUserProducts()   
+    //hub()   
 }
 
 //promoteFunction
@@ -369,23 +370,24 @@ const promoteFunction =(par)=>{
 const editFunction=(par)=>{
     cancelUpdate.style.display = 'inline'
     window.location.href = "#back-office"
-    userProducts=userProducts.filter((el)=>{
+    let productToEdit
+    productToEdit=userProducts.filter((el)=>{
         return el._id.toLowerCase() == par
     })
-    product_id = userProducts[0]._id
-    genericName.value= userProducts[0].genericName;
-    tradeName.value= userProducts[0].tradeName;
-    drugStrength.value= userProducts[0].drugStrength
-    pcategory.value= userProducts[0].drugCategory
-    stockStat.value= userProducts[0].drugStockstatus
-    route.value=userProducts[0].route
-    dosageForm.value= userProducts[0].dosageForm ? userProducts[0].dosageForm : 'tablet';
+    product_id = productToEdit[0]._id
+    genericName.value= productToEdit[0].genericName;
+    tradeName.value= productToEdit[0].tradeName;
+    drugStrength.value= productToEdit[0].drugStrength
+    pcategory.value= productToEdit[0].drugCategory
+    stockStat.value= productToEdit[0].drugStockstatus
+    route.value=productToEdit[0].route
+    dosageForm.value= productToEdit[0].dosageForm ? productToEdit[0].dosageForm : 'tablet';
     //date formats
-    const datefromserver = userProducts[0].expiryDate;
+    const datefromserver = productToEdit[0].expiryDate;
     const formatdaate = String(datefromserver).substring(0, 10);
     expiryDate.value= formatdaate;
     //
-    price.value= userProducts[0].price?userProducts[0].price: 100
+    price.value= productToEdit[0].price?productToEdit[0].price: 100
     enterNewEntry.textContent = 'update'
     update = true;   
 }
@@ -394,11 +396,11 @@ if(!update){
     cancelUpdate.style.display = 'none'
 }
 //
-enterNewEntry.addEventListener('click', ()=>{
+enterNewEntry.addEventListener('click', async()=>{
     if(!update){
         if( genericName.value && tradeName.value && drugStrength.value && expiryDate.value && dosageForm.value && route.value){
-        postNewEntry()
-        getUserProducts()
+        await postNewEntry()
+        await hub()
         setInputsBlack()
         }else{
             alert('not complete')
@@ -406,8 +408,8 @@ enterNewEntry.addEventListener('click', ()=>{
         
     }else{
         if( genericName.value && tradeName.value && drugStrength.value && expiryDate.value && dosageForm.value && route.value){
-        postUpdateEntry();
-        getUserProducts()
+        await postUpdateEntry();
+        await hub()
         setInputsBlack()
         }else{
             alert('not complete')
@@ -415,7 +417,7 @@ enterNewEntry.addEventListener('click', ()=>{
         update = false;
         
     }
-    getUserProducts()
+    hub()
     update = false
     //window.location.reload()
     
@@ -424,14 +426,14 @@ enterNewEntry.addEventListener('click', ()=>{
 
 confirmDeleteButton.addEventListener("click", ()=>{
     deleteProduct(productToDelete[0]);
+    hub()
     
 })
 //cancel update
-cancelUpdate.addEventListener('click', ()=>{
+cancelUpdate.addEventListener('click', async()=>{
+    
+    await setInputsBlack();
     update = false;
-    setInputsBlack()
-   
-
 })
 
 //keyup in promotion
@@ -475,10 +477,9 @@ document.getElementById('promote-product').addEventListener('click', ()=>{
     }
     else{
         postPromoteProduct()
-        //alert('pro')
     }
     document.getElementById('promote-div').style.display='none';
-    getUserProducts()
+    hub()
 })
 
 //change password
@@ -497,7 +498,6 @@ document.getElementById('file-excelx').addEventListener('change', ()=>{
 
 uploadExcel.addEventListener('click', async(e)=>{
     e.preventDefault()
-    //alert('wee')
     const filex = document.getElementById('file-excelx');
     const file = filex.files[0]
     const formData = new FormData();
@@ -523,16 +523,14 @@ uploadExcel.addEventListener('click', async(e)=>{
     }catch(err){
         console.error(err)
     }finally{
-        getUserProducts()
+        hub()
     }
      
 })
 
 search.addEventListener('keyup', ()=>{
-    
     filterFetchedproducts(allproductData)
 })
-
 notificationsDisplay.innerHTML +=`
         <li>Visit the promotion page regulary to check products that other pharmacies have promoted</li>
     ` 
