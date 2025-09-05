@@ -281,9 +281,15 @@ const doPopulate =()=>{
     }).populate('user_id')
     .then((data)=>{
         console.log(data)
+        res.json({
+                message: `sucess`
+            })
     })
     .catch((err)=>{
         console.error(err)
+        res.json({
+                message: `fail: ${err}`
+            })
     })
 }
 
@@ -304,7 +310,9 @@ const searchedPage =(req, res)=>{
         res.send(data)
     })
     .catch((err)=>{
-        res.redirect('/notfound')
+        res.json({
+                message: `fail: ${err}`
+            })
     })
 
 }
@@ -319,6 +327,9 @@ const marketDisplay =(req, res)=>{
     })
     .catch((err)=>{
         console.error(err)
+        res.json({
+                message: `fail: ${err}`
+            })
     })
 
 }
@@ -330,9 +341,15 @@ const deleteProduct =(req, res)=>{
     newDrugModel.findByIdAndDelete(`${productId}`)
     .then((data)=>{
         console.log(data)
+        res.json({
+                message: `success`
+            })
     })
     .catch((err)=>{
         console.error(err)
+        res.json({
+                message: `fail: ${err}`
+            })
     })
 }
 //update product
@@ -368,6 +385,9 @@ const updateProduct = (req, res)=>{
     })
     .catch((err)=>{
         console.error(err)
+        res.json({
+                message: `fail: ${err}`
+            })
     })
 
 }
@@ -407,6 +427,9 @@ const depromoteProduct =(req, res)=>{
     })
     .catch((err)=>{
         console.error(err)
+        res.json({
+                message: `fail: ${err}`
+            })
     })
 }
 //get all users
@@ -417,6 +440,9 @@ const getAllUsers = (req, res)=>{
     })
     .catch((err)=>{
         console.error(err)
+        res.json({
+                message: `fail: ${err}`
+            })
     })
 }
 //get a specific user
@@ -429,6 +455,9 @@ const getUserDetails=(req, res)=>{
     })
     .catch((err)=>{
         console.error(err)
+        res.json({
+                message: `fail: ${err}`
+            })
     })
 }
 
@@ -463,13 +492,22 @@ const creatNewUser = async(req, res)=>{
         })
         try{
             addsignIn = addSignindetails.save()
+            res.json({
+                message: "success"
+            })
         }
         catch(err){
             console.error(err)
+            res.json({
+                message: `fail: ${err}`
+            })
         }
     }
     catch(err){
         console.error(err)
+        res.json({
+                message: `fail: ${err}`
+            })
     }
 
     
@@ -510,10 +548,17 @@ const deleteUser =(req, res)=>{
         }
         catch(err){
             console.error(err)
+            res.json({
+                message: `fail: ${err}`
+            })
+
         }  
     })
     .catch((err)=>{
         console.error(err)
+        res.json({
+                message: `fail: ${err}`
+            })
     })
 }
 //upload location function
@@ -529,9 +574,15 @@ const updateLocation =(req, res)=>{
     },{new: true})
     .then((data)=>{
         console.log(data)
+        res.json({
+                message: `success`
+            })
     })
     .catch((err)=>{
         console.error(err)
+        res.json({
+                message: `fail: ${err}`
+            })
     })
 }
 //change password function
