@@ -90,6 +90,7 @@ searchKey.addEventListener('keyup', ()=>{
     
     
 })
+
 searchBtn.addEventListener('click', ()=>{
     fetchResults()
     displaySearchResults.className = 'search-result'

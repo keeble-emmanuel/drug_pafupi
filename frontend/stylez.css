@@ -9,7 +9,7 @@
     --background-2:red;
     --foreground-1:rgb(255, 255, 255);
     --foreground-2:rgba(84, 2, 17, 0.944);
-    --melon:rgba(54, 2, 33, 0.438);
+    --melon:rgba(99, 91, 162, 0.989);
     --yellow: rgba(250, 213, 5, 0.886)
 }
 body >div:first-child{
@@ -18,14 +18,26 @@ body >div:first-child{
   background-size: cover;
   backdrop-filter: blur(3px);
 }
+body >div:first-child::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.652);
+}
 body{
     background-color:var(--foreground-1);
     color: black;
     max-width: 100vw;
     font-size: 18px;
 }
-h2{
-    color: black;
+
+h4{
+  font-size: 14px;
+  font-style: italic;
+  font-family: Brush Script MT;
 }
 
 #img-div{
@@ -41,40 +53,34 @@ h2{
     background: rgba(255, 0, 0, 0); 
     width: 100vw;
     color: white
-   
-    
- 
 }
 .jumbotron h1{
     padding-top: 90px;
     color: white;
-    text-shadow: 3px 3px rgba(45, 1, 31, 0.886);
+    
 }
 .jumbotron #search-input{
-    border-radius: 20px;
+    border-radius: 30px;
     outline: none;
     padding:0px 15px;
     height: 50px;
     font-size: 30px;
-    border: 3px solid var(--foreground-2);
+    border: 1px solid white;
     background: transparent;
     backdrop-filter: blur(20px);
     margin-bottom: 50px;
-    color: rgb(20, 20, 20);
+    color: rgb(255, 255, 255);
    
 
 }
 .jumbotron #search-input::placeholder{
-  color: rgba(0, 0, 0, 0.461)
+  color: rgba(251, 251, 251, 0.426)
 }
 .jumbotron .input-group{
     align-items: center;
-    width: 500px;
+    width: 40vw;
     margin: 0px auto;
     animation: slide 2s 0.25s;
-    
-   
-
 }
 @keyframes slide {
   from{
@@ -88,18 +94,18 @@ h2{
 }
 .jumbotron .input-group #search-btn{
     background: none;
-    color: var(--foreground-1);
+    color: white;
     font-size: 30px;
     outline: none;
     border: none;
     position: absolute;
-    transform: translate(-53px, -49px);
+    transform: translate(-9%, 68%);
     z-index: 999;
 }
 .jumbotron .input-group #search-btn span{
   background: none;
-  color: var(--foreground-2);
-  font-size: 30px;
+  color:white;
+  font-size: 50px;
   outline: none;
   border: none;
   
@@ -133,34 +139,41 @@ h2{
 #trending-products{
     padding: 50px 0px;
 }
+.row{
+  margin: 10px auto;
+}
 .panel {
     border-radius:15px;
-    margin:  0px 30px 20px 30px;
+    margin:  10px auto;
     transition: box-shadow 0.5s;
     height: 250px;
-    color: var(--foreground-2);
+    width: 90%;
+    color: white;
     box-shadow: 5px 0px 40px rgba(68, 68, 68, 0.2);
+    background: var(--foreground-2);
+    padding: 20px 40px;
   }
   
   .panel:hover {
-    
     transform: scale(1.02, 1.02);
   }
   .big-panel h2 {
-    padding: 10px 0px 10px 0px;
-    color: var(--foreground-2);
+    padding: 10px 0px;
+    color: var(--melon);
     text-transform: uppercase;
     text-decoration: underline;
+    font-weight: 500;
   }
   .panel h3{
     font-size: 2.5rem;
-    color: rgb(136, 142, 194);
+    color: var(--melon);
     font-weight: bolder;
     font-family: Georgia, 'Times New Roman', Times, serif;
+    
   }
   .panel p{
     font-size: 2.0rem;
-    padding: 20px 5px 5px 5px;
+    padding: 20px 40px;
   }
   .img-topic{
     width: 100%;
@@ -173,6 +186,9 @@ h2{
     padding: 12px 3px 4px 3px
   }
 
+
+
+  
   .navbar {
     margin-bottom: 0;
     background-color: var(--foreground-2);
@@ -208,7 +224,7 @@ h2{
   footer{
     padding: 30px 0px 70px 0px;
     background: var(--foreground-2);
-    color: rgb(249, 250, 252);
+    color: var(--melon);
     font-size: large;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     width: 99vw;
@@ -220,7 +236,7 @@ h2{
     
   }
 
-  @media only screen and (max-width: 600px) {
+  @media only screen and (max-width: 780px) {
     *{
       max-width: 100vw;
       font-size: 16px;
@@ -234,15 +250,38 @@ h2{
     }
     .jumbotron h1{
       padding-top: 90px;
-      color: var(--foreground-2);
-      text-shadow: 1px 1px white;
+      
   }
-    .jumbotron #search-input{
-      font-size: 20px;  
-  }
+
+  .jumbotron #search-input{
+    border-radius: 20px;
+    outline: none;
+    padding:0px 4px;
+    height: 30px;
+    font-size: 12px;
+    border: 3px solid white;
+    background: transparent;
+    backdrop-filter: blur(20px);
+    margin-bottom: 50px;
+    color: rgb(255, 255, 255);
+   
+
+}
     .jumbotron .input-group{
-      width: 250px;  
+      width: 60vw;  
   }
+  .jumbotron .input-group #search-btn{
+    transform: translate(-9%, 76%);
+   
+}
+.jumbotron .input-group #search-btn span{
+  background: none;
+  color:white;
+  font-size: 30px;
+  outline: none;
+  border: none;
+  
+}
   .navbar #logo{
     height: 100px;
     top: -25px;

@@ -34,7 +34,7 @@ app.get('/ad12min2', (req, res)=>{
 app.get('/dashboard', (req, res)=>{
     res.sendFile(__dirname + "/frontend/back-office-y.html")
 })
-app.get('/market', (req, res)=>{
+app.get('/pharmacies', (req, res)=>{
     res.sendFile(__dirname + "/frontend/market.html")
 })
 //404 page
