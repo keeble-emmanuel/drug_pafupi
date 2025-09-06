@@ -153,10 +153,10 @@ const displaynow=async(params)=>{
                 </div>
                 <div class="search-thumbnail-details">
                     <div class="product-details bar">
-                        <p><b>exp:${el.expiryDate?el.expiryDate.substring(0, 7):'N/A'} </b></p>
+                        <p><b> K${el.price}</b></p>
                     </div>
                     <div class="product-details bar">
-                        <p>${el.drugStrength?el.drugStrength:'N/A'} </p>
+                        <p>${el.drugStrength?el.drugStrength:'N/A'}</p>
                     </div>
                     <div class="location-icon bar">
                         <a 
