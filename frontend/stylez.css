@@ -143,7 +143,7 @@ h4{
 }
 .panel {
     border-radius:15px;
-    margin:  10px auto;
+    margin:  20px auto;
     transition: box-shadow 0.5s;
     height: 250px;
     width: 90%;
@@ -234,6 +234,27 @@ h4{
     margin: 0 auto;
     
   }
+   .icon-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+    }
+    
+    /* Individual icon link styles */
+    .icon-link .fa-brands {
+      font-size: 2.25rem;
+      color: var(--melon);
+      transition-property: color, transform;
+      transition-duration: 300ms;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Hover effect for icons */
+    .icon-link:hover .fa-brands {
+        transform: scale(1.1);
+        color: #fafffc;
+    }
 
   @media only screen and (max-width: 780px) {
     *{

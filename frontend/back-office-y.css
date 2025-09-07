@@ -173,7 +173,7 @@ hr{
 #entry-preview{
     width: 50vw;
     padding: 20px 0px 20px 10px;
-    margin: 0 auto;
+    margin: 10px auto 50px;
    
 }
 #entry-preview h2{
@@ -225,6 +225,7 @@ hr{
     padding: 1px 10px;
     border: 1px solid var(--foreground-2);
     text-align: center;
+    margin: 10px auto 20px;
 }
 .delete-edit{
     background: transparent;
