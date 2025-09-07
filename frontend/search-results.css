@@ -13,7 +13,7 @@
 }
 
 body{
-    background: var(--background-1);
+    background: var(--foreground-1);
     color: var(--foreground-2);
     font-family: 'Times New Roman', Times, serif;
     font-size: 18px;
@@ -96,8 +96,7 @@ h3{
     justify-content: space-around;
     border-radius: 10px;
     margin: 0 auto;
-    background: var(--background-2);
-    color: var(--foreground-1);
+    color: var(--foreground-2);
     border-radius: 10px;
     padding: 8px 16px;
    
@@ -109,7 +108,7 @@ h3{
     background: #fff;
     border-radius: 8px;
     padding: 4px 12px;
-    display: inline-block;
+   
 }
 #products-thumbnail-div{
     display: flex;
@@ -129,7 +128,7 @@ h3{
     border-radius: 10px;
     transition: box-shadow 0.5s;
     background: rgba(255,255,255,0.92); /* light background for readability */
-    border: 2px solid var(--foreground-2);
+    
 }
 .products-thumbnail:hover{
     transform: scale(1.02, 1.02);
@@ -167,11 +166,14 @@ h3{
     font-size: 16px;
 }
 
-.location-icon img{
-    width: 40px;
-    transform: translate(50%, -15%);
-    padding-bottom: 7px;
-
+.bar a {
+    width: 400px;
+    
+   
+}
+.bar a .fa-solid{
+    color: var(--foreground-2);
+    font-size: 3rem;
 }
 
 .navbar {
@@ -207,11 +209,9 @@ h3{
 
   @media only screen and (max-width: 780px) {
     .menu-bar{
-    width: 80vw;
+    width: 90vw;
     height: fit-content;
     display:block;
-    
-   
     border-radius: 10px;
     margin: 10px auto;
    
@@ -241,9 +241,13 @@ h3{
     color: var(--foreground-2);
     
     }
-    .location-icon img{
-    transform: translate(50%, -10%);
-    width: 25px;
+    .bar a{
+        transform: translate(60px,0);
+        width: 20px;
+    }
+    .bar a .fa-solid{
+        
+        font-size: 20px;
     }
     .bar{
         font-size: 6px;

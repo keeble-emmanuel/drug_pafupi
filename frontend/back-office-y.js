@@ -286,7 +286,7 @@ const filterFetchedproducts=(par)=>{
                 <p>${el.tradeName} ${el.dosageForm} ${el.drugStrength} @<b>MWK ${el.price?el.price: 'N/A'} </b></p> 
                 <button id='${el.tradeName}' class="delete-edit" onclick="deleteDialog('${el._id}')"><i class="fa-solid fa-trash"></i></button>
                 <button id='' class="delete-edit" onclick="editFunction('${el._id}')"><i class="fa-solid fa-pen-to-square"></i></button>
-                <button id='${el.price}' class="delete-edit" onclick="promoteFunction('${el._id}')"><i class="fa-solid fa-gift"></i></button>
+                <button id='${el.price}' class="delete-edit" onclick="promoteFunction('${el._id}')"><i style='color:${el.promoted? 'blue': 'var(--foreground-2)'}'class="fa-solid fa-gift"></i></button>
             </li>
         `
     })

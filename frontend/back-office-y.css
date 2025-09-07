@@ -220,6 +220,9 @@ hr{
     height: 70vh;
     
 }
+.fa-solid{
+    color: var(--foreground-2)
+}
 #search{
     border-radius: 13px;
     padding: 1px 10px;

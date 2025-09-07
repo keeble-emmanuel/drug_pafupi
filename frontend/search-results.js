@@ -161,7 +161,7 @@ const displaynow=async(params)=>{
                     <div class="location-icon bar">
                         <a 
                         href='https://www.google.com/maps/search/?api=1&query=${el.user_id.location[0]},${el.user_id.location[1]}'
-                        ><img src="location2.svg" class="icon"/>
+                        ><i class="fa-solid fa-location-dot"></i>
                         </a>
                         
                     </div>
