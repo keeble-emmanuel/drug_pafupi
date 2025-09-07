@@ -140,7 +140,8 @@ h2{
 }
 #new-entry{
     width:40vw;
-    height: 45vw;
+    min-height: 45vw;
+    max-height: 65vw;
     backdrop-filter: blur(20px);
     border: 1px solid var(--foreground-1);
     border-radius: 20px;
