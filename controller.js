@@ -143,9 +143,10 @@ const uploadFromExcel=async(req, res)=>{
   ...doc,
   user_id: user_id, expiryDate: new Date(doc.expiryDate)
 }));
-  console.log(dataWithUserId)
+    const filterBYAvailability= dataWithUserId.filter(doc=> doc.drugStockstatus == 'Available' || doc.drugStockstatus == 'available' || doc.drugStockstatus == 'AVAILABLE'||doc.drugStockstatus == 'few'||doc.drugStockstatus == 'FEW'||doc.drugStockstatus == 'many')
+    console.log(dataWithUserId)
     await newDrugModel.deleteMany({user_id: user_id})
-    const result = await newDrugModel.insertMany(dataWithUserId);
+    const result = await newDrugModel.insertMany(filterBYAvailability);
     console.log(dataWithUserId)
     //fs.unlinkSync(filePath);
 
