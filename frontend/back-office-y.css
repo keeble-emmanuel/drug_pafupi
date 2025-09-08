@@ -141,7 +141,7 @@ h2{
 #new-entry{
     width:40vw;
     min-height: 45vw;
-    max-height: 65vw;
+    max-height: 95vw;
     backdrop-filter: blur(20px);
     border: 1px solid var(--foreground-1);
     border-radius: 20px;
@@ -363,39 +363,35 @@ dialog{
     width: auto;
     height: 130px;
   }
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 780px) {
     #new-entry{
-        height: 80vw;
-        margin: 20px auto;  
+        height: 150vw;
+        margin: 20px auto;
+        border: 1px solid var(--foreground-2);  
     }
     .div-class{
-    height: 80vw;
-    margin: 20px auto;
+        height: 80vw;
+        margin: 20px auto;
     }
 }
 
 @media only screen and (max-width: 600px) {
     
     .div-class{
-    width: 79vw;
-    height: 90vw;
-    margin: 20px auto;
-    
-    
+        width: 79vw;
+        height: 90vw;
+        margin: 20px auto;   
     }
     #new-entry{
-        height: auto;
+        height: 150vw;
         width: 79vw;
-        margin: 20px auto;
-        
-        
+        margin: 20px auto; 
+        border: 1px solid var(--foreground-2);
     }
     #entry-preview{
-    width: 85vw;
-    border-left: none;
-    margin: 20px auto;
-   
-    
+        width: 85vw;
+        border-left: none;
+        margin: 20px auto;
     }
     dialog{
         width: 200px;
@@ -403,9 +399,9 @@ dialog{
         left: 20vw
     }
     #promote-div{
-    width:80vw;
-    top: 50vh;
-    left: 10vw;
+        width:80vw;
+        top: 50vh;
+        left: 10vw;
     }
     #man-acc-div{
         position: absolute;
@@ -415,7 +411,7 @@ dialog{
         
     }
     .navbar #logo{
-    height: 100px;
-    top: -25px;
+        height: 100px;
+        top: -25px;
     }
 }

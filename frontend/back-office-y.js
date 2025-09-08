@@ -274,7 +274,8 @@ const filterFetchedproducts=(par)=>{
         });
         };
     const sortedProducts = sortByKey(par, 'tradeName');
-    const reg = new RegExp(`.*${searchWord.value}.*`, 'i')
+    let regsplit = searchWord.value.split('').join('.*');
+    const reg = new RegExp(`.*${(searchWord.value).split('').join('.*')}.*`, 'i')
     const fiteredData = sortedProducts.filter((el)=>
         reg.test(el.tradeName) || reg.test(el.genericName)
     )
