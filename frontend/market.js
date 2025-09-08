@@ -20,7 +20,7 @@ const fetchData =async()=>{
     resultsFiltered.forEach((el)=>{
         productsThumbnailDiv.innerHTML += `
         <div class="products-thumbnail">
-                <img class="search-thumbnail" src="istockphoto-1419246808-612x612.jpg"/>
+                <img class="search-thumbnail" src="istockphoto-1419246808-612x612.webp"/>
                 <div class="search-thumbnail-details">
                     <p>${el.name}
                     <a 
