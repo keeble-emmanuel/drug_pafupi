@@ -35,7 +35,7 @@ app.get('/dashboard', (req, res)=>{
     res.sendFile(__dirname + "/frontend/back-office-y.html")
 })
 app.get('/pharmacies', (req, res)=>{
-    res.sendFile(__dirname + "/frontend/market.html")
+    res.sendFile(__dirname + "/frontend/pharmacies.html")
 })
 //404 page
 app.get('/not-found', (req, res)=>{
