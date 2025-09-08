@@ -141,7 +141,6 @@ h2{
 #new-entry{
     width:40vw;
     min-height: 45vw;
-    max-height: 95vw;
     backdrop-filter: blur(20px);
     border: 1px solid var(--foreground-1);
     border-radius: 20px;
@@ -365,9 +364,9 @@ dialog{
   }
 @media only screen and (max-width: 780px) {
     #new-entry{
-        height: 150vw;
+        height: auto;
         margin: 20px auto;
-        border: 1px solid var(--foreground-2);  
+         
     }
     .div-class{
         height: 80vw;
@@ -379,14 +378,14 @@ dialog{
     
     .div-class{
         width: 79vw;
-        height: 90vw;
+        height: 100vw;
         margin: 20px auto;   
     }
     #new-entry{
-        height: 150vw;
+        height: auto;
         width: 79vw;
         margin: 20px auto; 
-        border: 1px solid var(--foreground-2);
+        
     }
     #entry-preview{
         width: 85vw;
