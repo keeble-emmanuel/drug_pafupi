@@ -140,7 +140,6 @@ h2{
 }
 #new-entry{
     width:40vw;
-    min-height: 45vw;
     backdrop-filter: blur(20px);
     border: 1px solid var(--foreground-1);
     border-radius: 20px;
@@ -362,27 +361,16 @@ dialog{
     width: auto;
     height: 130px;
   }
-@media only screen and (max-width: 780px) {
-    #new-entry{
-        height: auto;
-        margin: 20px auto;
-         
-    }
-    .div-class{
-        height: 80vw;
-        margin: 20px auto;
-    }
-}
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 780px) {
     
     .div-class{
         width: 79vw;
-        height: 100vw;
+        height: 500px;
         margin: 20px auto;   
     }
     #new-entry{
-        height: auto;
+        height: 700px;
         width: 79vw;
         margin: 20px auto; 
         
