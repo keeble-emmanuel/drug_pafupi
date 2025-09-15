@@ -64,6 +64,24 @@ try{
 
 //dropTables()
 
+const creatTables =(req, res)=>{
+
+try{
+     pool.getConnection((err, connection) => {
+            const dot=connection.query(`${tableQueries}`, (error, results) => {
+            // Release the connection back to the pool
+            console.log(results, 'ee')
+            connection.release(); })
+          })
+}catch(err){
+  console.error(err)
+}
+
+}
+
+//creatTables()
+
+
 // Step 4: Use a function to execute queries sequentially
 function createTablesSequentially(queries, callback) {
   if (queries.length === 0) {
@@ -122,9 +140,6 @@ const getAllUsers = (req, res)=>{
 
 //getAllUsers()
 
-createTablesSequentially(tableQueries, () => {
-  console.log("All tables have been created successfully.");
-});
 
 const createNewUser =(req, res)=>{
   
@@ -140,7 +155,7 @@ const createNewUser =(req, res)=>{
     const ins1 = connection.query('INSERT INTO users (name, city, phone) VALUES (?, ?, ?)',
             [name, city, phone], (error, results) => {
       // Release the connection back to the pool
-      console.log(results.insertId, 'ee')
+      console.log(results.insertId, 'create user')
       const ins2 = connection.query('INSERT INTO signin (username, password, user_id) VALUES (?, ?, ?)',
             [username, password, results.insertId], (error, results2) => {
       // Release the connection back to the pool
@@ -215,15 +230,67 @@ const getUserproducts = async (req, res) => {
 
 const createNewDrug = (req, res)=>{
     const { user_id, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price } = req.body;
+    const parseUserId = parseInt(user_id, 10);
     console.log(user_id, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price)
+    
+
     pool.getConnection((err, connection) => {
-      const dot=connection.query('INSERT INTO newdrugs (genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-            [genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price, user_id], (error, results) => {
+      const dot=connection.query('INSERT INTO newdrugs (user_id, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [parseUserId, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price], (error, results) => {
       // Release the connection back to the pool
       res.send(results)
-      console.log(results, 'ee')
+      console.log(results, 'create drug')
       connection.release(); })
     })}
+
+const createDrug = (req, res)=>{
+    const { user_id, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price } = req.body;
+    console.log(user_id, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price)
+    const parseUserId = parseInt(user_id, 10);
+    pool.getConnection((err, connection) => {
+      const dot=connection.query('INSERT INTO newdrugs (genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price, parseUserId], (error, results) => {
+      // Release the connection back to the pool
+      
+      console.log(results, 'create drug')
+      connection.release(); 
+    res.send(results)
+  })
+      
+    })} 
+
+const createNewDrug2 = (req, res)=>{
+    const { user_id, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price } = req.body;
+    const parseUserId = parseInt(user_id, 10);
+    console.log(user_id, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price)
+    
+    pool.getConnection((err, connection) => {
+      // Always handle errors when getting a connection from the pool
+      if (err) {
+        console.error('Error getting connection from pool: ' + err.stack);
+        return res.status(500).send('Error getting a database connection.');
+      }
+      
+      const sql = 'INSERT INTO newdrugs (user_id, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+      
+      connection.query(sql,
+        [parseUserId, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price],
+        (error, results) => {
+          // Release the connection back to the pool immediately after the query is done
+          connection.release();
+
+          // Handle the error within the callback
+          if (error) {
+            console.error('Error inserting drug: ' + error.message);
+            return res.status(500).send('Error inserting drug into the database.');
+          }
+          
+          console.log(results, 'create drug');
+          res.send(results);
+        }
+      );
+    });
+};
 
 const uploadFromExcel = (req, res)=>{
     const { user_id } = req.params;
@@ -423,6 +490,7 @@ export{
   signInfunx,
   getUserproducts,
   createNewDrug,
+  createNewDrug2,
   deleteUser,
   changePassword,
   updateProduct,

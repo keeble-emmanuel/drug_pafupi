@@ -61,7 +61,7 @@ app.post('/update-location', controller2.updateLocation)
 //delete user
 app.get('/keeble/delete-user/:idtodelete', controller2.deleteUser)
 //create product
-app.post('/new-product', controller2.createNewDrug)
+app.post('/new-product', controller2.createNewDrug2)
 
 //upload products using excel sheet
 app.post('/:user_id/upload',upload.single('excelFile'), controller2.uploadFromExcel)
