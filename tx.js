@@ -17,7 +17,7 @@ const tableQueries = [
                 name VARCHAR(255) NOT NULL,
                 city VARCHAR(255),
                 phone VARCHAR(255),
-                location JSON
+                location TEXT
                 
             )`,
   ` CREATE TABLE IF NOT EXISTS signin (
@@ -45,6 +45,36 @@ const tableQueries = [
             )`
 ];
 
+const allTables = ['users, signin', 'newdrugs']
+
+const dropTables =()=>{
+
+try{
+  const dotx = pool.getConnection((err, connection) => {
+    if (err) {
+      console.error('Error getting connection from pool: ' + err.stack);
+      connection.release();
+      return;
+    }
+    
+    const dot =connection.query(`DROP TABLE ${allTables}`, (error, results) => {
+      connection.release();
+      if (error) {
+        console.error('Error del table: ' + error.stack);
+        return;
+      }
+      console.log("Table del successfully with query: " + "...");
+      createTablesSequentially(queries, callback);
+    });
+  });
+}catch(err){
+  console.error(err)
+}
+
+}
+
+dropTables()
+
 // Step 4: Use a function to execute queries sequentially
 function createTablesSequentially(queries, callback) {
   if (queries.length === 0) {
@@ -52,7 +82,8 @@ function createTablesSequentially(queries, callback) {
     return;
   }
   const currentQuery = queries.shift();
-  const dotx = pool.getConnection((err, connection) => {
+  try{
+    const dotx = pool.getConnection((err, connection) => {
     if (err) {
       console.error('Error getting connection from pool: ' + err.stack);
       connection.release();
@@ -69,6 +100,11 @@ function createTablesSequentially(queries, callback) {
       createTablesSequentially(queries, callback);
     });
   });
+  }
+  catch(err){
+    console.error(err)
+  }
+  
 }
 
 // Step 5: Call the function to create the tables
@@ -385,7 +421,7 @@ const getUserDetails = (req, res)=>{
       if (err) {console.error(err)}})
     }
 
-const market
+
 
 
 export{
