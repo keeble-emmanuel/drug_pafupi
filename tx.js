@@ -28,8 +28,8 @@ const tableQueries = [
                 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
             )`,
   `CREATE TABLE IF NOT EXISTS newdrugs (
-                id INT AUTO_INCREMENT PRIMARY KEY,
-                user_id INT,
+                drug_id INT AUTO_INCREMENT PRIMARY KEY,
+                user INT,
                 genericName VARCHAR(255) NOT NULL,
                 tradeName VARCHAR(255) NOT NULL,
                 drugStrength VARCHAR(255),
@@ -41,7 +41,7 @@ const tableQueries = [
                 price DECIMAL(10, 2),
                 promoted BOOLEAN DEFAULT FALSE,
                 promoPrice DECIMAL(10, 2),
-                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+                FOREIGN KEY (user) REFERENCES users(id) ON DELETE CASCADE
             )`
 ];
 
@@ -51,7 +51,7 @@ const dropTables =(req, res)=>{
 
 try{
      pool.getConnection((err, connection) => {
-            const dot=connection.query(`DROP TABLE ${allTables}`, (error, results) => {
+            const dot=connection.query(`DROP TABLE newdrugs`, (error, results) => {
             // Release the connection back to the pool
             console.log(results, 'ee')
             connection.release(); })
@@ -93,7 +93,7 @@ function createTablesSequentially(queries, callback) {
     const dotx = pool.getConnection((err, connection) => {
     if (err) {
       console.error('Error getting connection from pool: ' + err.stack);
-      connection.release();
+      //connection.release();
       return;
     }
     
@@ -188,7 +188,7 @@ const signInfunx = (req, res)=>{
     // Use the connection to query the database
     const dot = connection.query('SELECT user_id, password FROM signin WHERE username = ? AND password = ?', [username, password], (error, results) => {
       // Release the connection back to the pool
-      console.log(results[0].user_id, 'ee')
+      //console.log(results[0].user_id, 'ee')
       if (results.length > 0 && results[0].password === password) {
         res.json({ entry: 'ok', user_id: results[0].user_id, url: 'dashboard' });
       } else {
@@ -209,17 +209,17 @@ const signInfunx = (req, res)=>{
 const getUserproducts = async (req, res) => {
     const { user_id } = req.params;
     const user_idnum = parseInt(user_id, 10);
-    console.log(user_idnum, user_id,'user id from front')
+    console.log(user_idnum, user_id,'user id from front get products')
     try {
-      pool.getConnection((err, connection) => {
+      await pool.getConnection((err, connection) => {
     if (err) {
      
       return res.status(500).send('Database connection error');
     }
-       const dot = connection.query('SELECT * FROM newdrugs JOIN users ON newdrugs.user_id = users.id WHERE user_id = ?', [user_idnum], (error, results) => {
+       const dot = connection.query('SELECT * FROM newdrugs WHERE user = ?', [user_id], (error, results) => {
       // Release the connection back to the pool
-      res.send(results, 'jsfjsfjh')
-      console.log(results, 'ee')
+      res.send(results)
+      console.log(results, 'data from get products')
       connection.release(); })
     })
     } catch (err) {
@@ -248,7 +248,7 @@ const createDrug = (req, res)=>{
     console.log(user_id, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price)
     const parseUserId = parseInt(user_id, 10);
     pool.getConnection((err, connection) => {
-      const dot=connection.query('INSERT INTO newdrugs (genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price, user_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      const dot=connection.query('INSERT INTO newdrugs (genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price, user) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
             [genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price, parseUserId], (error, results) => {
       // Release the connection back to the pool
       
@@ -271,12 +271,13 @@ const createNewDrug2 = (req, res)=>{
         return res.status(500).send('Error getting a database connection.');
       }
       
-      const sql = 'INSERT INTO newdrugs (user_id, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+      const sql = 'INSERT INTO newdrugs (user, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
       
       connection.query(sql,
         [parseUserId, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price],
         (error, results) => {
           // Release the connection back to the pool immediately after the query is done
+          res.send(results);
           connection.release();
 
           // Handle the error within the callback
@@ -286,7 +287,7 @@ const createNewDrug2 = (req, res)=>{
           }
           
           console.log(results, 'create drug');
-          res.send(results);
+          
         }
       );
     });
@@ -380,7 +381,7 @@ const updateProduct = (req, res)=>{
       const parseUserId = parseInt(user_id, 10);
     console.log(user_id, product_id, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price)
     pool.getConnection((err, connection) => {
-      const dot=connection.query('UPDATE newdrugs SET genericName = ?, tradeName = ?, drugStrength = ?, drugCategory = ?, drugStockstatus = ?, route = ?, dosageForm = ?, expiryDate = ?, price = ?, user_id=? WHERE id = ?',
+      const dot=connection.query('UPDATE newdrugs SET genericName = ?, tradeName = ?, drugStrength = ?, drugCategory = ?, drugStockstatus = ?, route = ?, dosageForm = ?, expiryDate = ?, price = ?, user=? WHERE drug_id = ?',
             [genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price, parseUserId, parseProductId], (error, results) => {
       // Release the connection back to the pool    
       console.log(results, 'results of update')
@@ -398,7 +399,7 @@ const promote=(req, res)=>{
     }
     
     // Use the connection to query the database
-    const dot = connection.query('UPDATE newdrugs SET promoted = TRUE, promoPrice = ? WHERE id = ?', [promoPrice, product_id], (error, results) => {
+    const dot = connection.query('UPDATE newdrugs SET promoted = TRUE, promoPrice = ? WHERE drug_id = ?', [promoPrice, product_id], (error, results) => {
       // Release the connection back to the pool
       console.log(results, 'ee')
       res.json({ info: 'promoted' });
@@ -434,7 +435,7 @@ const searchedPage = (req, res)=>{
     }
     
     // Use the connection to query the database   
-    const dot = connection.query('SELECT * FROM newdrugs JOIN users ON newdrugs.user_id = users.id WHERE genericName LIKE ? OR tradeName LIKE ?', [`%${generic}%`, `%${trade}%`], (error, results) => {
+    const dot = connection.query('SELECT * FROM newdrugs JOIN users ON newdrugs.user = users.id WHERE genericName LIKE ? OR tradeName LIKE ?', [`%${generic}%`, `%${trade}%`], (error, results) => {
       // Release the connection back to the pool
       console.log(results, 'ee')
       res.send(results);

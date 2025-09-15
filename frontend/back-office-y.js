@@ -132,7 +132,7 @@ const getUserDetails= async()=>{
     }
     
     localStorage.setItem('user-details', JSON.stringify(userDetailLS));
-    userHeading.innerHTML=`<p>${userDetailLS[0].name}</p>`
+    userHeading.innerHTML=`<p>wwww${data['name']}</p>`
     loadingScreen.style.display = 'none'    
 }
 getUserDetails();
@@ -285,9 +285,9 @@ const filterFetchedproducts=(par)=>{
         productsDisplay.innerHTML +=`
             <li>
                 <p>${el.tradeName} ${el.dosageForm} ${el.drugStrength} @<b>MWK ${el.price?el.price: 'N/A'} </b></p> 
-                <button id='${el.tradeName}' class="delete-edit" onclick="deleteDialog('${el.id}')"><i class="fa-solid fa-trash"></i></button>
-                <button id='' class="delete-edit" onclick="editFunction('${el.id}')"><i class="fa-solid fa-pen-to-square"></i></button>
-                <button id='${el.price}' class="delete-edit" onclick="promoteFunction('${el.id}')"><i style='color:${el.promoted? 'blue': 'var(--foreground-2)'}'class="fa-solid fa-gift"></i></button>
+                <button id='${el.tradeName}' class="delete-edit" onclick="deleteDialog('${el.drug_id}')"><i class="fa-solid fa-trash"></i></button>
+                <button id='' class="delete-edit" onclick="editFunction('${el.drug_id}')"><i class="fa-solid fa-pen-to-square"></i></button>
+                <button id='${el.price}' class="delete-edit" onclick="promoteFunction('${el.drug_id}')"><i style='color:${el.promoted? 'blue': 'var(--foreground-2)'}'class="fa-solid fa-gift"></i></button>
             </li>
         `
     })
@@ -373,10 +373,10 @@ const editFunction=(par)=>{
     window.location.href = "#back-office"
     let productToEdit
     productToEdit=allproductData.filter((el)=>{
-        return el.id == par
+        return el.drug_id == par
     })
     console.log(productToEdit, par, allproductData)
-    product_id = productToEdit[0].id
+    product_id = productToEdit[0].drug_id
     genericName.value= productToEdit[0].genericName;
     tradeName.value= productToEdit[0].tradeName;
     drugStrength.value= productToEdit[0].drugStrength
