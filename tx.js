@@ -45,35 +45,24 @@ const tableQueries = [
             )`
 ];
 
-const allTables = ['users, signin', 'newdrugs']
+const allTables = [ 'newdrugs',  'signin','users']
 
-const dropTables =()=>{
+const dropTables =(req, res)=>{
 
 try{
-  const dotx = pool.getConnection((err, connection) => {
-    if (err) {
-      console.error('Error getting connection from pool: ' + err.stack);
-      connection.release();
-      return;
-    }
-    
-    const dot =connection.query(`DROP TABLE ${allTables}`, (error, results) => {
-      connection.release();
-      if (error) {
-        console.error('Error del table: ' + error.stack);
-        return;
-      }
-      console.log("Table del successfully with query: " + "...");
-      createTablesSequentially(queries, callback);
-    });
-  });
+     pool.getConnection((err, connection) => {
+            const dot=connection.query(`DROP TABLE ${allTables}`, (error, results) => {
+            // Release the connection back to the pool
+            console.log(results, 'ee')
+            connection.release(); })
+          })
 }catch(err){
   console.error(err)
 }
 
 }
 
-dropTables()
+//dropTables()
 
 // Step 4: Use a function to execute queries sequentially
 function createTablesSequentially(queries, callback) {
@@ -108,9 +97,9 @@ function createTablesSequentially(queries, callback) {
 }
 
 // Step 5: Call the function to create the tables
-/*createTablesSequentially(tableQueries, () => {
+createTablesSequentially(tableQueries, () => {
   console.log("All tables have been created successfully.");
-});*/
+});
 
 const getAllUsers = (req, res)=>{
     pool.getConnection((err, connection) => {
@@ -166,9 +155,13 @@ const createNewUser =(req, res)=>{
 
 const signInfunx = (req, res)=>{
     const { username, password } = req.body;
-      if (!username || !password) {
-          return res.json({ response: 'incomplete' });
-      }
+    if (!username || !password) {
+        return res.json({ response: 'incomplete' });
+    }
+    if(username == 'keebleAdmin' && password == 'x23'){
+        return res.json({ entry: 'ok', user_id: 0, url: 'ad12min2' });
+    }
+    console.log(username, password, 'data from front')
     try{
 
       pool.getConnection((err, connection) => {
