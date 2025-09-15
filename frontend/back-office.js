@@ -20,11 +20,11 @@ const postSignIn = async()=>{
     })
     const response = await post.json()
     console.log(response)
-    const { entry, url } = response
+    const { entry, url , user_id} = response
     //console.log(entry, url)
     if(entry== 'ok'){
         window.location.href = `/${url}`;
-        const user = { user_id: response.user_id}
+        const user = { user_id: user_id}
         if(!personData){
             personData.unshift(user);
         }else{

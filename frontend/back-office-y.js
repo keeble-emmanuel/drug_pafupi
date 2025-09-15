@@ -117,7 +117,7 @@ const getUserDetails= async()=>{
     const dofetch = await fetch(`${window.location.origin}/get_user/${personData[0].user_id}`);
     const data = await dofetch.json();
     console.log(data)
-    if(data.location.length == 0){
+    if(data.location== ''){
     notificationsDisplay.innerHTML +=`
         <li>visit the profile icon to submit your google map coordinates (location)</li>
     `  
@@ -285,9 +285,9 @@ const filterFetchedproducts=(par)=>{
         productsDisplay.innerHTML +=`
             <li>
                 <p>${el.tradeName} ${el.dosageForm} ${el.drugStrength} @<b>MWK ${el.price?el.price: 'N/A'} </b></p> 
-                <button id='${el.tradeName}' class="delete-edit" onclick="deleteDialog('${el._id}')"><i class="fa-solid fa-trash"></i></button>
-                <button id='' class="delete-edit" onclick="editFunction('${el._id}')"><i class="fa-solid fa-pen-to-square"></i></button>
-                <button id='${el.price}' class="delete-edit" onclick="promoteFunction('${el._id}')"><i style='color:${el.promoted? 'blue': 'var(--foreground-2)'}'class="fa-solid fa-gift"></i></button>
+                <button id='${el.tradeName}' class="delete-edit" onclick="deleteDialog('${el.id}')"><i class="fa-solid fa-trash"></i></button>
+                <button id='' class="delete-edit" onclick="editFunction('${el.id}')"><i class="fa-solid fa-pen-to-square"></i></button>
+                <button id='${el.price}' class="delete-edit" onclick="promoteFunction('${el.id}')"><i style='color:${el.promoted? 'blue': 'var(--foreground-2)'}'class="fa-solid fa-gift"></i></button>
             </li>
         `
     })
@@ -372,10 +372,11 @@ const editFunction=(par)=>{
     cancelUpdate.style.display = 'inline'
     window.location.href = "#back-office"
     let productToEdit
-    productToEdit=userProducts.filter((el)=>{
-        return el._id.toLowerCase() == par
+    productToEdit=allproductData.filter((el)=>{
+        return el.id == par
     })
-    product_id = productToEdit[0]._id
+    console.log(productToEdit, par, allproductData)
+    product_id = productToEdit[0].id
     genericName.value= productToEdit[0].genericName;
     tradeName.value= productToEdit[0].tradeName;
     drugStrength.value= productToEdit[0].drugStrength

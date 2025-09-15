@@ -26,8 +26,8 @@ const fetchRegisterOfAccounts =async()=>{
                     <p class="text-center">${el.name} (${el.city})</p>
                     <p class="text-center">${el.phone?el.phone:'N/A'}</p>
                     <div id="button-div">
-                        <button id='${el._id}' class="text-center white-back-btn" onclick="deleteBtnFunc()">delete</p>
-                        <button id='${el._id}' class="text-center white-back-btn" onclick="visitUserAcc()">visit</p>
+                        <button id='${el.id}' class="text-center white-back-btn" onclick="deleteBtnFunc()">delete</p>
+                        <button id='${el.id}' class="text-center white-back-btn" onclick="visitUserAcc()">visit</p>
                     </div>
                     
                 </div>

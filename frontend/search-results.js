@@ -149,7 +149,7 @@ const displaynow=async(params)=>{
         productsThumbnailDiv.innerHTML += `
         <div class="products-thumbnail">
                 <div id="product-thumbnail-name-pcy">
-                    <p >${el.user_id.name} pharmacy</p>
+                    <p >${el.name} pharmacy</p>
                 </div>
                 <div class="search-thumbnail-details">
                     <div class="product-details bar">
@@ -160,7 +160,7 @@ const displaynow=async(params)=>{
                     </div>
                     <div class="location-icon bar">
                         <a 
-                        href='https://www.google.com/maps/search/?api=1&query=${el.user_id.location[0]},${el.user_id.location[1]}'
+                        href='https://www.google.com/maps/search/?api=1&query=${el.city}'
                         ><i class="fa-solid fa-location-dot"></i>
                         </a>
                         

@@ -24,7 +24,7 @@ const fetchData =async()=>{
                 <div class="search-thumbnail-details">
                     <p>${el.name}
                     <a 
-                    href='https://www.google.com/maps/search/?api=1&query=${el.location[0]},${el.location[1]}'
+                    href='https://www.google.com/maps/search/?api=1&query=${el.city}'
                     ><img src="location2.svg"/></a></p>
                     
                 </div>

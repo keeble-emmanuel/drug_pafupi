@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
 const controller = require('./controller')
+const controller2 = require('./tx')
 const fs = require('fs');
 const path = require('path');
 const PORT = 3000
@@ -18,7 +19,7 @@ if(!fs.existsSync(uploadDir)){
 const upload = multer({ storage: controller.storage });
 
 //search input controller
-app.post('/', controller.searchDrug)
+app.post('/', controller2.searchDrug)
 
 //first page display
 app.get('/',)
@@ -48,35 +49,35 @@ app.post('/promote-product', controller.promoteProduct)
 //depromote product
 app.post('/depromote-product', controller.depromoteProduct)
 //get all-users
-app.get('/all-users', controller.getAllUsers)
+app.get('/all-users', controller2.getAllUsers)
 //get specific user
-app.get('/get_user/:user_id', controller.getUserDetails)
+app.get('/get_user/:user_id', controller2.getUserDetails)
 //create new user
-app.post('/new-user', controller.creatNewUser)
+app.post('/new-user', controller2.createNewUser)
 //update location
-app.post('/update-location', controller.updateLocation)
+app.post('/update-location', controller2.updateLocation)
 //change password
-app.post('/update-location', controller.updateLocation)
+app.post('/update-location', controller2.updateLocation)
 //delete user
-app.get('/keeble/delete-user/:idtodelete', controller.deleteUser)
+app.get('/keeble/delete-user/:idtodelete', controller2.deleteUser)
 //create product
-app.post('/new-product', controller.createNewDrug)
+app.post('/new-product', controller2.createNewDrug)
 
 //upload products using excel sheet
-app.post('/:user_id/upload',upload.single('excelFile'), controller.uploadFromExcel)
+app.post('/:user_id/upload',upload.single('excelFile'), controller2.uploadFromExcel)
 
 //update product
-app.post('/update-product', controller.updateProduct)
+app.post('/update-product', controller2.updateProduct)
 //searched page
-app.post('/searched-page', controller.searchedPage)
+app.post('/searched-page', controller2.searchedPage)
 //display all products
 app.get('/all-products', controller.marketDisplay)
 //sign-in
-app.post('/sign-in', controller.signInfunx)
+app.post('/sign-in', controller2.signInfunx)
 //
-app.get('/getproducts/:user_id',  controller.getUserproducts )
+app.get('/getproducts/:user_id',  controller2.getUserproducts )
 //change password
-app.post('/change-password', controller.changePassword)
+app.post('/change-password', controller2.changePassword)
 
 app.listen(PORT, ()=>{
     console.log('app listening')
