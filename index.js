@@ -1,14 +1,15 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-const controller = require('./controller')
-const controller2 = require('./tx')
+//const xss = require('xss-clean');
+const controller2 = require('./controller')
 const fs = require('fs');
 const path = require('path');
 const PORT = 3000
 const multer = require('multer')
 
 app.use(bodyParser.json())
+//app.use(xss());
 app.use(express.static('frontend'))
 const uploadDir = './uploads'
 if(!fs.existsSync(uploadDir)){
@@ -16,7 +17,7 @@ if(!fs.existsSync(uploadDir)){
 }
 // Multer is a middleware for handling multipart/form-data, used for file uploads.
 
-const upload = multer({ storage: controller.storage });
+const upload = multer({ storage: controller2.storage });
 
 //search input controller
 app.post('/', controller2.searchDrug)
@@ -43,11 +44,11 @@ app.get('/not-found', (req, res)=>{
     res.sendFile(__dirname + "/frontend/404page.html")
 })
 //delete product
-app.get('/deleteProduct/:productId', controller.deleteProduct)
+app.get('/deleteProduct/:productId', controller2.deleteProduct)
 //promote product
-app.post('/promote-product', controller.promoteProduct)
+app.post('/promote-product', controller2.promoteProduct)
 //depromote product
-app.post('/depromote-product', controller.depromoteProduct)
+app.post('/depromote-product', controller2.depromoteProduct)
 //get all-users
 app.get('/all-users', controller2.getAllUsers)
 //get specific user
@@ -71,7 +72,7 @@ app.post('/update-product', controller2.updateProduct)
 //searched page
 app.post('/searched-page', controller2.searchedPage)
 //display all products
-app.get('/all-products', controller.marketDisplay)
+app.get('/all-products', controller2.marketDisplay)
 //sign-in
 app.post('/sign-in', controller2.signInfunx)
 //

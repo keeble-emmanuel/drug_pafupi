@@ -18,13 +18,15 @@ const fetchData =async()=>{
     }
     console.log(resultsFiltered, citySelected.value)
     resultsFiltered.forEach((el)=>{
+        const loc = JSON.parse(el.location)
+        console.log(loc)
         productsThumbnailDiv.innerHTML += `
         <div class="products-thumbnail">
                 <img class="search-thumbnail" src="istockphoto-1419246808-612x612.webp"/>
                 <div class="search-thumbnail-details">
                     <p>${el.name}
                     <a 
-                    href='https://www.google.com/maps/search/?api=1&query=${el.city}'
+                    href='https://www.google.com/maps/search/?api=1&query=${el.location?JSON.parse(el.location)[0]: ''}, ${el.location ?JSON.parse(el.location)[1]: ''}'
                     ><img src="location2.svg"/></a></p>
                     
                 </div>

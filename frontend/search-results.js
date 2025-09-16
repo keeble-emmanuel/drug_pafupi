@@ -145,6 +145,8 @@ const displaynow=async(params)=>{
     productsThumbnailDiv.id = "products-thumbnail-div";
     productsThumbnailDivB.textContent = '';
     params.forEach((el)=>{
+        const loc = JSON.parse(el.location)
+        console.log(loc)
         
         productsThumbnailDiv.innerHTML += `
         <div class="products-thumbnail">
@@ -160,7 +162,7 @@ const displaynow=async(params)=>{
                     </div>
                     <div class="location-icon bar">
                         <a 
-                        href='https://www.google.com/maps/search/?api=1&query=${el.city}'
+                        href='https://www.google.com/maps/search/?api=1&query=${JSON.parse(el.location)[0]}, ${JSON.parse(el.location)[1]}'
                         ><i class="fa-solid fa-location-dot"></i>
                         </a>
                         

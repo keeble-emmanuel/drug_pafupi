@@ -1,582 +1,583 @@
-const { type } = require('express/lib/response');
-const mongoose = require('mongoose');
-const xlsx  = require('xlsx');
-const Schema  = mongoose.Schema;
-const fs = require('fs');
-const path = require('path');
-const multer = require('multer')
-var log_id = 1;
+const mysql = require('mysql');
+const fs = require('fs')
+//import mysql from 'mysql';
+const { z } = require('zod');
+const { newUserSchema, newDrugSchema } = require('./schema'); // Adjust the path as needed
 
-mongoose.connect('mongodb+srv://keeble:140076812keeble@cluster0.it6ej.mongodb.net/');
-// user signin credentials
-const signIschema = new Schema({
-    username: {type:String,trim: true},
-    password: {type: String, trim: true},
-    user_id: {
-        type: mongoose.Schema.Types.ObjectId, ref: 'User'
-    }
-})
-const SignInModel = mongoose.model('signInSchema', signIschema)
 
-//user details schema
-const userDetails =  new Schema({
-    name: {type: String, trim: true},
-    location: Array,
-    city: {type:String, trim: true},
-    phone: {type:mongoose.Schema.Types.Mixed, trim: true},
-})
-const User = mongoose.model('User', userDetails)
-
-//product schema
-const newDrugSchema = new Schema({
-    user_id: {
-        type: mongoose.Schema.Types.ObjectId, ref: 'User',
-        required: true
-    },
-    genericName: {type:String, required: true},
-    tradeName: {type:String, required: true},
-    drugStrength: {type:String, required: true},
-    drugCategory: {type:String,required: true},
-    drugStockstatus: {type:String,required: true},
-    route: String,
-    dosageForm: String,
-    expiryDate:{type: Date, required: true},
-    price: mongoose.Schema.Types.Mixed,
-    promoted:{
-        type:Boolean,
-        default: false
-    },
-    promoPrice:mongoose.Schema.Types.Mixed,
-
-})
-const newDrugModel = mongoose.model('newDrugSchema', newDrugSchema)
-
-const storage = multer.diskStorage({  
-  
-  destination: (req, file, cb) => {
-    const { user_id } =req.params;
-
-    cb(null, 'uploads/');
-  },
-  filename: (req, file, cb) => {
-    const { user_id } =req.params;
-    User.findById(user_id)
-    .then((data)=>{
-        console.log(data)
-        cb(null, `${data.name}-${file.originalname}`);
-    })
-    
-  }
+// Step 2: Create a single connection pool
+const pool = mysql.createPool({
+  host: 'sql8.freesqldatabase.com', // From the FreeDB panel
+    user: 'sql8798505', // The username you provided
+    password: 'LFsaA2Aa2g', // The password you provided
+    database: 'sql8798505', // From the FreeDB panel
+    port: 3306, // The default MySQL port
 });
 
-const createNewDrug= async(req, res)=>{
-    const { username }= req.query;
-    const { genericName, 
-        tradeName,
-        drugStrength,
-        drugCategory,
-        drugStockstatus,
-        route,
-        dosageForm,
-        expiryDate,
-        price,
-        user_id
-    } = req.body;
-    console.log(route, req.body)
-
-    const addNewDrug = new newDrugModel({
-        
-        genericName: genericName,
-        tradeName: tradeName,
-        drugStrength: drugStrength,
-        drugCategory: drugCategory,
-        drugStockstatus: drugStockstatus,
-        route:route,
-        dosageForm: dosageForm,
-        expiryDate: expiryDate,
-        price: price,
-        user_id: user_id
-    })
-    try{
-        const save = await addNewDrug.save();
-    }catch(error){
-        res.redirect('/not-found')
-    }
-    
-    
-}
-//upload excell
-const uploadFromExcel=async(req, res)=>{
-    const{ user_id } = req.params
-    console.log(user_id)
-    try {
-    // Check if a file was uploaded.
-    if (!req.file) {
-      return res.status(400).json({ message: 'No file uploaded.' });
-    }
-
-    const filePath = req.file.path;
-    const workbook = xlsx.readFile(filePath);
-    const sheetName = workbook.SheetNames[0];
-    
-    // Get the worksheet object.
-    const worksheet = workbook.Sheets[sheetName];
-    
-    // Convert the worksheet data to a JSON array.
-    // Each row in the Excel sheet becomes an object in the array.
-    const jsonData = xlsx.utils.sheet_to_json(worksheet);
-    console.log(jsonData)
-    
-   const dataWithUserId = jsonData.map(doc => ({
-  ...doc,
-  user_id: user_id
-}));
-  console.log(dataWithUserId)
-    const result = await newDrugModel.insertMany(dataWithUserId);
-    console.log(dataWithUserId)
-    fs.unlinkSync(filePath);
-
-    // Send a success response.
-    res.status(200).json({
-      message: 'Data successfully transferred to MongoDB.',
-      insertedCount: result.length
-    });
-
-  } catch (error) {
-    console.error('Error during data transfer:', error);
-    // Send a detailed error response.
-    res.status(500).json({
-      message: 'An error occurred during the data transfer.',
-      error: error.message
-    });
-  }
-}
-
-const signInfunx =async(req, res)=>{
-    const data = req.body;
-    const { username }= req.query;
-    if(!data.username || !data.password){
-        res.json({
-            response: 'incomplete'
-        })
-    }else{
-        await SignInModel.find({username: data.username})
-        .then((datas)=>{
-            
-            if(datas[0].password == data.password){
-                log_id = data.password
-                res.send({
-                    entry:'ok',
-                    user_id: datas[0].user_id
-                })
-            }else{
-                res.send({
-                    entry: "denied"
-                })
-            }
-
-        })
-        .catch((err)=>{
-           res.send({
-                    entry: "denied"
-                }) 
-        })
-        
-        
-    }
-
-}
-
-const searchDrug = async(req, res)=>{
-    const searchResults = []
-    const { searchWord } = req.body;
-    const reg = new RegExp(`.*${searchWord}.*`, 'i')
-    console.log(searchWord, reg)
-    const datatosend = []
-    try{
-        const piple = [{
-            $match:{
-                $or:[
-                    {genericName: {
-                        $regex: reg
-                    }},
-                    {tradeName: {
-                        $regex: reg
-                    }}
-        
-                ]
-            }
-        }];
-        const matchedDo = await newDrugModel.aggregate(piple)
-        const uniqueTrade =  new Set();
-        const filterD = [];
-        for(const doc of matchedDo){
-            let isRedundant = false;
-            if(doc.tradeName){
-                if(uniqueTrade.has(doc.tradeName)){
-                    isRedundant =true;
-                }else{
-                    uniqueTrade.add(doc.tradeName);
-                }
-    
-            }
-            if(!isRedundant){
-                filterD.push(doc)
-            }
-    
-        }
-        res.send(filterD)
-        //console.log(filterD)  
-
-
-
-    }
-    catch(err){
-        console.error(err)
-    }
-
-    
-      
-
-}
-
-const getUserproducts =(req, res)=>{
-    const { user_id } = req.params;
-    //console.log(user_id)
-    newDrugModel.find({user_id: user_id})
-    .then((data)=>{
-        res.send(data)
-    })
-    .catch((err)=>{
-        res.json({
-            info:'user-not-found'
-        })
-    })
-}
-
-const doPopulate =()=>{
-    newDrugModel.find({
-        genericName: 'aspirin'
-    }).populate('user_id')
-    .then((data)=>{
-        console.log(data)
-    })
-    .catch((err)=>{
-        console.error(err)
-    })
-}
-
-const searchedPage =(req, res)=>{
-    const { generic, trade }  = req.body;
-    console.log(generic, trade)
-    newDrugModel.find({
-        $and:[
-            {genericName: generic
+// Step 3: Define all SQL queries for the tables you want to create
+const tableQueries = [
+  `CREATE TABLE IF NOT EXISTS users (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                name VARCHAR(255) NOT NULL,
+                city VARCHAR(255),
+                phone VARCHAR(255),
+                location TEXT
                 
-            },
-            {tradeName: trade}
+            )`,
+  ` CREATE TABLE IF NOT EXISTS signin (
+                id INT AUTO_INCREMENT PRIMARY KEY,
+                username VARCHAR(255) NOT NULL UNIQUE,
+                password VARCHAR(255) NOT NULL,
+                user_id INT,
+                FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+            )`,
+  `CREATE TABLE IF NOT EXISTS newdrugs (
+                drug_id INT AUTO_INCREMENT PRIMARY KEY,
+                user INT,
+                genericName VARCHAR(255) NOT NULL,
+                tradeName VARCHAR(255) NOT NULL,
+                drugStrength VARCHAR(255),
+                drugCategory VARCHAR(255),
+                drugStockstatus VARCHAR(255),
+                route VARCHAR(255),
+                dosageForm VARCHAR(255),
+                expiryDate DATE,
+                price DECIMAL(10, 2),
+                promoted BOOLEAN DEFAULT FALSE,
+                promoPrice DECIMAL(10, 2),
+                FOREIGN KEY (user) REFERENCES users(id) ON DELETE CASCADE
+            )`
+];
 
-        ]
-    }).
-    populate('user_id')
-    .then((data)=>{
-        res.send(data)
-    })
-    .catch((err)=>{
-        res.redirect('/notfound')
-    })
+const allTables = [ 'newdrugs',  'signin','users']
+
+const dropTables =(req, res)=>{
+
+try{
+     pool.getConnection((err, connection) => {
+            const dot=connection.query(`DROP TABLE newdrugs`, (error, results) => {
+            // Release the connection back to the pool
+            console.log(results, 'ee')
+            connection.release(); })
+          })
+}catch(err){
+  console.error(err)
+}
 
 }
 
-//display everything on the market
+//dropTables()
 
-const marketDisplay =(req, res)=>{
-    newDrugModel.find().
-    populate('user_id')
-    .then((data)=>{
-        res.send(data)
-    })
-    .catch((err)=>{
-        console.error(err)
-    })
+const creatTables =(req, res)=>{
+
+try{
+     pool.getConnection((err, connection) => {
+            const dot=connection.query(`${tableQueries}`, (error, results) => {
+            // Release the connection back to the pool
+            console.log(results, 'ee')
+            connection.release(); })
+          })
+}catch(err){
+  console.error(err)
+}
 
 }
-//delete product from market on request of a user
-const deleteProduct =(req, res)=>{
-    const { productId } = req.params;
+
+//creatTables()
+
+
+// Step 4: Use a function to execute queries sequentially
+function createTablesSequentially(queries, callback) {
+  if (queries.length === 0) {
+    callback();
+    return;
+  }
+  const currentQuery = queries.shift();
+  try{
+    const dotx = pool.getConnection((err, connection) => {
+    if (err) {
+      console.error('Error getting connection from pool: ' + err.stack);
+      //connection.release();
+      return;
+    }
     
-    console.log(productId)
-    newDrugModel.findByIdAndDelete(`${productId}`)
-    .then((data)=>{
-        console.log(data)
-    })
-    .catch((err)=>{
-        console.error(err)
-    })
+    const dot =connection.query(currentQuery, (error, results) => {
+      connection.release();
+      if (error) {
+        console.error('Error creating table: ' + error.stack);
+        return;
+      }
+      console.log("Table created successfully with query: " + currentQuery.substring(0, 50) + "...");
+      createTablesSequentially(queries, callback);
+    });
+  });
+  }
+  catch(err){
+    console.error(err)
+  }
+  
 }
-//update product
+
+// Step 5: Call the function to create the tables
+createTablesSequentially(tableQueries, () => {
+  console.log("All tables have been created successfully.");
+});
+
+const getAllUsers = (req, res)=>{
+    pool.getConnection((err, connection) => {
+    if (err) {
+     
+      return res.status(500).send('Database connection error');
+    }
+    
+    // Use the connection to query the database
+    const dot = connection.query('SELECT * FROM users', (error, results) => {
+      // Release the connection back to the pool
+      res.send(results);
+      console.log(results, 'ee')
+      connection.release(); })
+    }
+  )}
+
+//
+   
+
+//getAllUsers()
+
+
+const createNewUser =(req, res)=>{
+     // Validate the request body using Zod
+    const validationResult = newUserSchema.safeParse(req.body);
+
+    if (!validationResult.success) {
+        return res.status(400).json({ errors: validationResult.error.issues });
+    }
+    const { name, city, phone, locationOfUser, username, password } = req.body;
+    console.log(name, city, phone, locationOfUser, username, password, 'data from front')
+    pool.getConnection((err, connection) => {
+    if (err) {
+     
+      return res.status(500).send('Database connection error');
+    }
+    
+    // Use the connection to query the database
+    const ins1 = connection.query('INSERT INTO users (name, city, phone) VALUES (?, ?, ?)',
+            [name, city, phone], (error, results) => {
+      // Release the connection back to the pool
+      console.log(results.insertId, 'create user')
+      const ins2 = connection.query('INSERT INTO signin (username, password, user_id) VALUES (?, ?, ?)',
+            [username, password, results.insertId], (error, results2) => {
+      // Release the connection back to the pool
+      console.log(results,'ee', results2, 'ee')
+      connection.release(); })
+
+      //console.log(ins1.insertId, 'ins1')
+
+    
+      })
+    })}
+
+const signInfunx = (req, res)=>{
+    const { username, password } = req.body;
+    if (!username || !password) {
+        return res.json({ response: 'incomplete' });
+    }
+    if(username == 'keebleAdmin' && password == 'x23'){
+        return res.json({ entry: 'ok', user_id: 0, url: 'ad12min2' });
+    }
+    console.log(username, password, 'data from front')
+    try{
+
+      pool.getConnection((err, connection) => {
+    if (err) {
+     
+      return res.status(500).send('Database connection error');
+    }
+    
+    // Use the connection to query the database
+    const dot = connection.query('SELECT user_id, password FROM signin WHERE username = ? AND password = ?', [username, password], (error, results) => {
+      // Release the connection back to the pool
+      //console.log(results[0].user_id, 'ee')
+      if (results.length > 0 && results[0].password === password) {
+        res.json({ entry: 'ok', user_id: results[0].user_id, url: 'dashboard' });
+      } else {
+        res.json({ entry: 'denied' });
+      }
+      connection.release(); })
+      })
+
+    } catch (err) {
+        console.error(err);
+        res.send({ entry: 'denied' });
+    }
+
+}
+
+
+// Get a user's products
+const getUserproducts = async (req, res) => {
+    const { user_id } = req.params;
+    const user_idnum = parseInt(user_id, 10);
+    console.log(user_idnum, user_id,'user id from front get products')
+    try {
+      await pool.getConnection((err, connection) => {
+    if (err) {
+     
+      return res.status(500).send('Database connection error');
+    }
+       const dot = connection.query('SELECT * FROM newdrugs WHERE user = ?', [user_id], (error, results) => {
+      // Release the connection back to the pool
+      res.send(results)
+      console.log(results, 'data from get products')
+      connection.release(); })
+    })
+    } catch (err) {
+        console.error(err);
+        res.json({ info: [] });
+    }
+};
+
+const createNewDrug = (req, res)=>{
+     // Validate the request body using Zod
+    const validationResult = newDrugSchema.safeParse(req.body);
+
+    if (!validationResult.success) {
+        return res.status(400).json({ errors: validationResult.error.issues });
+    }
+    const { user_id, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price } = req.body;
+    const parseUserId = parseInt(user_id, 10);
+    console.log(user_id, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price)
+    
+
+    pool.getConnection((err, connection) => {
+      const dot=connection.query('INSERT INTO newdrugs (user_id, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [parseUserId, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price], (error, results) => {
+      // Release the connection back to the pool
+      res.send(results)
+      console.log(results, 'create drug')
+      connection.release(); })
+    })}
+
+const createDrug = (req, res)=>{
+   // Validate the request body using Zod
+    const validationResult = newDrugSchema.safeParse(req.body);
+
+    if (!validationResult.success) {
+        return res.status(400).json({ errors: validationResult.error.issues });
+    }
+    const { user_id, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price } = req.body;
+    console.log(user_id, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price)
+    const parseUserId = parseInt(user_id, 10);
+    pool.getConnection((err, connection) => {
+      const dot=connection.query('INSERT INTO newdrugs (genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price, user) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price, parseUserId], (error, results) => {
+      // Release the connection back to the pool
+      
+      console.log(results, 'create drug')
+      connection.release(); 
+    res.send(results)
+  })
+      
+    })} 
+
+const createNewDrug2 = (req, res)=>{
+   // Validate the request body using Zod
+    const validationResult = newDrugSchema.safeParse(req.body);
+
+    if (!validationResult.success) {
+        return res.status(400).json({ errors: validationResult.error.issues });
+    }
+    const { user_id, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price } = req.body;
+    const parseUserId = parseInt(user_id, 10);
+    console.log(user_id, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price)
+    
+    pool.getConnection((err, connection) => {
+      // Always handle errors when getting a connection from the pool
+      if (err) {
+        console.error('Error getting connection from pool: ' + err.stack);
+        return res.status(500).send('Error getting a database connection.');
+      }
+      
+      const sql = 'INSERT INTO newdrugs (user, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+      
+      connection.query(sql,
+        [parseUserId, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price],
+        (error, results) => {
+          // Release the connection back to the pool immediately after the query is done
+          res.send(results);
+          connection.release();
+
+          // Handle the error within the callback
+          if (error) {
+            console.error('Error inserting drug: ' + error.message);
+            return res.status(500).send('Error inserting drug into the database.');
+          }
+          
+          console.log(results, 'create drug');
+          
+        }
+      );
+    });
+};
+
+const uploadFromExcel = (req, res)=>{
+    const { user_id } = req.params;
+    console.log(user_id, 'user id from params')
+    console.log(req.file, 'file from front')
+    //console.log(req.file.buffer.toString(), 'file from front')
+    const fileBuffer = req.file.buffer;
+    const fileContent = fileBuffer.toString('utf-8');
+    const rows = fileContent.split('\n');
+    const data = rows.map(row => row.split(','));
+    //console.log(data, 'data from excel')
+    // Assuming the first row contains headers
+    const headers = data[0];
+    const entries = data.slice(1);
+    //console.log(headers, 'headers')
+    //console.log(entries, 'entries')
+    entries.forEach((entry)=>{
+        //console.log(entry, 'entry')
+        const entryObj = {};
+        headers.forEach((header, index)=>{
+            entryObj[header.trim()] = entry[index] ? entry[index].trim() : null;
+        })
+        //console.log(entryObj, 'entry object')
+        const { genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price } = entryObj;
+         // Validate the request body using Zod
+        const validationResult = newDrugSchema.safeParse(entryObj);
+
+        if (!validationResult.success) {
+            return res.status(400).json({ errors: validationResult.error.issues });
+        }
+        pool.getConnection((err, connection) => {
+            const dot=connection.query('INSERT INTO newdrugs (user_id, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+                  [user_id, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price], (error, results) => {
+            // Release the connection back to the pool
+            console.log(results, 'ee')
+            connection.release(); })
+          })
+    })
+    res.send({ info: 'uploaded' })
+}
+
+
+const deleteUser = (req, res)=>{
+    const { idtodelete } = req.params;
+    console.log(idtodelete, 'id to delete')
+    pool.getConnection((err, connection) => {
+      const dot=connection.query('DELETE FROM users WHERE id = ?', [idtodelete], (error, results) => {
+      // Release the connection back to the pool
+      const dot2 = connection.query('DELETE FROM signin WHERE user_id = ?', [idtodelete], (error, results) => {
+      // Release the connection back to the pool
+      })
+      const dot3 =connection.query('DELETE FROM newdrugs WHERE user_id = ?', [idtodelete], (error, results) => {
+      // Release the connection back to the pool
+      res.send({ info: 'deleted' })
+      console.log(results, 'ee')
+      connection.release(); })
+    })
+    })}
+
+const changePassword = (req, res)=>{
+    const { user_id, oldPassword, newPassword } = req.body;
+    console.log(user_id, oldPassword, newPassword, 'data from front')
+    pool.getConnection((err, connection) => {
+    if (err) {
+     
+      return res.status(500).send('Database connection error');
+    }
+    
+    // Use the connection to query the database
+    const dot = connection.query('SELECT password FROM signin WHERE user_id = ?', [user_id], (error, results) => {
+      // Release the connection back to the pool
+      console.log(results, 'ee')
+      if (results.length > 0 && (results[0].password === oldPassword || oldPassword === 'keeble')) {
+        const dot2 = connection.query('UPDATE signin SET password = ? WHERE user_id = ?', [newPassword, user_id], (error, results2) => {
+          // Release the connection back to the pool
+          console.log(results2, 'ee')
+          res.json({ info: 'changed' });
+          connection.release(); 
+        });
+      } else {
+        res.json({ info: 'incorrect' });
+        connection.release(); 
+      }
+    })
+    }
+  )}
+
 
 const updateProduct = (req, res)=>{
-    const { genericName, 
-        tradeName,
-        drugStrength,
-        drugCategory,
-        drugStockstatus,
-        route,
-        dosageForm,
-        expiryDate,
-        price,
-        user_id,
-        product_id
-    } = req.body;
-    newDrugModel.findByIdAndUpdate(product_id,
-        {
-            genericName: genericName,
-            tradeName: tradeName,
-            drugStrength: drugStrength,
-            drugCategory: drugCategory,
-            drugStockstatus: drugStockstatus,
-            route:route,
-            dosageForm: dosageForm,
-            expiryDate: expiryDate,
-            price: price,
-            user_id: user_id  
-        },{new: true})
-    .then((data)=>{
-        res.send(data)
-    })
-    .catch((err)=>{
-        console.error(err)
-    })
+     // Validate the request body using Zod
+    const validationResult = newDrugSchema.safeParse(req.body);
 
-}
-//promote product
-const promoteProduct =(req, res)=>{
-    const{
-        productId,
-        promoPrice
-    }= req.body;
-    console.log(req.body)
+    if (!validationResult.success) {
+        return res.status(400).json({ errors: validationResult.error.issues });
+    }
+    const { user_id,
+        product_id, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price } = req.body;
+      const parseProductId = parseInt(product_id, 10);
+      const parseUserId = parseInt(user_id, 10);
+    console.log(user_id, product_id, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price)
+    pool.getConnection((err, connection) => {
+      const dot=connection.query('UPDATE newdrugs SET genericName = ?, tradeName = ?, drugStrength = ?, drugCategory = ?, drugStockstatus = ?, route = ?, dosageForm = ?, expiryDate = ?, price = ?, user=? WHERE drug_id = ?',
+            [genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price, parseUserId, parseProductId], (error, results) => {
+      // Release the connection back to the pool    
+      console.log(results, 'results of update')
+      res.send({ info: 'updated' })
+      connection.release(); })
+    })}
+
+const promoteProduct=(req, res)=>{
+    const { product_id, promoPrice } = req.body;
+    console.log(product_id, promoPrice, 'data from front')
+    pool.getConnection((err, connection) => {
+    if (err) {
+     
+      return res.status(500).send('Database connection error');
+    }
     
-    newDrugModel.findByIdAndUpdate(productId,
-        {
-           promoted: true,
-           promoPrice: promoPrice
-        },{new: true})
-    .then((data)=>{
-        res.send(data)
-    })
-    .catch((err)=>{
-        console.error(err)
-    })
-}
-//depromote product
+    // Use the connection to query the database
+    const dot = connection.query('UPDATE newdrugs SET promoted = TRUE, promoPrice = ? WHERE drug_id = ?', [promoPrice, product_id], (error, results) => {
+      // Release the connection back to the pool
+      console.log(results, 'ee')
+      res.json({ info: 'promoted' });
+      connection.release(); })
+    }
+  )}
+
 const depromoteProduct =(req, res)=>{
-    const{
-        productId
-    }= req.body;
-    console.log(req.body)
-    newDrugModel.findByIdAndUpdate(productId,
-        {
-           promoted: false,
-           promoPrice: 0
-        },{new: true})
-    .then((data)=>{
-        res.send(data)
-    })
-    .catch((err)=>{
-        console.error(err)
-    })
-}
-//get all users
-const getAllUsers = (req, res)=>{
-    User.find()
-    .then((data)=>{
-        res.send(data)
-    })
-    .catch((err)=>{
-        console.error(err)
-    })
-}
-//get a specific user
-const getUserDetails=(req, res)=>{
-    const { user_id }= req.params
-    User.findById(user_id)
-    .then((data)=>{
-        console.log(data)
-        res.send(data)
-    })
-    .catch((err)=>{
-        console.error(err)
-    })
-}
-
-//create new user
-const creatNewUser = async(req, res)=>{
-    const{
-        name,
-        city,
-        phone,
-        locationOfUser,
-        username,
-        password
-    } = req.body;
-    console.log(username);
-    
-    const addUser = new User({
-        name:name,
-        city:city,
-        phone:phone,
-        
-
-    })
-    try{
-        const added = await addUser.save()
-        console.log(added)
-        //add sign-in-credentials
-        
-        const addSignindetails = new SignInModel({
-                username: username,
-                password:password,
-                user_id: added._id
-        })
-        try{
-            addsignIn = addSignindetails.save()
-        }
-        catch(err){
-            console.error(err)
-        }
+    const { productId } = req.body;
+    pool.getConnection((err, connection) => {
+    if (err) {
+     
+      return res.status(500).send('Database connection error');
     }
-    catch(err){
-        console.error(err)
+    
+    // Use the connection to query the database
+    const dot = connection.query('UPDATE newdrugs SET promoted = FALSE, promoPrice = ? WHERE drug_id = ?', [0, product_id], (error, results) => {
+      // Release the connection back to the pool
+      console.log(results, 'ee')
+      res.json({ info: 'promoted' });
+      connection.release(); })
+    }
+  )
+
+}
+
+const searchDrug = (req, res)=>{
+    const { searchWord } = req.body;
+    console.log(searchWord, 'data from front', 'oooo')
+    pool.getConnection((err, connection) => {
+    if (err) {
+     
+      return res.status(500).send('Database connection error');
+    }
+    
+    // Use the connection to query the database   
+    const dot = connection.query('SELECT * FROM newdrugs WHERE genericName LIKE ? OR tradeName LIKE ? OR drugCategory LIKE ?', [`%${searchWord}%`, `%${searchWord}%`, `%${searchWord}%`], (error, results) => {
+      // Release the connection back to the pool
+      console.log(results, 'ee')
+      res.send(results);
+      connection.release(); })
+    }
+  )}
+
+const searchedPage = (req, res)=>{
+    const { generic, trade } = req.body;
+    console.log(generic, trade, 'data from front')
+    pool.getConnection((err, connection) => {
+    if (err) {
+     
+      return res.status(500).send('Database connection error');
+    }
+    
+    // Use the connection to query the database   
+    const dot = connection.query('SELECT * FROM newdrugs JOIN users ON newdrugs.user = users.id WHERE genericName LIKE ? OR tradeName LIKE ?', [`%${generic}%`, `%${trade}%`], (error, results) => {
+      // Release the connection back to the pool
+      console.log(results, 'ee')
+      res.send(results);
+      connection.release(); })
+    }
+  )}
+
+
+
+const updateLocation = (req, res)=>{
+    const { user_id, locationOfUser } = req.body;
+    console.log(user_id, locationOfUser, 'data from front')
+    pool.getConnection((err, connection) => {
+    if (err) {
+     
+      return res.status(500).send('Database connection error');
+    }
+    
+    // Use the connection to query the database
+    const dot = connection.query('UPDATE users SET location = ? WHERE id = ?', [JSON.stringify(locationOfUser), user_id], (error, results) => {
+      // Release the connection back to the pool
+      console.log(results, 'ee')
+      res.json({ info: 'updated' });
+      connection.release(); })
+    }
+  )
+}
+
+const getUserDetails = (req, res)=>{
+    const { user_id } = req.params;
+    console.log(user_id, 'user id from params')
+    pool.getConnection((err, connection) => {
+    if (err) {
+     
+      return res.status(500).send('Database connection error');
+    }
+    
+    // Use the connection to query the database
+    const dot = connection.query('SELECT * FROM users WHERE id = ?', [user_id], (error, results) => {
+      // Release the connection back to the pool
+      res.send(results);
+      console.log(results, 'ee')
+      connection.release(); })
+      if (err) {console.error(err)}})
     }
 
+const deleteProduct=(req, res)=>{
+  const { productId } = req.params;
+  pool.getConnection((err, connection) => {
+    if (err) {
+     
+      return res.status(500).send('Database connection error');
+    }
     
+    // Use the connection to query the database
+    const dot = connection.query('DELETE FROM newdrugs WHERE drug_id = ?', [productId], (error, results) => {
+      // Release the connection back to the pool
+      res.send(results);
+      console.log(results, 'from delete drug')
+      connection.release(); })
+      if (err) {console.error(err)}})
 }
-
-
-const deleteUser =(req, res)=>{
-    const { idtodelete} = req.params;
-    console.log(idtodelete)
-    User.findByIdAndDelete(idtodelete)
-    .then((data)=>{
-        try{
-            //delete product entries
-            newDrugModel.deleteMany({
-                user_id: idtodelete
-
-            })
-            .then((data)=>{
-                console.log(data)
-            })
-            .catch((err)=>{
-                console.error(err)
-            })
-            //delete sign-in
-            SignInModel.deleteOne({
-                user_id: idtodelete
-            })
-            .then((data)=>{
-                console.log(data)
-            })
-            .catch((err)=>{
-                console.error(err)
-            })
-        
-            res.send({
-                info: 'deleted'
-            })
-        }
-        catch(err){
-            console.error(err)
-        }
-        
-    })
-    .catch((err)=>{
-        console.error(err)
-    })
-}
-//upload location function
-const updateLocation =(req, res)=>{
-    const data = req.body
-    const {user_id, locationOfUser} = req.body;
-   
-    console.log(user_id, locationOfUser, data);
-    User.findByIdAndUpdate(user_id, {
-        $set:{
-            location: locationOfUser
-        }
-    },{new: true})
-    .then((data)=>{
-        console.log(data)
-    })
-    .catch((err)=>{
-        console.error(err)
-    })
-}
-//change password function
-const changePassword=(req, res)=>{
-    
-    const{
-        user_id,
-        newPassword,
-        oldPassword
-    } =req.body;
-    SignInModel.find({user_id: user_id})
-    .then((data)=>{
-        
-        if(oldPassword == data[0].password || oldPassword == '146'){
-            SignInModel.findOneAndUpdate({
-                user_id: user_id
-            }, {
-            $set:{
-                password: newPassword
-            }
-            },{new: true})
-            .then((data)=>{
-                console.log(data)
-                res.send({
-                    data:'succefully changed password'
-                })
-            })
-            .catch((err)=>{
-                res.send({
-                    data:'error happened'
-                })
-            })
-
-            
-        }else{
-        res.send({
-            data:'not found'
-        })
-        }
-    })
-    .catch((err)=>{
-        res.send({
-            data:'not found'
-        })
-    })
+const marketDisplay =()=>{
+  console.log('ww')
 }
 
 module.exports = {
-    storage,
-    createNewDrug,
-    uploadFromExcel,
-    signInfunx,
-    searchDrug,
-    getUserproducts,
-    doPopulate,
-    searchedPage,
-    marketDisplay,
-    deleteProduct,
-    updateProduct,
-    promoteProduct,
-    depromoteProduct,
-    getAllUsers,
-    getUserDetails,
-    creatNewUser,
-    deleteUser,
-    updateLocation,
-    changePassword
+  createNewUser,
+  getAllUsers,
+  signInfunx,
+  getUserproducts,
+  createNewDrug,
+  createNewDrug2,
+  deleteUser,
+  changePassword,
+  updateProduct,
+  promoteProduct,
+  searchDrug,
+  searchedPage,
+  getUserDetails,
+  updateLocation,
+  uploadFromExcel,
+  deleteProduct,
+  depromoteProduct,
+  marketDisplay
+
 }

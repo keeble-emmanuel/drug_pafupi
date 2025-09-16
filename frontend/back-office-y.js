@@ -126,16 +126,22 @@ const getUserDetails= async()=>{
     
     if (userDetailLS.length>=1){
         userDetailLS.pop()
-        userDetailLS.unshift(data);
+        userDetailLS.unshift(data[0]);
     }else{
-        userDetailLS.unshift(data);
+        userDetailLS.unshift(data[0]);
     }
     
     localStorage.setItem('user-details', JSON.stringify(userDetailLS));
-    userHeading.innerHTML=`<p>wwww${data['name']}</p>`
+    
     loadingScreen.style.display = 'none'    
 }
-getUserDetails();
+const hub22 = async()=>{
+    await getUserDetails();
+    console.log(userDetailLS[0].name)
+    userHeading.innerHTML=`<p>${userDetailLS[0].name}</p>`
+}
+hub22()
+
 //post new drug
 const postNewEntry =async()=>{
     const post = await fetch(`${window.location.origin}/new-product`,{
@@ -319,7 +325,7 @@ const deleteDialog=(par)=>{
     
     localStorage.setItem('product-delete', JSON.stringify(productToDelete))
     var todp =userProducts.filter((el)=>{
-        return el._id == par
+        return el.drug_id == par
     })
     dialogMsg.textContent = `delete ${todp[0].tradeName} ${todp[0].drugStrength} `
     confirmDeleteDialog.showModal()
@@ -328,7 +334,7 @@ const deleteDialog=(par)=>{
 const deleteProduct = async(par)=>{
     const del = await fetch(`${window.location.origin}/deleteProduct/${par}`)
     const response = await del.json()
-    //hub()   
+    hub()   
 }
 
 //promoteFunction
