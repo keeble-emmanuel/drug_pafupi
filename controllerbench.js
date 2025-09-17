@@ -109,6 +109,7 @@ const createNewDrug= async(req, res)=>{
 const uploadFromExcel=async(req, res)=>{
     const{ user_id } = req.params
     console.log(user_id)
+    
     try {
     // Check if a file was uploaded.
     if (!req.file) {

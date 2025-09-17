@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-//const xss = require('xss-clean');
+const xss = require('xss-clean');
 const controller2 = require('./controller')
 const fs = require('fs');
 const path = require('path');
@@ -62,10 +62,10 @@ app.post('/update-location', controller2.updateLocation)
 //delete user
 app.get('/keeble/delete-user/:idtodelete', controller2.deleteUser)
 //create product
-app.post('/new-product', controller2.createNewDrug2)
+app.post('/new-product', controller2.createNewDrug)
 
 //upload products using excel sheet
-app.post('/:user_id/upload',upload.single('excelFile'), controller2.uploadFromExcel)
+app.post('/:user_id/upload',upload.single('excelFile'), controller2.uploadFromExcel3)
 
 //update product
 app.post('/update-product', controller2.updateProduct)

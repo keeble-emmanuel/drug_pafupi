@@ -1,6 +1,8 @@
 const mysql = require('mysql');
 const fs = require('fs')
+const xlsx = require('xlsx');
 //import mysql from 'mysql';
+const multer = require('multer')
 const { z } = require('zod');
 const { newUserSchema, newDrugSchema } = require('./schema'); // Adjust the path as needed
 
@@ -68,24 +70,6 @@ try{
 
 //dropTables()
 
-const creatTables =(req, res)=>{
-
-try{
-     pool.getConnection((err, connection) => {
-            const dot=connection.query(`${tableQueries}`, (error, results) => {
-            // Release the connection back to the pool
-            console.log(results, 'ee')
-            connection.release(); })
-          })
-}catch(err){
-  console.error(err)
-}
-
-}
-
-//creatTables()
-
-
 // Step 4: Use a function to execute queries sequentially
 function createTablesSequentially(queries, callback) {
   if (queries.length === 0) {
@@ -126,7 +110,7 @@ createTablesSequentially(tableQueries, () => {
 const getAllUsers = (req, res)=>{
     pool.getConnection((err, connection) => {
     if (err) {
-     
+      console.log(err)
       return res.status(500).send('Database connection error');
     }
     
@@ -144,12 +128,59 @@ const getAllUsers = (req, res)=>{
 
 //getAllUsers()
 
+const storage = multer.diskStorage({  
+  destination: (req, file, cb) => {
+    const { user_id } =req.params;
+    pool.getConnection((err, connection) => {
+    if (err) {
+      console.log(err)
+      return cb(err); // Pass the error to Multer
+    }
+    
+    connection.query('SELECT name FROM users WHERE id = ?', [user_id], (error, results) => {
+      connection.release();
+      if (error || results.length === 0) {
+        return cb(error || new Error('User not found.'));
+      }
+      const userDir = `uploads/${results[0].name}`;
+      
+      // Check if the directory exists, if not, create it
+      if (!fs.existsSync(userDir)) {
+          fs.mkdirSync(userDir, { recursive: true });
+      }
+      
+      cb(null, userDir);
+    });
+    });
+  },
+  filename: (req, file, cb) => {
+    const { user_id } =req.params;
+    pool.getConnection((err, connection) => {
+    if (err) {
+      console.log(err)
+      return cb(err);
+    }
+    
+    connection.query('SELECT name FROM users WHERE id = ?', [user_id], (error, results) => {
+      connection.release();
+      if (error || results.length === 0) {
+        return cb(error || new Error('User not found.'));
+      }
+      cb(null, `${results[0].name}`);
+    });
+    });
+  }
+});
+
+
+
 
 const createNewUser =(req, res)=>{
      // Validate the request body using Zod
     const validationResult = newUserSchema.safeParse(req.body);
 
     if (!validationResult.success) {
+        console.log(validationResult.error.issues, 'validation error')
         return res.status(400).json({ errors: validationResult.error.issues });
     }
     const { name, city, phone, locationOfUser, username, password } = req.body;
@@ -237,50 +268,8 @@ const getUserproducts = async (req, res) => {
     }
 };
 
-const createNewDrug = (req, res)=>{
-     // Validate the request body using Zod
-    const validationResult = newDrugSchema.safeParse(req.body);
 
-    if (!validationResult.success) {
-        return res.status(400).json({ errors: validationResult.error.issues });
-    }
-    const { user_id, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price } = req.body;
-    const parseUserId = parseInt(user_id, 10);
-    console.log(user_id, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price)
-    
-
-    pool.getConnection((err, connection) => {
-      const dot=connection.query('INSERT INTO newdrugs (user_id, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-            [parseUserId, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price], (error, results) => {
-      // Release the connection back to the pool
-      res.send(results)
-      console.log(results, 'create drug')
-      connection.release(); })
-    })}
-
-const createDrug = (req, res)=>{
-   // Validate the request body using Zod
-    const validationResult = newDrugSchema.safeParse(req.body);
-
-    if (!validationResult.success) {
-        return res.status(400).json({ errors: validationResult.error.issues });
-    }
-    const { user_id, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price } = req.body;
-    console.log(user_id, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price)
-    const parseUserId = parseInt(user_id, 10);
-    pool.getConnection((err, connection) => {
-      const dot=connection.query('INSERT INTO newdrugs (genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price, user) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-            [genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price, parseUserId], (error, results) => {
-      // Release the connection back to the pool
-      
-      console.log(results, 'create drug')
-      connection.release(); 
-    res.send(results)
-  })
-      
-    })} 
-
-const createNewDrug2 = (req, res)=>{
+const createNewDrug= (req, res)=>{
    // Validate the request body using Zod
     const validationResult = newDrugSchema.safeParse(req.body);
 
@@ -320,46 +309,224 @@ const createNewDrug2 = (req, res)=>{
     });
 };
 
-const uploadFromExcel = (req, res)=>{
-    const { user_id } = req.params;
-    console.log(user_id, 'user id from params')
-    console.log(req.file, 'file from front')
-    //console.log(req.file.buffer.toString(), 'file from front')
-    const fileBuffer = req.file.buffer;
-    const fileContent = fileBuffer.toString('utf-8');
-    const rows = fileContent.split('\n');
-    const data = rows.map(row => row.split(','));
-    //console.log(data, 'data from excel')
-    // Assuming the first row contains headers
-    const headers = data[0];
-    const entries = data.slice(1);
-    //console.log(headers, 'headers')
-    //console.log(entries, 'entries')
-    entries.forEach((entry)=>{
-        //console.log(entry, 'entry')
-        const entryObj = {};
-        headers.forEach((header, index)=>{
-            entryObj[header.trim()] = entry[index] ? entry[index].trim() : null;
-        })
-        //console.log(entryObj, 'entry object')
-        const { genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price } = entryObj;
-         // Validate the request body using Zod
-        const validationResult = newDrugSchema.safeParse(entryObj);
-
-        if (!validationResult.success) {
-            return res.status(400).json({ errors: validationResult.error.issues });
+const uploadFromExcel = async(req, res)=>{
+    const{ user_id } = req.params
+        console.log(user_id)
+        try {
+        // Check if a file was uploaded.
+        if (!req.file) {
+          return res.status(400).json({ message: 'No file uploaded.' });
         }
+    
+        const filePath = req.file.path;
+        const workbook = xlsx.readFile(filePath);
+        const sheetName = workbook.SheetNames[0];
+        
+        // Get the worksheet object.
+        const worksheet = workbook.Sheets[sheetName];
+        
+        // Convert the worksheet data to a JSON array.
+        // Each row in the Excel sheet becomes an object in the array.
+        const jsonData = xlsx.utils.sheet_to_json(worksheet);
+        console.log(jsonData)
+        
+       const dataWithUserId = jsonData.map(doc => ({
+      ...doc,
+      user: parseInt(user_id), expiryDate: new Date(doc.expiryDate)
+    }));
+      console.log(dataWithUserId)
+        //const result = await newDrugModel.insertMany(dataWithUserId);
         pool.getConnection((err, connection) => {
-            const dot=connection.query('INSERT INTO newdrugs (user_id, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                  [user_id, genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price], (error, results) => {
-            // Release the connection back to the pool
-            console.log(results, 'ee')
-            connection.release(); })
-          })
-    })
-    res.send({ info: 'uploaded' })
+    if (err) {
+     
+      return res.status(500).send('Database connection error');
+    }
+    
+    // Use the connection to query the database
+    const dot = connection.query('INSERT INTO newdrugs (genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price, user) VALUES ?',
+      [dataWithUserId], (error, results) => {
+      // Release the connection back to the pool
+      if (error) {
+        console.error('Error inserting drugs: '+ error + error.message );
+        return res.status(500).json({ message: error });
+      }
+      console.log(results, 'ee')
+      res.json({info: 'entered' });
+      connection.release(); })
+    }
+  )
+        console.log(dataWithUserId)
+        fs.unlinkSync(filePath);
+    
+        // Send a success response.
+        /*res.status(200).json({
+          message: 'Data successfully transferred to Mysql.',
+          
+        });*/
+    
+      } catch (error) {
+        console.error('Error during data transfer:', error);
+        // Send a detailed error response.
+        res.status(500).json({
+          message: 'An error occurred during the data transfer.',
+          error: error.message
+        });
+      }
 }
 
+const uploadFromExcel2 = async(req, res)=>{
+    const{ user_id } = req.params;
+    console.log(user_id);
+
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: 'No file uploaded.' });
+        }
+
+        const filePath = req.file.path;
+        const workbook = xlsx.readFile(filePath);
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        const jsonData = xlsx.utils.sheet_to_json(worksheet);
+
+        // This is the crucial part: map the array of objects into an array of arrays.
+        // The order of elements in the inner arrays MUST match the order of columns in the SQL query.
+        const values = jsonData.map(doc => [
+            doc.genericName ? doc.genericName.trim() : null,
+            doc.tradeName ? doc.tradeName.trim().toUpperCase() : null,
+            doc.drugStrength ? doc.drugStrength.trim() : null,
+            doc.drugCategory ? doc.drugCategory.trim() : null,
+            doc.drugStockstatus ? doc.drugStockstatus.trim() : null,
+            doc.route ? doc.route.trim() : null,
+            doc.dosageForm ? doc.dosageForm.trim() : null,
+            // Excel stores dates as a number of days since 1900.
+            // This converts it to a proper JavaScript Date object.
+            doc.expiryDate ? new Date((doc.expiryDate - 25569) * 86400 * 1000) : null,
+            doc.price,
+            parseInt(user_id, 10)
+        ]);
+
+        pool.getConnection((err, connection) => {
+            if (err) {
+                return res.status(500).send('Database connection error');
+            }
+
+            // The 'VALUES ?' syntax is the correct way to handle this batch insert.
+            const sql = 'INSERT INTO newdrugs (genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price, user) VALUES ?';
+
+            // Pass the single `values` array as the second argument.
+            connection.query(sql, [values], (error, results) => {
+                connection.release();
+
+                if (error) {
+                    console.error('Error inserting drugs: ' + error.message);
+                    return res.status(500).json({ message: 'An error occurred during the data transfer.' });
+                }
+
+                fs.unlinkSync(filePath);
+                res.status(200).json({ info: `Successfully inserted ${results.affectedRows} records.`, message:'success' });
+            });
+        });
+
+    } catch (error) {
+        console.error('Error during data transfer:', error);
+        res.status(500).json({
+            message: 'An error occurred during the data transfer.',
+            error: error.message
+        });
+    }
+}
+
+const uploadFromExcel3 = async(req, res)=>{
+    const { user_id } = req.params;
+    console.log(user_id);
+
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: 'No file uploaded.' });
+        }
+
+        const filePath = req.file.path;
+        const workbook = xlsx.readFile(filePath);
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        const jsonData = xlsx.utils.sheet_to_json(worksheet);
+
+        const values = jsonData.map(doc => [
+            doc.genericName ? doc.genericName.trim() : null,
+            doc.tradeName ? doc.tradeName.trim().toUpperCase() : null,
+            doc.drugStrength ? doc.drugStrength.trim() : null,
+            doc.drugCategory ? doc.drugCategory.trim() : null,
+            doc.drugStockstatus ? doc.drugStockstatus.trim() : null,
+            doc.route ? doc.route.trim() : null,
+            doc.dosageForm ? doc.dosageForm.trim() : null,
+            doc.expiryDate ? new Date((doc.expiryDate - 25569) * 86400 * 1000) : null,
+            doc.price,
+            parseInt(user_id, 10)
+        ]);
+
+        pool.getConnection((err, connection) => {
+            if (err) {
+                return res.status(500).send('Database connection error');
+            }
+
+            // Start the transaction
+            connection.beginTransaction(beginTransactionError => {
+                if (beginTransactionError) {
+                    connection.release();
+                    return res.status(500).send('Transaction error');
+                }
+
+                // Step 1: Delete all existing drugs for the user
+                const deleteSql = 'DELETE FROM newdrugs WHERE user = ?';
+                connection.query(deleteSql, [user_id], (deleteError, deleteResults) => {
+                    if (deleteError) {
+                        return connection.rollback(() => {
+                            connection.release();
+                            console.error('Error deleting drugs:', deleteError.message);
+                            res.status(500).json({ message: 'Error deleting old records.' });
+                        });
+                    }
+
+                    console.log(`Successfully deleted ${deleteResults.affectedRows} old records.`);
+
+                    // Step 2: Insert the new data
+                    const insertSql = 'INSERT INTO newdrugs (genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price, user) VALUES ?';
+                    connection.query(insertSql, [values], (insertError, insertResults) => {
+                        if (insertError) {
+                            return connection.rollback(() => {
+                                connection.release();
+                                console.error('Error inserting drugs: ' + insertError.message);
+                                res.status(500).json({ message: 'An error occurred during the data transfer.' });
+                            });
+                        }
+
+                        // If both queries succeed, commit the transaction
+                        connection.commit(commitError => {
+                            if (commitError) {
+                                return connection.rollback(() => {
+                                    connection.release();
+                                    res.status(500).send('Transaction commit error');
+                                });
+                            }
+                            
+                            connection.release();
+                            fs.unlinkSync(filePath);
+                            res.status(200).json({ info: `Successfully inserted ${insertResults.affectedRows} records.` });
+                        });
+                    });
+                });
+            });
+        });
+
+    } catch (error) {
+        console.error('Error during data transfer:', error);
+        res.status(500).json({
+            message: 'An error occurred during the data transfer.',
+            error: error.message
+        });
+    }
+};
 
 const deleteUser = (req, res)=>{
     const { idtodelete } = req.params;
@@ -534,10 +701,10 @@ const getUserDetails = (req, res)=>{
     // Use the connection to query the database
     const dot = connection.query('SELECT * FROM users WHERE id = ?', [user_id], (error, results) => {
       // Release the connection back to the pool
-      res.send(results);
-      console.log(results, 'ee')
-      connection.release(); })
-      if (err) {console.error(err)}})
+    res.send(results);
+    console.log(results, 'ee')
+    connection.release(); })
+    if (err) {console.error(err)}})
     }
 
 const deleteProduct=(req, res)=>{
@@ -561,12 +728,12 @@ const marketDisplay =()=>{
 }
 
 module.exports = {
+  storage,
   createNewUser,
   getAllUsers,
   signInfunx,
   getUserproducts,
   createNewDrug,
-  createNewDrug2,
   deleteUser,
   changePassword,
   updateProduct,
@@ -576,6 +743,8 @@ module.exports = {
   getUserDetails,
   updateLocation,
   uploadFromExcel,
+  uploadFromExcel2,
+  uploadFromExcel3,
   deleteProduct,
   depromoteProduct,
   marketDisplay

@@ -526,7 +526,7 @@ uploadExcel.addEventListener('click', async(e)=>{
                 completeScreen.style.display = 'none';      
             }, 2000);
         }else{
-            alert(res.error)
+            console.log(res.error)
         }
         
     }catch(err){
