@@ -521,7 +521,7 @@ const searchDrug = (req, res) => {
         }
 
         const searchTerm = '.*' + searchWord.split('').join('.*') + '.*';
-        const query = 'SELECT * FROM newdrugs WHERE genericName LIKE ? OR tradeName LIKE ? OR drugCategory LIKE ?';
+        const query = 'SELECT * FROM newdrugs WHERE genericName REGEXP ? OR tradeName REGEXP ? OR drugCategory REGEXP ?';
 
         connection.query(query, [searchTerm, searchTerm, searchTerm], (error, results) => {
             // Release the connection back to the pool
