@@ -520,7 +520,7 @@ const searchDrug = (req, res) => {
             return res.status(500).send('Database connection error');
         }
 
-        const searchTerm = `%${searchWord}%`;
+        const searchTerm = '.*' + searchWord.split('').join('.*') + '.*';
         const query = 'SELECT * FROM newdrugs WHERE genericName LIKE ? OR tradeName LIKE ? OR drugCategory LIKE ?';
 
         connection.query(query, [searchTerm, searchTerm, searchTerm], (error, results) => {
