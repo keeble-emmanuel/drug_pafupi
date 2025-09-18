@@ -510,23 +510,47 @@ const depromoteProduct =(req, res)=>{
 
 }
 
-const searchDrug = (req, res)=>{
+const searchDrug = (req, res) => {
     const { searchWord } = req.body;
     console.log(searchWord, 'data from front', 'oooo')
+
     pool.getConnection((err, connection) => {
-    if (err) {
-     
-      return res.status(500).send('Database connection error');
-    }
-    
-    // Use the connection to query the database   
-    const dot = connection.query('SELECT * FROM newdrugs WHERE genericName LIKE ? OR tradeName LIKE ? OR drugCategory LIKE ?', [`%${searchWord}%`, `%${searchWord}%`, `%${searchWord}%`], (error, results) => {
-      // Release the connection back to the pool
-      console.log(results, 'ee')
-      res.send(results);
-      connection.release(); })
-    }
-  )}
+        if (err) {
+            console.error('Database connection error:', err);
+            return res.status(500).send('Database connection error');
+        }
+
+        const searchTerm = `%${searchWord}%`;
+        const query = 'SELECT * FROM newdrugs WHERE genericName LIKE ? OR tradeName LIKE ? OR drugCategory LIKE ?';
+
+        connection.query(query, [searchTerm, searchTerm, searchTerm], (error, results) => {
+            // Release the connection back to the pool
+            connection.release();
+            if (error) {
+                console.error('Database query error:', error);
+                return res.status(500).send('Database query error');
+            }
+
+            // Create a new array for unique results and a Set to track seen combinations
+            const uniqueResults = [];
+            const seenCombinations = new Set();
+
+            // Iterate over the results and add only unique items to the new array
+            results.forEach(drug => {
+                // Create a unique key by combining genericName and tradeName
+                const uniqueKey = `${drug.genericName}-${drug.tradeName}`;
+
+                if (!seenCombinations.has(uniqueKey)) {
+                    seenCombinations.add(uniqueKey);
+                    uniqueResults.push(drug);
+                }
+            });
+
+            console.log(uniqueResults, 'ee');
+            res.send(uniqueResults);
+        });
+    });
+};
 
 const searchedPage = (req, res)=>{
     const { generic, trade } = req.body;
