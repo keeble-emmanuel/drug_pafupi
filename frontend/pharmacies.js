@@ -26,8 +26,8 @@ const fetchData =async()=>{
                 <div class="search-thumbnail-details">
                     <p>${el.name}
                     <a 
-                    href='https://www.google.com/maps/search/?api=1&query=${el.location?JSON.parse(el.location)[0]: ''}, ${el.location ?JSON.parse(el.location)[1]: ''}'
-                    ><img src="location2.svg"/></a></p>
+                    href=${loc?`https://www.google.com/maps/search/?api=1&query=${loc[0]},${loc[1]}`:'#'} target="_blank" rel="noopener noreferrer" title=${loc?'view location on map':'location not set'} style="color:inherit;"
+                    ><i class="fa-solid fa-location-dot"></i></a></p>
                     
                 </div>
                 <div class='text-center'>${el.city}</div>

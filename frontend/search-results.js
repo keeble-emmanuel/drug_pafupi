@@ -162,7 +162,7 @@ const displaynow=async(params)=>{
                     </div>
                     <div class="location-icon bar">
                         <a 
-                        href='https://www.google.com/maps/search/?api=1&query=${JSON.parse(el.location)[0]}, ${JSON.parse(el.location)[1]}'
+                        href=${loc?`https://www.google.com/maps/search/?api=1&query=${loc[0]},${loc[1]}`:'#'} target="_blank" rel="noopener noreferrer" title=${loc?'view location on map':'location not set'} style="color:inherit;"
                         ><i class="fa-solid fa-location-dot"></i>
                         </a>
                         
