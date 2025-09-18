@@ -625,8 +625,20 @@ const deleteProduct=(req, res)=>{
       connection.release(); })
       if (err) {console.error(err)}})
 }
-const marketDisplay =()=>{
-  console.log('ww')
+const marketDisplay =(req, res)=>{
+  pool.getConnection((err, connection) => {
+    if (err) {
+     
+      return res.status(500).send('Database connection error');
+    }
+    
+    // Use the connection to query the database
+    const dot = connection.query('SELECT * FROM newdrugs JOIN users ON newdrugs.user = users.id', (error, results) => {
+      // Release the connection back to the pool
+      res.send(results);
+      console.log(results, 'from market display')
+      connection.release(); })
+      if (err) {console.error(err)}})
 }
 
 module.exports = {

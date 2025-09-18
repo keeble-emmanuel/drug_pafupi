@@ -18,7 +18,7 @@ const fetchData =async()=>{
         if(citySelected.value == 'all'){
             return resultsFiltered =  results;
         }else{
-            var city = !el.user_id.city ?'other': !citiesz.includes(el.user_id.city.toLowerCase().trim())? 'other':el.user_id.city;
+            var city = !el.city ?'other': !citiesz.includes(el.city.toLowerCase().trim())? 'other':el.user_id.city;
             return city.toLowerCase().trim() == citySelected.value
         }
        
@@ -26,6 +26,7 @@ const fetchData =async()=>{
     
     console.log(resultsFiltered)
     resultsFiltered.forEach((el)=>{
+        const loc = JSON.parse(el.location)
         productsThumbnailDiv.innerHTML += `
         <div class="products-thumbnail">
                 <img class="search-thumbnail" src="download.png"/>
@@ -39,13 +40,13 @@ const fetchData =async()=>{
                     </div>
                     
                     <div class="product-details">
-                    <p>${el.user_id.name}<a 
-                    href='https://www.google.com/maps/search/?api=1&query=${el.user_id.location[0]},${el.user_id.location[1]}'
-                    ><img src="location2.svg" class="icon"/></a>
+                    <p>${el.name}<a 
+                    href=${loc?`https://www.google.com/maps/search/?api=1&query=${loc[0]},${loc[1]}`:'#'} target="_blank" rel="noopener noreferrer" title=${loc?'view location on map':'location not set'} style="color:inherit;"
+                    ><i class="fa-solid fa-location-dot"></i></a>
                     </p>
                     </div>
                     <div class="product-details">
-                        <p>${el.user_id.phone?el.user_id.phone:'N/A'} </p>
+                        <p>${el.phone?el.phone:'N/A'} </p>
                     </div>
                 </div>
                 
