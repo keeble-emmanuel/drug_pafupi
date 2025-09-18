@@ -1,6 +1,8 @@
+require('dotenv').config();
 const mysql = require('mysql');
 const fs = require('fs')
 const xlsx = require('xlsx');
+//const dotenv = require('dotenv');
 //import mysql from 'mysql';
 const multer = require('multer')
 const { z } = require('zod');
@@ -11,7 +13,7 @@ const { newUserSchema, newDrugSchema } = require('./schema'); // Adjust the path
 const pool = mysql.createPool({
   host: 'sql8.freesqldatabase.com', // From the FreeDB panel
     user: 'sql8798505', // The username you provided
-    password: 'LFsaA2Aa2g', // The password you provided
+    password: process.env.DB_PASSWORD, // The password you provided
     database: 'sql8798505', // From the FreeDB panel
     port: 3306, // The default MySQL port
 });
@@ -213,7 +215,7 @@ const signInfunx = (req, res)=>{
     if (!username || !password) {
         return res.json({ response: 'incomplete' });
     }
-    if(username == 'keebleAdmin' && password == 'x23'){
+    if(username == 'keebleAdmin' && password == process.env.ADMINPASSWORD){
         return res.json({ entry: 'ok', user_id: 0, url: 'ad12min2' });
     }
     console.log(username, password, 'data from front')
@@ -309,135 +311,8 @@ const createNewDrug= (req, res)=>{
     });
 };
 
+
 const uploadFromExcel = async(req, res)=>{
-    const{ user_id } = req.params
-        console.log(user_id)
-        try {
-        // Check if a file was uploaded.
-        if (!req.file) {
-          return res.status(400).json({ message: 'No file uploaded.' });
-        }
-    
-        const filePath = req.file.path;
-        const workbook = xlsx.readFile(filePath);
-        const sheetName = workbook.SheetNames[0];
-        
-        // Get the worksheet object.
-        const worksheet = workbook.Sheets[sheetName];
-        
-        // Convert the worksheet data to a JSON array.
-        // Each row in the Excel sheet becomes an object in the array.
-        const jsonData = xlsx.utils.sheet_to_json(worksheet);
-        console.log(jsonData)
-        
-       const dataWithUserId = jsonData.map(doc => ({
-      ...doc,
-      user: parseInt(user_id), expiryDate: new Date(doc.expiryDate)
-    }));
-      console.log(dataWithUserId)
-        //const result = await newDrugModel.insertMany(dataWithUserId);
-        pool.getConnection((err, connection) => {
-    if (err) {
-     
-      return res.status(500).send('Database connection error');
-    }
-    
-    // Use the connection to query the database
-    const dot = connection.query('INSERT INTO newdrugs (genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price, user) VALUES ?',
-      [dataWithUserId], (error, results) => {
-      // Release the connection back to the pool
-      if (error) {
-        console.error('Error inserting drugs: '+ error + error.message );
-        return res.status(500).json({ message: error });
-      }
-      console.log(results, 'ee')
-      res.json({info: 'entered' });
-      connection.release(); })
-    }
-  )
-        console.log(dataWithUserId)
-        fs.unlinkSync(filePath);
-    
-        // Send a success response.
-        /*res.status(200).json({
-          message: 'Data successfully transferred to Mysql.',
-          
-        });*/
-    
-      } catch (error) {
-        console.error('Error during data transfer:', error);
-        // Send a detailed error response.
-        res.status(500).json({
-          message: 'An error occurred during the data transfer.',
-          error: error.message
-        });
-      }
-}
-
-const uploadFromExcel2 = async(req, res)=>{
-    const{ user_id } = req.params;
-    console.log(user_id);
-
-    try {
-        if (!req.file) {
-            return res.status(400).json({ message: 'No file uploaded.' });
-        }
-
-        const filePath = req.file.path;
-        const workbook = xlsx.readFile(filePath);
-        const sheetName = workbook.SheetNames[0];
-        const worksheet = workbook.Sheets[sheetName];
-        const jsonData = xlsx.utils.sheet_to_json(worksheet);
-
-        // This is the crucial part: map the array of objects into an array of arrays.
-        // The order of elements in the inner arrays MUST match the order of columns in the SQL query.
-        const values = jsonData.map(doc => [
-            doc.genericName ? doc.genericName.trim() : null,
-            doc.tradeName ? doc.tradeName.trim().toUpperCase() : null,
-            doc.drugStrength ? doc.drugStrength.trim() : null,
-            doc.drugCategory ? doc.drugCategory.trim() : null,
-            doc.drugStockstatus ? doc.drugStockstatus.trim() : null,
-            doc.route ? doc.route.trim() : null,
-            doc.dosageForm ? doc.dosageForm.trim() : null,
-            // Excel stores dates as a number of days since 1900.
-            // This converts it to a proper JavaScript Date object.
-            doc.expiryDate ? new Date((doc.expiryDate - 25569) * 86400 * 1000) : null,
-            doc.price,
-            parseInt(user_id, 10)
-        ]);
-
-        pool.getConnection((err, connection) => {
-            if (err) {
-                return res.status(500).send('Database connection error');
-            }
-
-            // The 'VALUES ?' syntax is the correct way to handle this batch insert.
-            const sql = 'INSERT INTO newdrugs (genericName, tradeName, drugStrength, drugCategory, drugStockstatus, route, dosageForm, expiryDate, price, user) VALUES ?';
-
-            // Pass the single `values` array as the second argument.
-            connection.query(sql, [values], (error, results) => {
-                connection.release();
-
-                if (error) {
-                    console.error('Error inserting drugs: ' + error.message);
-                    return res.status(500).json({ message: 'An error occurred during the data transfer.' });
-                }
-
-                fs.unlinkSync(filePath);
-                res.status(200).json({ info: `Successfully inserted ${results.affectedRows} records.`, message:'success' });
-            });
-        });
-
-    } catch (error) {
-        console.error('Error during data transfer:', error);
-        res.status(500).json({
-            message: 'An error occurred during the data transfer.',
-            error: error.message
-        });
-    }
-}
-
-const uploadFromExcel3 = async(req, res)=>{
     const { user_id } = req.params;
     console.log(user_id);
 
@@ -460,7 +335,7 @@ const uploadFromExcel3 = async(req, res)=>{
             doc.drugStockstatus ? doc.drugStockstatus.trim() : null,
             doc.route ? doc.route.trim() : null,
             doc.dosageForm ? doc.dosageForm.trim() : null,
-            doc.expiryDate ? new Date((doc.expiryDate - 25569) * 86400 * 1000) : null,
+            doc.expiryDate ? new Date(doc.expiryDate) : new Date(),
             doc.price,
             parseInt(user_id, 10)
         ]);
@@ -558,7 +433,7 @@ const changePassword = (req, res)=>{
     const dot = connection.query('SELECT password FROM signin WHERE user_id = ?', [user_id], (error, results) => {
       // Release the connection back to the pool
       console.log(results, 'ee')
-      if (results.length > 0 && (results[0].password === oldPassword || oldPassword === 'keeble')) {
+      if (results.length > 0 && (results[0].password === oldPassword || oldPassword === process.env.CHANGEPASSWORD)) {
         const dot2 = connection.query('UPDATE signin SET password = ? WHERE user_id = ?', [newPassword, user_id], (error, results2) => {
           // Release the connection back to the pool
           console.log(results2, 'ee')
@@ -596,8 +471,8 @@ const updateProduct = (req, res)=>{
     })}
 
 const promoteProduct=(req, res)=>{
-    const { product_id, promoPrice } = req.body;
-    console.log(product_id, promoPrice, 'data from front')
+    const { productId, promoPrice } = req.body;
+    console.log(productId, promoPrice, 'data from front')
     pool.getConnection((err, connection) => {
     if (err) {
      
@@ -605,8 +480,11 @@ const promoteProduct=(req, res)=>{
     }
     
     // Use the connection to query the database
-    const dot = connection.query('UPDATE newdrugs SET promoted = TRUE, promoPrice = ? WHERE drug_id = ?', [promoPrice, product_id], (error, results) => {
+    const dot = connection.query('UPDATE newdrugs SET promoted = TRUE, promoPrice = ? WHERE drug_id = ?', [parseInt(promoPrice), parseInt(productId)], (error, results) => {
       // Release the connection back to the pool
+      if(error){
+        console.error(error)
+      }
       console.log(results, 'ee')
       res.json({ info: 'promoted' });
       connection.release(); })
@@ -743,8 +621,6 @@ module.exports = {
   getUserDetails,
   updateLocation,
   uploadFromExcel,
-  uploadFromExcel2,
-  uploadFromExcel3,
   deleteProduct,
   depromoteProduct,
   marketDisplay

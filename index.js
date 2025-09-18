@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
@@ -65,7 +66,7 @@ app.get('/keeble/delete-user/:idtodelete', controller2.deleteUser)
 app.post('/new-product', controller2.createNewDrug)
 
 //upload products using excel sheet
-app.post('/:user_id/upload',upload.single('excelFile'), controller2.uploadFromExcel3)
+app.post('/:user_id/upload',upload.single('excelFile'), controller2.uploadFromExcel)
 
 //update product
 app.post('/update-product', controller2.updateProduct)

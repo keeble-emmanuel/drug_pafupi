@@ -220,6 +220,8 @@ const postUpdateEntry =async(parameter)=>{
 
 //
 const postPromoteProduct =async()=>{
+    const productPromotex = JSON.parse(productPromote[0]) || [];
+    console.log(newpricePromotion.value, productPromotex)
     const post = await fetch(`${window.location.origin}/promote-product`,{
         method: 'POST',
         headers: {
@@ -227,7 +229,7 @@ const postPromoteProduct =async()=>{
         },
         body: JSON.stringify({
             promoPrice:newpricePromotion.value.trim(),
-            productId: productPromote[0]
+            productId: productPromotex
         })
     })
     const response =  await post.json()
@@ -348,7 +350,7 @@ const promoteFunction =(par)=>{
     }
     localStorage.setItem('productPromote', JSON.stringify(productPromote));
     var todele = userProducts.filter((el)=>{
-        return el._id == par;
+        return el.drug_id == par;
     })
     console.log(todele)
     if(!todele[0].promoted){
@@ -448,7 +450,7 @@ cancelUpdate.addEventListener('click', async()=>{
 //keyup in promotion
 newpricePromotion.addEventListener('keyup', ()=>{
      var todele = userProducts.filter((el)=>{
-        return el._id == productPromote[0];
+        return el.drug_id == productPromote[0];
     })
     var percnt = parseFloat(newpricePromotion.value)/parseFloat(todele[0].price)*100
     document.getElementById('promoper').textContent= percnt == NaN? '0': parseInt(percnt) + '%'
@@ -478,7 +480,7 @@ confirmDeleteDialog.addEventListener('click', ()=>{
 //promote button in dialog
 document.getElementById('promote-product').addEventListener('click', ()=>{
     producttobepromotedornot = userProducts.filter((el)=>{
-        return el._id == productPromote[0]
+        return el.drug_id == productPromote[0]
     })
     console.log(producttobepromotedornot, "eee")
     if(producttobepromotedornot[0].promoted == true){
