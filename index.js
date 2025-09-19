@@ -80,7 +80,11 @@ app.post('/sign-in', controller2.signInfunx)
 app.get('/getproducts/:user_id',  controller2.getUserproducts )
 //change password
 app.post('/change-password', controller2.changePassword)
-
+//insert searched drug
+app.post('/insert-searched-drug', controller2.insertMostSearchedDrug)
+//get most searched drugs
+app.get('/most-searched-drugs', controller2.getMostSearchedDrugs)  
+//listen on port
 app.listen(PORT, ()=>{
     console.log('app listening')
 })

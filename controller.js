@@ -17,7 +17,11 @@ const pool = mysql.createPool({
     database: 'sql8798505', // From the FreeDB panel
     port: 3306, // The default MySQL port
 });
-
+const date  = new Date()
+const year = date.getFullYear();
+const month  = date.getMonth() + 1
+const conctYM = `${year}${month}table`
+console.log(year, month, conctYM)
 // Step 3: Define all SQL queries for the tables you want to create
 const tableQueries = [
   `CREATE TABLE IF NOT EXISTS users (
@@ -50,7 +54,13 @@ const tableQueries = [
                 promoted BOOLEAN DEFAULT FALSE,
                 promoPrice DECIMAL(10, 2),
                 FOREIGN KEY (user) REFERENCES users(id) ON DELETE CASCADE
-            )`
+            )`,
+   
+  `CREATE TABLE IF NOT EXISTS ${conctYM} (
+                most_id INT AUTO_INCREMENT PRIMARY KEY, 
+                name VARCHAR(255), 
+                counted INT
+            )`,
 ];
 
 const allTables = [ 'newdrugs',  'signin','users']
@@ -629,6 +639,48 @@ const marketDisplay =()=>{
   console.log('ww')
 }
 
+const insertMostSearchedDrug = (req, res)=>{
+    const { searchWord } = req.body;
+    console.log(searchWord, 'data from front', 'oooo')
+    pool.getConnection((err, connection) => {
+        if (err) {
+            console.error('Database connection error:', err);
+            return res.status(500).send('Database connection error');
+        }
+        const sql = `INSERT INTO ${conctYM} (name, counted) VALUES (?, 1) ON DUPLICATE KEY UPDATE counted = counted + 1`;
+        connection.query(sql, [searchWord], (error, results) => {
+            // Release the connection back to the pool
+            connection.release();
+            if (error) {
+                console.error('Database query error:', error);
+                return res.status(500).send('Database query error');
+            }
+            console.log(results, 'ee');
+            res.send({ info: 'recorded' });
+        });
+    });
+}
+
+const getMostSearchedDrugs = (req, res)=>{
+    pool.getConnection((err, connection) => {
+        if (err) {
+            console.error('Database connection error:', err);
+            return res.status(500).send('Database connection error');
+        }
+        const sql = `SELECT * FROM ${conctYM} ORDER BY counted DESC LIMIT 10`;
+        connection.query(sql, (error, results) => {
+            // Release the connection back to the pool
+            connection.release();
+            if (error) {
+                console.error('Database query error:', error);
+                return res.status(500).send('Database query error');
+            }
+            console.log(results, 'ee');
+            res.send(results);
+        });
+    });
+}
+
 module.exports = {
   storage,
   createNewUser,
@@ -647,6 +699,8 @@ module.exports = {
   uploadFromExcel,
   deleteProduct,
   depromoteProduct,
-  marketDisplay
+  marketDisplay,
+  insertMostSearchedDrug,
+  getMostSearchedDrugs
 
 }
