@@ -8,11 +8,37 @@ const password = document.getElementById('password');
 const deleteDialog= document.getElementById('delete-dialog')
 const confirmDeleteBtn= document.getElementById('confirm-delete')
 const cancelDeletebtn= document.getElementById('cancel-delete')
-
+const mostSearchedOl = document.getElementById('most-searched-ol')
 const createAccBtn = document.getElementById("create-account")
 
 const personData = JSON.parse(localStorage.getItem("person-info")) || [];
 let account_id_todelete
+const getMostSearchedDrugs = async()=>{
+    try{
+        const start = await fetch(`${window.location.origin}/most-searched-drugs`,{
+            method:'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+        const response = await start.json()
+        console.log(response)
+        if(response.length ===0){
+            mostSearchedOl.innerHTML += `<li>No searches yet</li>`
+            return
+        }
+        response.forEach((el)=>{
+            const [tradeName, genericName, strength] = (el.name).split('+')
+            mostSearchedOl.innerHTML += `
+                <li>${tradeName} ${strength} searched ${el.counted} times</li>
+            `
+        })
+    }catch(err){
+        console.error(err)
+    }
+
+}
+getMostSearchedDrugs()
 
 const fetchRegisterOfAccounts =async()=>{
     const fetchs = await fetch(`${window.location.origin}/all-users`)
