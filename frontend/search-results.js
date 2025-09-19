@@ -165,6 +165,9 @@ const displaynow=async(params)=>{
                         href=${loc?`https://www.google.com/maps/search/?api=1&query=${loc[0]},${loc[1]}`:'#'} target="_blank" rel="noopener noreferrer" title=${loc?'view location on map':'location not set'} style="color:inherit;"
                         ><i class="fa-solid fa-location-dot"></i>
                         </a>
+                        <a href= #>
+                            <i class="fa-solid fa-circle-info"></i>
+                        </a>
                         
                     </div>
                 </div>

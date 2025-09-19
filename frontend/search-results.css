@@ -169,7 +169,11 @@ h3{
 .bar a {
     width: 400px;
     
+    
    
+}
+.bar a i{
+    margin: 0px 10px;
 }
 .bar a .fa-solid{
     color: var(--foreground-2);
