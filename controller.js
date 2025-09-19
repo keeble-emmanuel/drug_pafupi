@@ -57,19 +57,19 @@ const tableQueries = [
             )`,
    
   `CREATE TABLE IF NOT EXISTS ${conctYM} (
-                most_id INT AUTO_INCREMENT PRIMARY KEY, 
-                name VARCHAR(255), 
-                counted INT
+                 
+                name VARCHAR(255) PRIMARY KEY, 
+                counted INT DEFAULT 1
             )`,
 ];
 
-const allTables = [ 'newdrugs',  'signin','users']
+const allTables = [ 'newdrugs',  'signin','users', `${conctYM}` ]
 
 const dropTables =(req, res)=>{
 
 try{
      pool.getConnection((err, connection) => {
-            const dot=connection.query(`DROP TABLE newdrugs`, (error, results) => {
+            const dot=connection.query(`DROP TABLE ${conctYM}`, (error, results) => {
             // Release the connection back to the pool
             console.log(results, 'ee')
             connection.release(); })
@@ -653,7 +653,7 @@ const insertMostSearchedDrug = (req, res)=>{
             connection.release();
             if (error) {
                 console.error('Database query error:', error);
-                return res.status(500).send('Database query error');
+                return res.json({ info: 'error' });
             }
             console.log(results, 'ee');
             res.send({ info: 'recorded' });
@@ -667,13 +667,13 @@ const getMostSearchedDrugs = (req, res)=>{
             console.error('Database connection error:', err);
             return res.status(500).send('Database connection error');
         }
-        const sql = `SELECT * FROM ${conctYM} ORDER BY counted DESC LIMIT 10`;
+        const sql = `SELECT * FROM ${conctYM} ORDER BY counted DESC LIMIT 5`;
         connection.query(sql, (error, results) => {
             // Release the connection back to the pool
             connection.release();
             if (error) {
                 console.error('Database query error:', error);
-                return res.status(500).send('Database query error');
+                return res.json({ info: [] });
             }
             console.log(results, 'ee');
             res.send(results);

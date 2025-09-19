@@ -38,6 +38,9 @@ h3{
     border-radius: 10px;
    
 }
+#most-searched-ol{
+    line-height: 2.5;
+}
 #registered-accounts{
     width: 90vw;
     max-height: 60vh;
@@ -57,7 +60,7 @@ h3{
     display: flex;
     flex-wrap: wrap;
     justify-content:space-evenly;
-    height: 60vh;
+    min-height: 60vh;
     width: 90vw;
     margin: 0 auto;
 }
