@@ -4,7 +4,23 @@ const searchKey = document.getElementById('search-input');
 
 const searchFiters = JSON.parse(localStorage.getItem("searchfilter")) || [];
 let resut
-
+const postSearchedDrug = async(drugName)=>{
+    try{
+        const start = await fetch(`${window.location.origin}/insert-searched-drug`,{
+            method:'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                searchWord: drugName
+            })
+        })
+        const response = await start.json()
+        console.log(response)
+    }catch(err){
+        console.error(err)
+    }
+}
 const fetchResults = async()=>{
     try{
         const start = await fetch(`${window.location.origin}`,{
@@ -56,6 +72,8 @@ const fetchResults = async()=>{
              Array.from(document.getElementsByClassName('search-results-div')).forEach((par)=>{
                 par.addEventListener('click', ()=>{
                     const elementId = par.id
+                    postSearchedDrug(elementId)
+                    console.log(par.id)
                     const nameArray =  elementId.split("+");
                     console.log(nameArray[0], nameArray[1])
                     window.location.href = 'search-results.html'

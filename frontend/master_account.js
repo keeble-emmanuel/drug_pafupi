@@ -13,7 +13,22 @@ const createAccBtn = document.getElementById("create-account")
 
 const personData = JSON.parse(localStorage.getItem("person-info")) || [];
 let account_id_todelete
+const getMostSearchedDrugs = async()=>{
+    try{
+        const start = await fetch(`${window.location.origin}/most-searched-drugs`,{
+            method:'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+        const response = await start.json()
+        console.log(response)
+    }catch(err){
+        console.error(err)
+    }
 
+}
+getMostSearchedDrugs()
 const fetchRegisterOfAccounts =async()=>{
     const fetchs = await fetch(`${window.location.origin}/all-users`)
     const response = await fetchs.json()
