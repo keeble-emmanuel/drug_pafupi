@@ -10,9 +10,10 @@ const confirmDeleteBtn= document.getElementById('confirm-delete')
 const cancelDeletebtn= document.getElementById('cancel-delete')
 const mostSearchedOl = document.getElementById('most-searched-ol')
 const createAccBtn = document.getElementById("create-account")
-
+const searchAccountInput = document.getElementById("search-account-input") 
 const personData = JSON.parse(localStorage.getItem("person-info")) || [];
-let account_id_todelete
+let account_id_todelete;
+let allAccounts;
 const getMostSearchedDrugs = async()=>{
     try{
         const start = await fetch(`${window.location.origin}/most-searched-drugs`,{
@@ -44,8 +45,20 @@ const fetchRegisterOfAccounts =async()=>{
     const fetchs = await fetch(`${window.location.origin}/all-users`)
     const response = await fetchs.json()
     console.log(response)
-    response.forEach((el)=>{
-        
+    allAccounts = response;
+    console.log(allAccounts)
+}
+
+const displayAccounts = (par)=>{
+    const searchRegex = new RegExp(searchAccountInput.value, 'i')
+    const filteredPar = par.filter((el)=>{
+        if(searchAccountInput.value ===''){
+            return el
+        }else if(searchRegex.test(el.name) || searchRegex.test(el.city) || searchRegex.test(el.phone) || searchRegex.test(el.username)){
+            return el
+        }
+    })
+    filteredPar.forEach((el)=>{
         regAccounts.innerHTML += `
             <div class="individual-account">
                     <img src=""/>
@@ -57,9 +70,10 @@ const fetchRegisterOfAccounts =async()=>{
                     </div>
                     
                 </div>
-        `
+        `  
     })
 }
+
 const postNewaccount =async()=>{
     try{
         const postss = await fetch(`${window.location.origin}/new-user`, 
@@ -121,7 +135,15 @@ const visitUserAcc=()=>{
     window.location.href = 'back-office-y.html';
 }
 
-fetchRegisterOfAccounts()
+const hub = async(par)=>{
+    await fetchRegisterOfAccounts();
+    displayAccounts(allAccounts);
+
+}
+hub()
+//fetchRegisterOfAccounts()
+
+
 createAccBtn.addEventListener('click', ()=>{
     postNewaccount();
     //fetchRegisterOfAccounts()
